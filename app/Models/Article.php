@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\TableName;
 use App\Models\Traits\TranslationTable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Article extends Model
@@ -16,6 +17,8 @@ class Article extends Model
     use TableName, TranslationTable;
 
     protected $appends = ['title', 'description', 'content'];
+
+    protected $dates = ['published_at'];
 
     /**
      * Related model that stores translations for the model.
@@ -107,4 +110,15 @@ class Article extends Model
         }
         return 'No translate';
     }
+
+    /**
+     * Get the category.
+     *
+     * @return BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 }

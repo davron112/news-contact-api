@@ -50,118 +50,33 @@ class Language extends Model
     }
 
     /**
-     * Get the age category for the language.
+     * Get the article for the language.
      *
      * @return HasMany
      */
-    public function ageCategoryTranslation(): HasMany
+    public function articleTranslations(): HasMany
     {
-        return $this->hasMany(AgeCategoryTranslations::class);
+        return $this->hasMany(ArticleTranslations::class);
     }
 
     /**
-     * Get the age appealer category for the language.
+     * Get the newspaper for the language.
      *
      * @return HasMany
      */
-    public function appealerCategoryTranslation(): HasMany
+    public function newspaperTranslations(): HasMany
     {
-        return $this->hasMany(AppealerCategoryTranslations::class);
+        return $this->hasMany(NewspaperTranslations::class);
     }
 
     /**
-     * Get the appeal type category for the language.
+     * Get the tag for the language.
      *
      * @return HasMany
      */
-    public function appealTypeTranslation(): HasMany
+    public function tagTranslations(): HasMany
     {
-        return $this->hasMany(AppealTypeTranslations::class);
+        return $this->hasMany(TagTranslations::class);
     }
 
-    /**
-     * Get the authority for the language.
-     *
-     * @return HasMany
-     */
-    public function authorityTranslation(): HasMany
-    {
-        return $this->hasMany(AuthorityTranslations::class);
-    }
-
-    /**
-     * Get the infosystem for the language.
-     *
-     * @return HasMany
-     */
-    public function infosystemTranslation(): HasMany
-    {
-        return $this->hasMany(InfosystemTranslations::class);
-    }
-
-    /**
-     * Get the period type for the language.
-     *
-     * @return HasMany
-     */
-    public function periodTypeTranslation(): HasMany
-    {
-        return $this->hasMany(PeriodTypeTranslations::class);
-    }
-
-    /**
-     * Get the region for the language.
-     *
-     * @return HasMany
-     */
-    public function regionTranslation(): HasMany
-    {
-        return $this->hasMany(RegionTranslations::class);
-    }
-
-    /**
-     * Get the regulatory document for the language.
-     *
-     * @return HasMany
-     */
-    public function regulatoryDocumentTranslation(): HasMany
-    {
-        return $this->hasMany(RegulatoryDocumentTranslations::class);
-    }
-    /**
-     * Get the service contact for the language.
-     *
-     * @return HasMany
-     */
-    public function serviceContactTranslation(): HasMany
-    {
-        return $this->hasMany(ServiceContactTranslations::class);
-    }
-    /**
-     * Get the course for the language.
-     *
-     * @return HasMany
-     */
-    public function courseTranslation(): HasMany
-    {
-        return $this->hasMany(CourseTranslations::class);
-    }
-    /**
-     * Get the service type for the language.
-     *
-     * @return HasMany
-     */
-    public function serviceTypeTranslation(): HasMany
-    {
-        return $this->hasMany(ServiceTypeTranslations::class);
-    }
-    /**
-     * Get the sphere for the language.
-     *
-     * @return HasMany
-     */
-    public function sphereTranslation(): HasMany
-    {
-        return $this->hasMany(SphereTranslations::class);
-    }
 }

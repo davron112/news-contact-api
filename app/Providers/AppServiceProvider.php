@@ -2,19 +2,19 @@
 
 namespace App\Providers;
 
-use App\Repositories\Contracts\ArticleRepository;
+use App\Repositories\ArticleRepository;
 use App\Repositories\Contracts\ArticleRepository as ArticleRepositoryInterface;
-use App\Repositories\Contracts\ImageRepository;
+use App\Repositories\ImageRepository;
 use App\Repositories\Contracts\ImageRepository as  ImageRepositoryInterface;
-use App\Repositories\Contracts\NewspaperRepository;
-use App\Repositories\Contracts\TagRepository;
+use App\Repositories\NewspaperRepository;
+use App\Repositories\TagRepository;
 use App\Repositories\Contracts\UserRepository as UserRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Services\ArticleService;
 use App\Services\Contracts\ArticleService as ArticleServiceInterface;
-use App\Services\Contracts\NewspaperService;
+use App\Services\NewspaperService;
 use App\Services\Contracts\NewspaperService as NewspaperServiceInterface;
-use App\Services\Contracts\TagService;
+use App\Services\TagService;
 use App\Services\Contracts\TagService as TagServiceInterface;
 use App\Services\Contracts\UserService as UserServiceInterface;
 use App\Services\ImageService;

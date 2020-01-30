@@ -17,7 +17,7 @@ class CreateNewspaperTranslationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->bigInteger('item_id')->unsigned();
-            $table->foreign('item_id')->references('id')->on('newspaper')->onDelete('cascade');
+            $table->foreign('item_id')->references('id')->on('newspapers')->onDelete('cascade');
             $table->bigInteger('language_id')->unsigned();
             $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
             $table->timestamps();

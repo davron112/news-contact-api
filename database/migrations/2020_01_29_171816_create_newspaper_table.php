@@ -13,7 +13,7 @@ class CreateNewspaperTable extends Migration
      */
     public function up()
     {
-        Schema::create('newspaper', function (Blueprint $table) {
+        Schema::create('newspapers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('file');
             $table->string('img');
@@ -30,6 +30,6 @@ class CreateNewspaperTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('newspaper');
+        Schema::dropIfExists('newspapers');
     }
 }

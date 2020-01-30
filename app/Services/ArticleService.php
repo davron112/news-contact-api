@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Exceptions\UnexpectedErrorException;
+use App\Helpers\FileHelper;
 use App\Models\Article;
 use App\Models\Language;
 use App\Repositories\Contracts\ArticleRepository;
 use App\Services\Contracts\ArticleService as ArticleServiceInterface;
 use App\Services\Traits\ServiceTranslateTable;
-use App\Exceptions\NotFoundException;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Arr;
@@ -42,24 +42,32 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
     protected $logger;
 
     /**
-     * Article constructor.
+     * @var FileHelper $fileHelper
+     */
+    protected $fileHelper;
+
+    /**
+     * ArticleService constructor.
      *
      * @param DatabaseManager $databaseManager
      * @param ArticleRepository $repository
      * @param Language $language
      * @param Logger $logger
+     * @param FileHelper $fileHelper
      */
     public function __construct(
         DatabaseManager $databaseManager,
         ArticleRepository $repository,
         Language $language,
-        Logger $logger
+        Logger $logger,
+        FileHelper $fileHelper
     ) {
 
         $this->databaseManager     = $databaseManager;
         $this->repository     = $repository;
         $this->logger     = $logger;
         $this->language     = $language;
+        $this->fileHelper     = $fileHelper;
     }
 
     /**
@@ -74,13 +82,14 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
         $this->beginTransaction();
         try {
             $article = $this->repository->newInstance();
+            $attributes = $this->storeImage($data);
             $article->slug = array_get($data, 'slug', Str::random(9));
             $article->status = array_get($data, 'status', 1);
             $article->category_id = array_get($data, 'category_id');
             $article->published_at = array_get($data, 'published_at');
             $article->author = array_get($data, 'author');
             $article->img = array_get($data, 'img');
-
+            $article->fill($attributes);
             if (!$article->save()) {
                 throw new UnexpectedErrorException('Article was not saved to the database.');
             }
@@ -96,6 +105,16 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
 
         $this->commit();
         return $article;
+    }
+
+    protected function storeImage(array $data){
+
+        $dataFields =[];
+        if(Arr::has($data,'img')) {
+            $uploadedFile  = $data['img'];
+            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'img\content');
+        }
+        return $dataFields;
     }
 
     /**

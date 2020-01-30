@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\UnexpectedErrorException;
+use App\Helpers\FileHelper;
 use App\Models\Newspaper;
 use App\Models\Language;
 use App\Repositories\Contracts\NewspaperRepository;
@@ -43,24 +44,32 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
     protected $logger;
 
     /**
-     * Newspaper constructor.
+     * @var Logger $logger
+     */
+    protected $fileHelper;
+
+    /**
+     * NewspaperService constructor.
      *
      * @param DatabaseManager $databaseManager
      * @param NewspaperRepository $repository
      * @param Language $language
      * @param Logger $logger
+     * @param FileHelper $fileHelper
      */
     public function __construct(
         DatabaseManager $databaseManager,
         NewspaperRepository $repository,
         Language $language,
-        Logger $logger
+        Logger $logger,
+        FileHelper $fileHelper
     ) {
 
         $this->databaseManager     = $databaseManager;
         $this->repository     = $repository;
         $this->logger     = $logger;
         $this->language     = $language;
+        $this->fileHelper     = $fileHelper;
     }
 
     /**
@@ -72,15 +81,15 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
      */
     public function store(array $data)
     {
-
         $this->beginTransaction();
 
         try {
             $newspaper           = $this->repository->newInstance();
-            $newspaper->slug = array_get($data, 'slug', Str::random(9));
-            $newspaper->status     = array_get($data, 'status', 1);
-            $newspaper->file     = array_get($data, 'file');
-            $newspaper->img     = array_get($data, 'img');
+            $attributes = $this->storeImage($data);
+            $newspaper->status = array_get($data, 'status', 1);
+            $newspaper->file = array_get($data, 'file');
+            $newspaper->img = array_get($data, 'img');
+            $newspaper->fill($attributes);
             $newspaper->published_at     = array_get($data, 'published_at', Carbon::now());
 
             if (!$newspaper->save()) {
@@ -96,7 +105,6 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
                 'data' => $data,
             ]);
         }
-
         $this->commit();
     }
 
@@ -117,7 +125,6 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
         try {
             $newspaper = $this->repository->find($id);
 
-            $newspaper->slug = array_get($data, 'slug', Str::random(9));
             $newspaper->status     = array_get($data, 'status', 1);
             $newspaper->file     = array_get($data, 'file');
             $newspaper->img     = array_get($data, 'img');
@@ -139,7 +146,7 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
 
         }
         $this->commit();
-        return $this->findOne($id);
+        return $newspaper;
     }
     /**
      * Delete block in the storage.
@@ -175,6 +182,25 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
         }
         $this->commit();
         return $bufferNewspaper;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function storeFiles(array $data){
+
+        $dataFields =[];
+        if(Arr::has($data,'img')) {
+            $uploadedFile  = $data['img'];
+            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'img\content');
+        }
+
+        if(Arr::has($data,'file')) {
+            $uploadedFile  = $data['file'];
+            $dataFields['file'] = $this->fileHelper->upload($uploadedFile,'file\content');
+        }
+        return $dataFields;
     }
 
     /**

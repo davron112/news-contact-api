@@ -44,29 +44,29 @@ Route::group([
         Route::post('/delete', [
             'middleware' => 'auth:api',
             'as'   => 'delete',
-            'uses' => 'CategoryController@delete',
+            'uses' => 'CategoriesController@delete',
         ]);
         Route::post('/create', [
             'middleware' => 'auth:api',
             'as'   => 'create',
-            'uses' => 'CategoryController@store',
+            'uses' => 'CategoriesController@store',
         ]);
         Route::post('/update', [
             'middleware' => 'auth:api',
             'as'   => 'update',
-            'uses' => 'CategoryController@update',
+            'uses' => 'CategoriesController@update',
         ]);
         Route::get('/index', [
             'as'   => 'index',
-            'uses' => 'CategoryController@index',
+            'uses' => 'CategoriesController@index',
         ]);
         Route::get('/', [
             'as'   => 'index',
-            'uses' => 'CategoryController@index',
+            'uses' => 'CategoriesController@index',
         ]);
         Route::get('/{id}', [
             'as'   => 'show',
-            'uses' => 'CategoryController@show',
+            'uses' => 'CategoriesController@show',
         ]);
     });
 
@@ -78,29 +78,29 @@ Route::group([
         Route::post('/delete', [
             'middleware' => 'auth:api',
             'as'   => 'delete',
-            'uses' => 'ArticleController@delete',
+            'uses' => 'ArticlesController@delete',
         ]);
         Route::post('/create', [
             'middleware' => 'auth:api',
             'as'   => 'create',
-            'uses' => 'ArticleController@store',
+            'uses' => 'ArticlesController@store',
         ]);
         Route::post('/update', [
             'middleware' => 'auth:api',
             'as'   => 'update',
-            'uses' => 'ArticleController@update',
+            'uses' => 'ArticlesController@update',
         ]);
         Route::get('/index', [
             'as'   => 'index',
-            'uses' => 'ArticleController@index',
+            'uses' => 'ArticlesController@index',
         ]);
         Route::get('/', [
             'as'   => 'index',
-            'uses' => 'ArticleController@index',
+            'uses' => 'ArticlesController@index',
         ]);
         Route::get('/{id}', [
             'as'   => 'show',
-            'uses' => 'ArticleController@show',
+            'uses' => 'ArticlesController@show',
         ]);
     });
 

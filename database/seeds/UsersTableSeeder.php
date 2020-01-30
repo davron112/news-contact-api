@@ -20,9 +20,9 @@ class UsersTableSeeder extends Seeder
         $role_id = $role->id;
         $user = new User();
         $user->name = "Admin";
-        $user->email = "test@igov.local";
-        $user->password = bcrypt("test");
-        
+        $user->email = "admin@sportgazeta.uz";
+        $user->password = bcrypt("Password123");
+
         $user->save();
         $user->roles()->attach($role_id);
         $user->save();

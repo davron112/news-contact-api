@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Log\Logger;
 
-class CategoryController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * @var CategoryRepository $repository

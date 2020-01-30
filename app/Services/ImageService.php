@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\UnexpectedErrorException;
+use App\Helpers\FileHelper;
 use App\Models\Image;
 use App\Models\Language;
 use App\Repositories\Contracts\ImageRepository;
@@ -42,24 +43,32 @@ class ImageService  extends BaseService implements ImageServiceInterface
     protected $logger;
 
     /**
-     * Image constructor.
+     * @var FileHelper $fileHelper
+     */
+    protected $fileHelper;
+
+    /**
+     * ImageService constructor.
      *
      * @param DatabaseManager $databaseManager
      * @param ImageRepository $repository
      * @param Language $language
      * @param Logger $logger
+     * @param FileHelper $fileHelper
      */
     public function __construct(
         DatabaseManager $databaseManager,
         ImageRepository $repository,
         Language $language,
-        Logger $logger
+        Logger $logger,
+        FileHelper $fileHelper
     ) {
 
         $this->databaseManager     = $databaseManager;
         $this->repository     = $repository;
         $this->logger     = $logger;
         $this->language     = $language;
+        $this->fileHelper     = $fileHelper;
     }
 
     /**
@@ -157,5 +166,16 @@ class ImageService  extends BaseService implements ImageServiceInterface
         }
         $this->commit();
         return $bufferImage;
+    }
+
+
+    protected function storeImage(array $data){
+
+        $dataFields =[];
+        if(Arr::has($data,'img')) {
+            $uploadedFile  = $data['img'];
+            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'img\content');
+        }
+        return $dataFields;
     }
 }

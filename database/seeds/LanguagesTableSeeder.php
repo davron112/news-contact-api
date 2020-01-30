@@ -30,11 +30,6 @@ class LanguagesTableSeeder extends Seeder
             ],
             [
                 'id' => 4,
-                'short_name' => 'kaa',
-                'long_name' => 'Qaraqalpaqsha'
-            ],
-            [
-                'id' => 5,
                 'short_name' => 'oz',
                 'long_name' => 'Ўзбек кирил'
             ],

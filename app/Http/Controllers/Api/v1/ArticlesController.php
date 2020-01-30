@@ -31,7 +31,7 @@ class ArticlesController extends Controller
     protected $service;
 
     /**
-     * ArticleController constructor.
+     * ArticlesController constructor.
      * @param ArticleRepository $repository
      * @param ArticleService $service
      */

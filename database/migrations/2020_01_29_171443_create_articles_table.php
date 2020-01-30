@@ -20,8 +20,8 @@ class CreateArticlesTable extends Migration
             $table->string('author')->nullable();
             $table->dateTime('published_at')->nullable();
             $table->string('img')->nullable();
-            $table->bigInteger('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->bigInteger('category_id')->unsigned()->nullable();
+            //$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
