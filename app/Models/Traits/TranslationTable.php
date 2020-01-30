@@ -1,0 +1,92 @@
+<?php
+
+namespace App\Models\Traits;
+
+use App;
+use App\Models\Language;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+trait TranslationTable
+{
+    /**
+     * Get the translations for the content item.
+     *
+     * @return HasMany
+     */
+    public function translations()
+    {
+        return $this->hasMany($this->translatableModel, 'item_id');
+    }
+
+    /**
+     * The languages that belong to the content item.
+     *
+     * @return BelongsToMany
+     */
+    public function languages()
+    {
+        return $this->belongsToMany(
+            Language::class,
+            call_user_func([$this->translatableModel, 'getTableName']),
+            'item_id'
+        );
+    }
+
+    /**
+     * Get translations
+     *
+     * @param  string  $field
+     * @param  string  $default
+     * @param  string  $defaultLang
+     * @return string
+     */
+    public function translate($field, $default = null, $defaultLang = null)
+    {
+        $translation = $this->getTranslation($field, $this->getLang());
+
+        if (is_null($translation) && is_null($defaultLang)) {
+            $translation = $this->getTranslation($field, $this->getFallbackLang());
+        }
+
+        return $translation ?: $default;
+    }
+
+    /**
+     * Get translated field for the specified language.
+     *
+     * @param $field
+     * @param $lang
+     * @return null
+     */
+    public function getTranslation($field, $lang)
+    {
+        $translation = $this->translations->filter(function ($translation) use ($lang) {
+            return $translation->language && $translation->language->short_name == $lang;
+        })->first();
+
+        return $translation && isset($translation->$field) && !empty($translation->$field) ?
+            $translation->$field :
+            null;
+    }
+
+    /**
+     * Returns current language.
+     *
+     * @return string
+     */
+    protected function getLang()
+    {
+        return App::getLocale();
+    }
+
+    /**
+     * Returns fallback language.
+     *
+     * @return mixed
+     */
+    protected function getFallbackLang()
+    {
+        return config('app.fallback_locale');
+    }
+}
