@@ -38,19 +38,21 @@ Route::group([
     });
 
     Route::group([
-        'middleware' => 'auth:api',
         'prefix'    => 'categories',
         'as'        => 'categories.',
     ], function () {
         Route::post('/delete', [
+            'middleware' => 'auth:api',
             'as'   => 'delete',
             'uses' => 'CategoryController@delete',
         ]);
         Route::post('/create', [
+            'middleware' => 'auth:api',
             'as'   => 'create',
             'uses' => 'CategoryController@store',
         ]);
         Route::post('/update', [
+            'middleware' => 'auth:api',
             'as'   => 'update',
             'uses' => 'CategoryController@update',
         ]);
@@ -70,19 +72,21 @@ Route::group([
 
     //articles
     Route::group([
-        'middleware' => 'auth:api',
         'prefix'    => 'articles',
         'as'        => 'articles.',
     ], function () {
         Route::post('/delete', [
+            'middleware' => 'auth:api',
             'as'   => 'delete',
             'uses' => 'ArticleController@delete',
         ]);
         Route::post('/create', [
+            'middleware' => 'auth:api',
             'as'   => 'create',
             'uses' => 'ArticleController@store',
         ]);
         Route::post('/update', [
+            'middleware' => 'auth:api',
             'as'   => 'update',
             'uses' => 'ArticleController@update',
         ]);
@@ -102,19 +106,21 @@ Route::group([
 
     //newspaper
     Route::group([
-        'middleware' => 'auth:api',
         'prefix'    => 'newspaper',
         'as'        => 'newspaper.',
     ], function () {
         Route::post('/delete', [
+            'middleware' => 'auth:api',
             'as'   => 'delete',
             'uses' => 'NewspaperController@delete',
         ]);
         Route::post('/create', [
+            'middleware' => 'auth:api',
             'as'   => 'create',
             'uses' => 'NewspaperController@store',
         ]);
         Route::post('/update', [
+            'middleware' => 'auth:api',
             'as'   => 'update',
             'uses' => 'NewspaperController@update',
         ]);
@@ -134,19 +140,21 @@ Route::group([
 
     //tags
     Route::group([
-        'middleware' => 'auth:api',
         'prefix'    => 'tags',
         'as'        => 'tags.',
     ], function () {
         Route::post('/delete', [
+            'middleware' => 'auth:api',
             'as'   => 'delete',
             'uses' => 'TagsController@delete',
         ]);
         Route::post('/create', [
+            'middleware' => 'auth:api',
             'as'   => 'create',
             'uses' => 'TagsController@store',
         ]);
         Route::post('/update', [
+            'middleware' => 'auth:api',
             'as'   => 'update',
             'uses' => 'TagsController@update',
         ]);
