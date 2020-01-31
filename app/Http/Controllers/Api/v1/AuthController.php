@@ -63,7 +63,7 @@ class AuthController extends Controller
         else{
             return response()->json(
                 $this->errorResponse($this->modelName, null, 'error','Unauthorised', 401),
-                401
+                200
             );
         }
     }
