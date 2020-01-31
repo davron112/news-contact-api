@@ -174,7 +174,6 @@ Route::group([
 
     //languages
     Route::group([
-        'middleware' => 'auth:api',
         'prefix'    => 'languages',
         'as'        => 'languages.',
     ], function () {
