@@ -23,6 +23,7 @@ Route::group([
 
     // Laravel passport
     Route::group([
+        'middleware' => 'cors',
         'prefix' => 'auth',
         'as'        => 'auth.',
     ], function () {
@@ -38,6 +39,7 @@ Route::group([
     });
 
     Route::group([
+        'middleware' => 'cors',
         'prefix'    => 'categories',
         'as'        => 'categories.',
     ], function () {
@@ -72,6 +74,7 @@ Route::group([
 
     //articles
     Route::group([
+        'middleware' => 'cors',
         'prefix'    => 'articles',
         'as'        => 'articles.',
     ], function () {
@@ -106,6 +109,7 @@ Route::group([
 
     //newspaper
     Route::group([
+        'middleware' => 'cors',
         'prefix'    => 'newspaper',
         'as'        => 'newspaper.',
     ], function () {
@@ -140,6 +144,7 @@ Route::group([
 
     //tags
     Route::group([
+        'middleware' => 'cors',
         'prefix'    => 'tags',
         'as'        => 'tags.',
     ], function () {
@@ -174,6 +179,7 @@ Route::group([
 
     //languages
     Route::group([
+        'middleware' => 'cors',
         'prefix'    => 'languages',
         'as'        => 'languages.',
     ], function () {
