@@ -115,17 +115,12 @@ class ArticlesController extends Controller
     }
 
     /**
-     * Show article
-     *
-     * @param Request $request
+     * @param $slug
      * @return JsonResponse
      */
-    public function show(
-        Request $request
-    )
+    public function show($slug)
     {
-        $modelId = $request->route('id');
-        $model = $this->repository->find($modelId);
+        $model = $this->repository->findWhere(['slug' => $slug]);
         $data = $this->successResponse($this->modelName, $model);
         return response()->json($data, $data['code']);
     }
