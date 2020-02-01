@@ -99,13 +99,14 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
 
             $this->storeTranslations($newspaper, $data, $this->getTranslationSelectColumnsClosure());
             $this->logger->info('Translations for the Newspaper were successfully saved.', ['newspaper_id' => $newspaper->id]);
-            return $newspaper;
+
         } catch (UnexpectedErrorException $e) {
             $this->rollback($e, 'An error occurred while storing an ', [
                 'data' => $data,
             ]);
         }
         $this->commit();
+        return $newspaper;
     }
 
     /**

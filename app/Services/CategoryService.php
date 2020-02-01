@@ -87,7 +87,7 @@ class CategoryService  extends BaseService implements CategoryServiceInterface
 
             $this->storeTranslations($category, $data, $this->getTranslationSelectColumnsClosure());
             $this->logger->info('Translations for the Category were successfully saved.', ['category_id' => $category->id]);
-            return $category;
+
         } catch (UnexpectedErrorException $e) {
             $this->rollback($e, 'An error occurred while storing an ', [
                 'data' => $data,
@@ -95,6 +95,7 @@ class CategoryService  extends BaseService implements CategoryServiceInterface
         }
 
         $this->commit();
+        return $category;
     }
 
     /**

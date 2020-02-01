@@ -86,7 +86,7 @@ class TagService  extends BaseService implements TagServiceInterface
 
             $this->storeTranslations($tag, $data, $this->getTranslationSelectColumnsClosure());
             $this->logger->info('Translations for the Tag were successfully saved.', ['tag_id' => $tag->id]);
-            return $tag;
+
         } catch (UnexpectedErrorException $e) {
             $this->rollback($e, 'An error occurred while storing an ', [
                 'data' => $data,
@@ -94,6 +94,7 @@ class TagService  extends BaseService implements TagServiceInterface
         }
 
         $this->commit();
+        return $tag;
     }
 
     /**
