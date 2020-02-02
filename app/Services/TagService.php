@@ -113,10 +113,7 @@ class TagService  extends BaseService implements TagServiceInterface
 
         try {
             $tag = $this->repository->find($id);
-            $tag->slug = array_get($data, 'slug', $tag->slug);
-            $tag->status     = array_get($data, 'status', $tag->status);
-
-            if (!$tag->save()) {
+            if (!$tag->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a tag');
             }
             $this->logger->info('Tag was successfully updated.');

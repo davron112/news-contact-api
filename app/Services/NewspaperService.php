@@ -125,13 +125,7 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
 
         try {
             $newspaper = $this->repository->find($id);
-
-            $newspaper->status     = array_get($data, 'status', 1);
-            $newspaper->file     = array_get($data, 'file');
-            $newspaper->img     = array_get($data, 'img');
-            $newspaper->published_at     = array_get($data, 'published_at', $newspaper->published_at);
-
-            if (!$newspaper->save()) {
+            if (!$newspaper->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a newspaper');
             }
             $this->logger->info('Newspaper was successfully updated.');

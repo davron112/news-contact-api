@@ -114,11 +114,7 @@ class CategoryService  extends BaseService implements CategoryServiceInterface
 
         try {
             $category = $this->repository->find($id);
-            $category->slug = array_get($data, 'slug', Str::random(9));
-            $category->status     = array_get($data, 'status', 1);
-            $category->parent_id     = array_get($data, 'parent_id');
-
-            if (!$category->save()) {
+            if (!$category->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a category');
             }
             $this->logger->info('Category was successfully updated.');
