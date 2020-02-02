@@ -10,6 +10,7 @@ class CategoryTranslations extends Model
 {
     use TableName;
 
+    protected $appends = ['short_name'];
     /**
      * Indicates if the model should be timestamped.
      *
@@ -35,5 +36,15 @@ class CategoryTranslations extends Model
     public function language()
     {
         return $this->belongsTo(Language::class);
+    }
+
+    /**
+     * Get the language that owns the translation.
+     *
+     * @return BelongsTo
+     */
+    public function getShortNameAttribute()
+    {
+        return Language::find($this->language_id)->short_name;
     }
 }

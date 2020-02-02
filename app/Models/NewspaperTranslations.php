@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class NewspaperTranslations extends Model
 {
+    protected $appends = ['short_name'];
+
     use TableName;
 
     /**
@@ -35,5 +37,15 @@ class NewspaperTranslations extends Model
     public function language()
     {
         return $this->belongsTo(Language::class);
+    }
+
+    /**
+     * Get the language that owns the translation.
+     *
+     * @return BelongsTo
+     */
+    public function getShortNameAttribute()
+    {
+        return Language::find($this->language_id)->short_name;
     }
 }
