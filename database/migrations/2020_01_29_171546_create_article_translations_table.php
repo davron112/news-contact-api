@@ -17,7 +17,7 @@ class CreateArticleTranslationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('description')->nullable();
-            $table->text('content')->nullable();
+            $table->longText('content')->nullable();
             $table->string('source')->nullable();
             $table->bigInteger('item_id')->unsigned();
             $table->foreign('item_id')->references('id')->on('articles')->onDelete('cascade');
