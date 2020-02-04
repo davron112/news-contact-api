@@ -83,7 +83,7 @@ class Article extends Model
      */
     public function getImgAttribute()
     {
-        return config('filesystems.disks.public.url') . '/' .$this->image;
+        return $this->image ? config('filesystems.disks.public.url') . '/' .$this->image : '';
     }
 
     /**
