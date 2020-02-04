@@ -8,12 +8,16 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the default filesystem disk that should be used
-    | by the framework. The "local" disk, as well as a variety of cloud
-    | based disks are available to your application. Just store away!
+    | by the framework. A "local" driver, as well as a variety of cloud
+    | based drivers are available for your choosing. Just store away!
+    |
+    | Supported: "local", "ftp", "s3", "rackspace"
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'public'),
+    'default' => env('FILESYSTEM', 'public'),
+
+    'path_prefix' => env('FILESYSTEM_PATH_PREFIX', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +30,7 @@ return [
     |
     */
 
-    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
+    'cloud' => 's3',
 
     /*
     |--------------------------------------------------------------------------
@@ -37,31 +41,28 @@ return [
     | may even configure multiple disks of the same driver. Defaults have
     | been setup for each driver as an example of the required options.
     |
-    | Supported Drivers: "local", "ftp", "sftp", "s3"
-    |
     */
 
     'disks' => [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root'   => storage_path('app'),
         ],
 
         'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'driver'     => 'local',
+            'root'       => storage_path('app'),
             'visibility' => 'public',
+            'url'        => '//' . env('APP_URL') . '/storage',
         ],
 
         's3' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
+            'key'    => env('FILESYSTEM_S3_KEY', 'your-key'),
+            'secret' => env('FILESYSTEM_S3_SECRET', 'your-secret'),
+            'region' => env('FILESYSTEM_S3_REGION', 'your-region'),
+            'bucket' => env('FILESYSTEM_S3_BUCKET', 'your-bucket'),
         ],
 
     ],

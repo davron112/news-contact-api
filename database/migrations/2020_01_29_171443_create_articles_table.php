@@ -19,7 +19,7 @@ class CreateArticlesTable extends Migration
             $table->integer('status')->default(1);
             $table->string('author')->nullable();
             $table->dateTime('published_at')->nullable();
-            $table->string('img')->nullable();
+            $table->string('image')->nullable();
             $table->bigInteger('category_id')->unsigned()->nullable();
             //$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
