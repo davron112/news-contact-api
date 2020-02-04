@@ -112,7 +112,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
         $dataFields =[];
         if(Arr::has($data,'img')) {
             $uploadedFile  = $data['img'];
-            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'img\content');
+            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'public\img\content');
         }
         return $dataFields;
     }
