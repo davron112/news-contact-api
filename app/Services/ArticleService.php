@@ -88,7 +88,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             $article->category_id = array_get($data, 'category_id');
             $article->published_at = array_get($data, 'published_at');
             $article->author = array_get($data, 'author');
-            $article->img = array_get($data, 'img');
+            $article->image = array_get($data, 'img');
             $article->fill($attributes);
             if (!$article->save()) {
                 throw new UnexpectedErrorException('Article was not saved to the database.');
