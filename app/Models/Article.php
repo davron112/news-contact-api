@@ -8,10 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-/**
- * Class Article
- * @package App\Models
- */
 class Article extends Model
 {
     const STATUS_ACTIVE = 1;
@@ -20,7 +16,7 @@ class Article extends Model
 
     use TableName, TranslationTable;
 
-    protected $appends = ['title', 'description', 'content', 'img'];
+    protected $appends = ['title', 'description', 'content'];
 
     protected $dates = ['published_at'];
 
@@ -40,9 +36,9 @@ class Article extends Model
         'slug',
         'author',
         'published_at',
+        'img',
         'category_id',
         'status',
-        'image',
     ];
 
     /**
@@ -74,16 +70,6 @@ class Article extends Model
             return $trans;
         }
         return 'No translate';
-    }
-
-    /**
-     * Get translated title.
-     *
-     * @return string
-     */
-    public function getImgAttribute()
-    {
-        return $this->image ? config('filesystems.disks.public.url') . '/' .$this->image : '';
     }
 
     /**
@@ -123,16 +109,6 @@ class Article extends Model
             return $trans;
         }
         return 'No translate';
-    }
-
-    /**
-     * Get translated source.
-     *
-     * @return string
-     */
-    public function getUrlImgAttribute()
-    {
-        return config('filesystems.disks.public.url') . $this->img;
     }
 
     /**
