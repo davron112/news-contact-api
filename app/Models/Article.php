@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Class Article
+ *
+ * @property int $id
+ * @property string $slug
+ * @property string $name
+ * @property Category $category
+ * @property ArticleTranslations $translations
+ * @package App\Models
+ */
 class Article extends Model
 {
     const STATUS_ACTIVE = 1;
@@ -16,7 +26,7 @@ class Article extends Model
 
     use TableName, TranslationTable;
 
-    protected $appends = ['title', 'description', 'content'];
+    protected $appends = ['title', 'description', 'content', 'url'];
 
     protected $dates = ['published_at'];
 
@@ -119,6 +129,16 @@ class Article extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get the url.
+     *
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        return "/categories/" . $this->category .'/'. $this->slug;
     }
 
 }
