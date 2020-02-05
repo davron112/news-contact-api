@@ -142,6 +142,10 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
         $this->beginTransaction();
         try {
             $article = $this->repository->find($id);
+            if (array_get($data, 'img')) {
+                $attributes = $this->storeImage($data);
+                $article->fill($attributes);
+            }
             if (!$article->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a article');
             }
