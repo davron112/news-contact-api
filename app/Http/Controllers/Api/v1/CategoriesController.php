@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Services\Contracts\CategoryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Log\Logger;
+use Illuminate\Support\Arr;
 
 class CategoriesController extends Controller
 {
@@ -50,10 +52,25 @@ class CategoriesController extends Controller
      */
     public function index()
     {
+        $categories = $this->repository->all();
+
+        $response = [];
+        $res = [];
+        foreach ($categories as $key => $category) {
+                if ($category->parent_id) {
+                    $response['id'] = $category->id;
+                    $response['title'] = $category->name;
+                    $response['slug'] = $category->slug;
+                    $response['parent_id'] = $category->parent_id;
+                    $response['children'] = Category::find($category->parent_id);
+                    $response['translations'] = $category->translations;
+                    $res [] = $response;
+                }
+        }
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $this->repository->all()
+                $res
             )
         );
     }
