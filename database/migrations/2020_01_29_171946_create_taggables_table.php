@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTagsArticlesTable extends Migration
+class CreateTaggablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTagsArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tags_articles', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('taggables', function (Blueprint $table) {
             $table->bigInteger('tag_id')->unsigned();
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
-            $table->bigInteger('article_id')->unsigned();
-            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+            $table->bigInteger('taggable_id')->unsigned();
+            $table->bigInteger('taggable_type')->unsigned();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateTagsArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags_articles');
+        Schema::dropIfExists('taggables');
     }
 }
