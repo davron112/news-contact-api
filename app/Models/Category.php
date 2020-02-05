@@ -7,6 +7,13 @@ use App\Models\Traits\TranslationTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Class Category
+ *
+ * @property string $slug
+ * @property string $name
+ * @package App\Models
+ */
 class Category extends Model
 {
     const STATUS_ACTIVE = 1;

@@ -146,7 +146,7 @@ class Article extends Model
      */
     public function getUrlAttribute()
     {
-        return "/categories/" . $this->category .'/'. $this->slug;
+        return "/categories/" . $this->category->slug .'/'. $this->slug;
     }
 
 }
