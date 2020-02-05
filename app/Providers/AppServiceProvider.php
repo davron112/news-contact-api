@@ -19,6 +19,10 @@ use App\Services\Contracts\TagService as TagServiceInterface;
 use App\Services\Contracts\UserService as UserServiceInterface;
 use App\Services\ImageService;
 use App\Services\UserService;
+use App\Services\VideoService;
+use App\Repositories\VideoRepository;
+use App\Repositories\Contracts\VideoRepository as VideoRepositoryInterface;
+use App\Services\Contracts\VideoService as VideoServiceInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Contracts\CategoryService as CategoryServiceInterface;
 use App\Repositories\Contracts\CategoryRepository as CategoryRepositoryInterface;
@@ -50,6 +54,9 @@ class AppServiceProvider extends ServiceProvider
         // Newspaper
         $this->app->bind(NewspaperServiceInterface::class, NewspaperService::class);
         $this->app->bind(NewspaperRepositoryInterface::class, NewspaperRepository::class);
+        // Video
+        $this->app->bind(VideoServiceInterface::class, VideoService::class);
+        $this->app->bind(VideoRepositoryInterface::class, VideoRepository::class);
         // Tag
         $this->app->bind(TagServiceInterface::class, TagService::class);
         $this->app->bind(TagRepositoryInterface::class, TagRepository::class);

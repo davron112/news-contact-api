@@ -7,7 +7,7 @@ use App\Models\Traits\TranslationTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Tag extends Model
+class Video extends Model
 {
     const STATUS_ACTIVE = 1;
     const STATUS_DISABLED = 2;
@@ -15,14 +15,14 @@ class Tag extends Model
 
     use TableName, TranslationTable;
 
-    protected $appends = ['name'];
+    protected $appends = ['title'];
 
     /**
      * Related model that stores translations for the model.
      *
      * @var string
      */
-    protected $translatableModel = TagTranslations::class;
+    protected $translatableModel = NewspaperTranslations::class;
 
     /**
      * The attributes that are mass assignable.
@@ -30,8 +30,10 @@ class Tag extends Model
      * @var array
      */
     protected $fillable = [
-        'slug',
+        'file',
+        'img',
         'status',
+        'published_at',
     ];
 
     /**
@@ -43,38 +45,31 @@ class Tag extends Model
 
 
     /**
-     * The languages that belong to the tag item.
+     * The languages that belong to the newspaper item.
      *
      * @return BelongsToMany
      */
     public function languages()
     {
-        return $this->belongsToMany(Language::class, TagTranslations::getTableName(), 'item_id');
+        return $this->belongsToMany(Language::class, NewspaperTranslations::getTableName(), 'item_id');
     }
 
     /**
-     * Get all of the posts that are assigned this tag.
+     * Get all of the tags for the post.
      */
-    public function articles()
+    public function tags()
     {
-        return $this->morphedByMany(Article::class, 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    /**
-     * Get all of the videos that are assigned this tag.
-     */
-    public function videos()
-    {
-        return $this->morphedByMany(Video::class, 'taggable');
-    }
     /**
      * Get translated title.
      *
      * @return string
      */
-    public function getNameAttribute()
+    public function getTitleAttribute()
     {
-        if ($trans = $this->translate('name')) {
+        if ($trans = $this->translate('title')) {
             return $trans;
         }
         return 'No translate';

@@ -6,6 +6,7 @@ use App\Exceptions\UnexpectedErrorException;
 use App\Helpers\FileHelper;
 use App\Models\Article;
 use App\Models\Language;
+use App\Models\Tag;
 use App\Repositories\Contracts\ArticleRepository;
 use App\Services\Contracts\ArticleService as ArticleServiceInterface;
 use App\Services\Traits\ServiceTranslateTable;
@@ -82,6 +83,15 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
         $this->beginTransaction();
         try {
             $article = $this->repository->newInstance();
+            $tagData = array_get($data, 'tags');
+            if ($tagData) {
+                $tagIds = [];
+                foreach ($tagData as $tag) {
+                    $tagModel = Tag::createOrFirst($tag);
+                    $tagIds[] = $tagModel->id;
+                }
+                $article->tags()->sync($tagIds);
+            }
             $attributes = $this->storeImage($data);
             $article->slug = array_get($data, 'slug', Str::random(9));
             $article->status = array_get($data, 'status', 1);
