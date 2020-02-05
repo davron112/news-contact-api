@@ -146,6 +146,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
                 $attributes = $this->storeImage($data);
                 $article->fill($attributes);
             }
+            $article->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $article->img);
             if (!$article->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a article');
             }
