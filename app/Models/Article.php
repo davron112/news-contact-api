@@ -146,7 +146,10 @@ class Article extends Model
      */
     public function getUrlAttribute()
     {
-        return "/categories/" . $this->category->slug .'/'. $this->slug;
+        return "/categories/" .
+        isset($this->category->slug) ? $this->category->slug : null .
+            '/'.
+            isset($this->slug) ? $this->slug : '';
     }
     /**
      * Get the url.
@@ -155,6 +158,6 @@ class Article extends Model
      */
     public function getCategoryNameAttribute()
     {
-        return $this->category->name;
+        return isset($this->category->name) ? $this->category->name : null;
     }
 }
