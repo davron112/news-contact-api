@@ -53,7 +53,9 @@ class ArticlesController extends Controller
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $this->repository->all()
+                $this->repository
+                    ->orderBy('updated_at','DESC')
+                    ->all()
             )
         );
     }
