@@ -26,7 +26,7 @@ class Article extends Model
 
     use TableName, TranslationTable;
 
-    protected $appends = ['title', 'description', 'content', 'url'];
+    protected $appends = ['title', 'description', 'content', 'url', 'category_name'];
 
     protected $dates = ['published_at'];
 
@@ -148,5 +148,13 @@ class Article extends Model
     {
         return "/categories/" . $this->category->slug .'/'. $this->slug;
     }
-
+    /**
+     * Get the url.
+     *
+     * @return string
+     */
+    public function getCategoryNameAttribute()
+    {
+        return $this->category->name;
+    }
 }
