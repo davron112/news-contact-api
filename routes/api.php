@@ -62,6 +62,10 @@ Route::group([
             'as'   => 'index',
             'uses' => 'CategoriesController@index',
         ]);
+        Route::get('/menu', [
+            'as'   => 'index',
+            'uses' => 'CategoriesController@menu',
+        ]);
         Route::get('/', [
             'as'   => 'index',
             'uses' => 'CategoriesController@index',

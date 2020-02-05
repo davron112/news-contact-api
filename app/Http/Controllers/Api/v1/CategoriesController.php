@@ -52,6 +52,21 @@ class CategoriesController extends Controller
      */
     public function index()
     {
+        return response(
+            $this->successResponse(
+                $this->modelNameMultiple,
+                $this->repository->all()
+            )
+        );
+    }
+
+    /**
+     * Show Categories.
+     *
+     * @return JsonResponse
+     */
+    public function menu()
+    {
         $categories = $this->repository->all();
 
         $response = [];
