@@ -84,7 +84,7 @@ class CategoriesController extends Controller
         }
         return response(
             $this->successResponse(
-                $this->modelNameMultiple,
+                'menu',
                 $res
             )
         );
