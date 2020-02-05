@@ -146,10 +146,11 @@ class Article extends Model
      */
     public function getUrlAttribute()
     {
-        return "/categories/" .
-        isset($this->category->slug) ? $this->category->slug : null .
-            '/'.
-            isset($this->slug) ? $this->slug : '';
+        $categorySlug = ($this && $this->category && $this->category->slug)
+            ? $this->category->slug
+            : '';
+        $articleSlug = ($this && $this->slug) ? $this->slug : '';
+        return "/categories/" . $categorySlug . '/' . $articleSlug;
     }
     /**
      * Get the url.
