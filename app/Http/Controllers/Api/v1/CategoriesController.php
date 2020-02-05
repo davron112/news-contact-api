@@ -76,7 +76,12 @@ class CategoriesController extends Controller
                     $response['name'] = $category->name;
                     $response['slug'] = $category->slug;
                     $response['children'] = Category::where('parent_id', $category->parent_id)->get();
-                    $response['translations'] = $category->translations;
+                    $lang = [];
+                    $langAll = [];
+                    foreach ($category->translations as $translate) {
+                        $langAll[$translate->language->short_name] = ["name" => $translate->name];
+                    }
+                    $response['translations'] = $langAll;
                     $res [] = $response;
                 }
         }
