@@ -42,6 +42,8 @@ class Category extends Model
         'status',
     ];
 
+    protected $visible = ['name', 'slug'];
+
     /**
      * Indicates if the model should be timestamped.
      *

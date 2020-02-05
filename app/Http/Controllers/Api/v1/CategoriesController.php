@@ -73,11 +73,9 @@ class CategoriesController extends Controller
         $res = [];
         foreach ($categories as $key => $category) {
                 if ($category->parent_id) {
-                    $response['id'] = $category->id;
                     $response['title'] = $category->name;
                     $response['slug'] = $category->slug;
-                    $response['parent_id'] = $category->parent_id;
-                    $response['children'] = Category::find($category->parent_id);
+                    $response['children'] = Category::where('parent_id', $category->parent_id)->get();
                     $response['translations'] = $category->translations;
                     $res [] = $response;
                 }

@@ -18,6 +18,7 @@ class CategoryTranslations extends Model
      */
     public $timestamps = false;
 
+    protected $visible = ['name'];
     /**
      * Get the content item that owns the translation.
      *
