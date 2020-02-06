@@ -80,6 +80,7 @@ class CategoriesController extends Controller
                     $i = 0;
                     foreach (Category::where('id', $category->parent_id)->get() as $item) {
                         $children[$i]['name'] = $item->name;
+                        $children[$i]['slug'] = $item->slug;
                         $langChildAll = [];
                         foreach ($item->translations as $translateChild) {
                             $langChildAll[$translateChild->language->short_name] = [
