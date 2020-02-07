@@ -79,13 +79,44 @@ class CategoriesController extends Controller
      */
     public function menu()
     {
+        $categories = $this->repository->all();
+
+        $response = [];
+        $res = [];
+        foreach ($categories as $key => $category) {
+                if (!$category->parent_id) {
+                    $response['name'] = $category->name;
+                    $response['slug'] = $category->slug;
+
+                    $children = [];
+                    $childrenAll = [];
+                    foreach ($category->children as $item) {
+                        $children['name'] = $item->name;
+                        $langChildAll = [];
+                        foreach ($item->translations as $translateChild) {
+                            $langChildAll[$translateChild->language->short_name] = [
+                                "name" => $translateChild->name,
+                            ];
+                        }
+                        $children['translations'] = $langChildAll;
+                        $childrenAll[] = $children;
+                    }
+
+                    $response['children'] = $childrenAll;
+                    $langAll = [];
+                    foreach ($category->translations as $translate) {
+                        $langAll[$translate->language->short_name] = [
+                            "name" => $translate->name
+                        ];
+                    }
+                    $response['translations'] = $langAll;
+                    $res [] = $response;
+                }
+        }
         return response(
             $this->successResponse(
                 'menu',
-                $this->repository
-                    ->with('children')
-                    ->findWhere(['parent_id' => null])
-                    ->all()
+                $res
             )
         );
     }

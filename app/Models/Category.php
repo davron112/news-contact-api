@@ -42,7 +42,7 @@ class Category extends Model
         'status',
     ];
 
-    protected $visible = ['name', 'slug', 'children'];
+    //protected $visible = ['name', 'slug', 'children'];
 
     /**
      * Indicates if the model should be timestamped.
