@@ -9,12 +9,10 @@ use App\Models\Language;
 use App\Repositories\Contracts\NewspaperRepository;
 use App\Services\Contracts\NewspaperService as NewspaperServiceInterface;
 use App\Services\Traits\ServiceTranslateTable;
-use App\Exceptions\NotFoundException;
 use Carbon\Carbon;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 /**
  * @method bool destroy
@@ -125,6 +123,11 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
 
         try {
             $newspaper = $this->repository->find($id);
+            if (array_get($data, 'img')) {
+                $attributes = $this->storeFiles($data);
+                $newspaper->fill($attributes);
+                $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
+            }
             if (!$newspaper->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a newspaper');
             }

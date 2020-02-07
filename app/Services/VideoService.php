@@ -83,11 +83,11 @@ class VideoService  extends BaseService implements VideoServiceInterface
 
         try {
             $video = $this->repository->newInstance();
-            $attributes = $this->storeImage($data);
+            $attributes = $this->storeFiles($data);
             $video->status = array_get($data, 'status', 1);
-            $video->file = array_get($data, 'file');
-            $video->img = array_get($data, 'img');
             $video->fill($attributes);
+            $video->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->img);
+            $video->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->file);
             $video->published_at     = array_get($data, 'published_at', Carbon::now());
 
             if (!$video->save()) {
@@ -123,6 +123,11 @@ class VideoService  extends BaseService implements VideoServiceInterface
 
         try {
             $video = $this->repository->find($id);
+            if (array_get($data, 'img')) {
+                $attributes = $this->storeFiles($data);
+                $video->fill($attributes);
+                $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->img);
+            }
             if (!$video->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a video');
             }
@@ -186,12 +191,12 @@ class VideoService  extends BaseService implements VideoServiceInterface
         $dataFields =[];
         if(Arr::has($data,'img')) {
             $uploadedFile  = $data['img'];
-            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'img\content');
+            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'public\img\content');
         }
 
         if(Arr::has($data,'file')) {
             $uploadedFile  = $data['file'];
-            $dataFields['file'] = $this->fileHelper->upload($uploadedFile,'file\content');
+            $dataFields['file'] = $this->fileHelper->upload($uploadedFile,'public\pdf\content');
         }
         return $dataFields;
     }
