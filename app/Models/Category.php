@@ -42,7 +42,7 @@ class Category extends Model
         'status',
     ];
 
-    //protected $visible = ['name', 'slug'];
+    protected $visible = ['name', 'slug', 'children'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -81,5 +81,13 @@ class Category extends Model
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id');
     }
 }

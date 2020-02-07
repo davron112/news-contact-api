@@ -52,10 +52,22 @@ class CategoriesController extends Controller
      */
     public function index()
     {
+        $categories = [];
+        $response = [];
+        foreach ($this->repository->all() as $item) {
+            $categories['id'] = $item->id;
+            $categories['name'] = $item->name;
+            $categories['slug'] = $item->slug;
+            $categories['patent_id'] = $item->patent_id;
+            $categories['created_at'] = $item->created_at;
+            $categories['updated_at'] = $item->updated_at;
+            $categories['translations'] = $item->translations;
+            $response[] = $categories;
+        }
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $this->repository->all()
+                $response
             )
         );
     }
@@ -67,45 +79,13 @@ class CategoriesController extends Controller
      */
     public function menu()
     {
-        $categories = $this->repository->all();
-
-        $response = [];
-        $res = [];
-        foreach ($categories as $key => $category) {
-                if ($category->parent_id) {
-                    $response['name'] = $category->name;
-                    $response['slug'] = $category->slug;
-
-                    $children = [];
-                    $i = 0;
-                    foreach (Category::where('id', $category->parent_id)->get() as $item) {
-                        $children[$i]['name'] = $item->name;
-                        $children[$i]['slug'] = $item->slug;
-                        $langChildAll = [];
-                        foreach ($item->translations as $translateChild) {
-                            $langChildAll[$translateChild->language->short_name] = [
-                                "name" => $translateChild->name
-                            ];
-                        }
-                        $children[$i]['translations'] = $langChildAll;
-                        $i++;
-                    }
-
-                    $response['children'] = $children;
-                    $langAll = [];
-                    foreach ($category->translations as $translate) {
-                        $langAll[$translate->language->short_name] = [
-                            "name" => $translate->name
-                        ];
-                    }
-                    $response['translations'] = $langAll;
-                    $res [] = $response;
-                }
-        }
         return response(
             $this->successResponse(
                 'menu',
-                $res
+                $this->repository
+                    ->with('children')
+                    ->findWhere(['parent_id' => null])
+                    ->all()
             )
         );
     }
