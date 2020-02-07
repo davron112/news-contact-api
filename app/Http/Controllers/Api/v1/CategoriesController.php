@@ -52,22 +52,10 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = [];
-        $response = [];
-        foreach ($this->repository->all() as $item) {
-            $categories['id'] = $item->id;
-            $categories['name'] = $item->name;
-            $categories['slug'] = $item->slug;
-            $categories['patent_id'] = $item->patent_id;
-            $categories['created_at'] = $item->created_at;
-            $categories['updated_at'] = $item->updated_at;
-            $categories['translations'] = $item->translations;
-            $response[] = $categories;
-        }
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $response
+                $this->repository->all()
             )
         );
     }
