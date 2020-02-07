@@ -92,6 +92,7 @@ class CategoriesController extends Controller
                     $childrenAll = [];
                     foreach ($category->children as $item) {
                         $children['name'] = $item->name;
+                        $children['slug'] = $item->slug;
                         $langChildAll = [];
                         foreach ($item->translations as $translateChild) {
                             $langChildAll[$translateChild->language->short_name] = [
