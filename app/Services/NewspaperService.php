@@ -84,12 +84,12 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
         $this->beginTransaction();
 
         try {
-            $newspaper           = $this->repository->newInstance();
-            $attributes = $this->storeImage($data);
+            $newspaper = $this->repository->newInstance();
+            $attributes = $this->storeFiles($data);
             $newspaper->status = array_get($data, 'status', 1);
-            $newspaper->file = array_get($data, 'file');
-            $newspaper->img = array_get($data, 'img');
             $newspaper->fill($attributes);
+            $newspaper->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
+            $newspaper->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->file);
             $newspaper->published_at     = array_get($data, 'published_at', Carbon::now());
 
             if (!$newspaper->save()) {
@@ -188,12 +188,12 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
         $dataFields =[];
         if(Arr::has($data,'img')) {
             $uploadedFile  = $data['img'];
-            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'img\content');
+            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'public\img\content');
         }
 
         if(Arr::has($data,'file')) {
             $uploadedFile  = $data['file'];
-            $dataFields['file'] = $this->fileHelper->upload($uploadedFile,'file\content');
+            $dataFields['file'] = $this->fileHelper->upload($uploadedFile,'public\pdf\content');
         }
         return $dataFields;
     }
