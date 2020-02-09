@@ -210,7 +210,7 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
     {
         return function ($translation) {
             return [
-                'title' => Arr::get($translation, 'name'),
+                'title' => Arr::get($translation, 'title'),
             ];
         };
     }
