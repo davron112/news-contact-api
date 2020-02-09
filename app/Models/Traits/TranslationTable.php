@@ -14,9 +14,30 @@ trait TranslationTable
      *
      * @return HasMany
      */
-    public function translations()
+    public function translationsAll()
     {
         return $this->hasMany($this->translatableModel, 'item_id');
+    }
+
+    /**
+     * @return array
+     */
+    public function getTranslationsAttribute()
+    {
+        $lang = [];
+        $data = [];
+        foreach ($this->translationsAll as $item) {
+            $translate = $item->toArray();
+
+            foreach ($translate as $key => $value) {
+                if ($key == 'language') {
+                    continue;
+                }
+                $lang[$key] = $value;
+                $data[$translate['short_name']] = $lang;
+            }
+        }
+        return $data;
     }
 
     /**
@@ -61,7 +82,7 @@ trait TranslationTable
      */
     public function getTranslation($field, $lang)
     {
-        $translation = $this->translations->filter(function ($translation) use ($lang) {
+        $translation = $this->translationsAll->filter(function ($translation) use ($lang) {
             return $translation->language && $translation->language->short_name == $lang;
         })->first();
 

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\App;
  * @property string $slug
  * @property string $name
  * @property Category $category
- * @property ArticleTranslations $translations
+ * @property ArticleTranslations $translationsAll
  * @package App\Models
  */
 class Article extends Model

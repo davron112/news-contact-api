@@ -7,6 +7,11 @@ use App\Models\Traits\TranslationTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Class Newspaper
+ * @package App\Models
+ * NewspaperTranslations $translationsAll
+ */
 class Newspaper extends Model
 {
     const STATUS_ACTIVE = 1;
@@ -15,7 +20,7 @@ class Newspaper extends Model
 
     use TableName, TranslationTable;
 
-    protected $appends = ['title'];
+    protected $appends = ['title', 'translations'];
 
     /**
      * Related model that stores translations for the model.
@@ -34,6 +39,20 @@ class Newspaper extends Model
         'img',
         'status',
         'published_at',
+    ];
+    /**
+     * @var array
+     */
+    protected $visible = [
+        'file',
+        'img',
+        'status',
+        'published_at',
+        'title',
+        'translations',
+        'created_at',
+        'updated_at',
+        'translations',
     ];
 
     /**
