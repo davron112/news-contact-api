@@ -75,10 +75,10 @@ class CategoryService  extends BaseService implements CategoryServiceInterface
         $this->beginTransaction();
 
         try {
-            $category           = $this->repository->newInstance();
-            $category->slug = array_get($data, 'slug', Str::random(9));
-            $category->status     = array_get($data, 'status', 1);
-            $category->parent_id     = array_get($data, 'parent_id');
+            $category = $this->repository->newInstance();
+            $category->slug = clean_slug(array_get($data, 'slug'));
+            $category->status = array_get($data, 'status', 1);
+            $category->parent_id = array_get($data, 'parent_id');
 
             if (!$category->save()) {
                 throw new UnexpectedErrorException('Category was not saved to the database.');
@@ -114,6 +114,7 @@ class CategoryService  extends BaseService implements CategoryServiceInterface
 
         try {
             $category = $this->repository->find($id);
+            Arr::set($data, 'slug', clean_slug(array_get($data, 'slug')));
             if (!$category->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a category');
             }

@@ -93,7 +93,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
                 $article->tags()->sync($tagIds);
             }
             $attributes = $this->storeImage($data);
-            $article->slug = array_get($data, 'slug', Str::random(9));
+            $article->slug = clean_slug(array_get($data, 'slug'));
             $article->status = array_get($data, 'status', 1);
             $article->category_id = array_get($data, 'category_id');
             $article->published_at = array_get($data, 'published_at');
@@ -142,6 +142,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
         $this->beginTransaction();
         try {
             $article = $this->repository->find($id);
+            Arr::set($data, 'slug', clean_slug(array_get($data, 'slug')));
             if (array_get($data, 'img')) {
                 $attributes = $this->storeImage($data);
                 $article->fill($attributes);

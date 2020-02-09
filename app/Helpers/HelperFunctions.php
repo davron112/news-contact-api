@@ -19,8 +19,11 @@
          * @param $string
          * @return string
          */
-        function clean_slug($string)
+        function clean_slug($string = null)
         {
+            if (!$string) {
+                $string = \Illuminate\Support\Str::random(10);
+            }
             // Replaces all spaces with hyphens.
             $string = str_replace(' ', '-', $string);
 
