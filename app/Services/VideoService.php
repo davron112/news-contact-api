@@ -86,8 +86,12 @@ class VideoService  extends BaseService implements VideoServiceInterface
             $attributes = $this->storeFiles($data);
             $video->status = array_get($data, 'status', 1);
             $video->fill($attributes);
-            $video->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->img);
-            $video->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->file);
+            if ($video->img) {
+                $video->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->img);
+            }
+            if ($video->file) {
+                $video->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->file);
+            }
             $video->published_at     = array_get($data, 'published_at', Carbon::now());
 
             if (!$video->save()) {
@@ -126,7 +130,9 @@ class VideoService  extends BaseService implements VideoServiceInterface
             if (array_get($data, 'img')) {
                 $attributes = $this->storeFiles($data);
                 $video->fill($attributes);
-                $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->img);
+                if ($video->img) {
+                    $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->img);
+                }
             }
             if (!$video->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a video');

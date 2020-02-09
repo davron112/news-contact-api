@@ -99,7 +99,9 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             $article->published_at = array_get($data, 'published_at');
             $article->author = array_get($data, 'author');
             $article->fill($attributes);
-            $article->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $article->img);
+            if ($article->img) {
+                $article->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $article->img);
+            }
             if (!$article->save()) {
                 throw new UnexpectedErrorException('Article was not saved to the database.');
             }
@@ -146,7 +148,9 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             if (array_get($data, 'img')) {
                 $attributes = $this->storeImage($data);
                 $article->fill($attributes);
-                $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $article->img);
+                if ($article->img) {
+                    $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $article->img);
+                }
             }
             if (!$article->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a article');

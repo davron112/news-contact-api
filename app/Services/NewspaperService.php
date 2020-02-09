@@ -86,8 +86,12 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
             $attributes = $this->storeFiles($data);
             $newspaper->status = array_get($data, 'status', 1);
             $newspaper->fill($attributes);
-            $newspaper->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
-            $newspaper->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->file);
+            if ($newspaper->img) {
+                $newspaper->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
+            }
+            if ($newspaper->file) {
+                $newspaper->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->file);
+            }
             $newspaper->published_at     = array_get($data, 'published_at', Carbon::now());
 
             if (!$newspaper->save()) {
@@ -126,7 +130,9 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
             if (array_get($data, 'img')) {
                 $attributes = $this->storeFiles($data);
                 $newspaper->fill($attributes);
-                $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
+                if ($newspaper->img) {
+                    $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
+                }
             }
             if (!$newspaper->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a newspaper');
