@@ -44,3 +44,14 @@
             return \Illuminate\Support\Arr::get($array, $key, $default);
         }
     }
+
+    if (! function_exists('locale')) {
+        /**
+         * @return mixed
+         * @throws \Illuminate\Contracts\Container\BindingResolutionException
+         */
+        function locale()
+        {
+            return app()->make(App\Locale::class);
+        }
+    }
