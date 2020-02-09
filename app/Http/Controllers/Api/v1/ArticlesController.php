@@ -53,7 +53,7 @@ class ArticlesController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        $limit = $request->has('limit') ? array_get($data, 'limit') : 20;
+        $limit = $request->has('limit') ? array_get($data, 'limit') : 9;
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
@@ -73,7 +73,7 @@ class ArticlesController extends Controller
     public function latest(Request $request)
     {
         $data = $request->all();
-        $limit = $request->has('limit') ? array_get($data, 'limit') : 20;
+        $limit = $request->has('limit') ? array_get($data, 'limit') : 9;
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
