@@ -97,35 +97,6 @@ return [
 
     'fallback_locale' => 'ru',
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Supported Application Locales
-    |--------------------------------------------------------------------------
-    |
-    | Our supported locales will have available frontend and model
-    | translations.
-    |
-    */
-    'supported_locales' => [
-        'en' => [
-            'name' => 'English',
-            'dir'  => 'ltr',
-        ],
-        'ru' => [
-            'name' => 'Русский',
-            'dir'  => 'rtl'
-        ],
-        'uz' => [
-            'name' => 'O`zbekcha',
-            'dir'  => 'rtl'
-        ],
-        'oz' => [
-            'name' => 'Узбекча',
-            'dir'  => 'rtl'
-        ],
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Faker Locale
@@ -207,7 +178,6 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\LocaleServiceProvider::class,
 
     ],
 
@@ -259,7 +229,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Loc' => App\Facades\Loc::class,
 
     ],
 

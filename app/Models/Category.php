@@ -22,7 +22,10 @@ class Category extends Model
 
     use TableName, TranslationTable;
 
-    protected $appends = ['name'];
+    protected $appends = [
+        'name',
+        'lang'
+    ];
 
     /**
      * Related model that stores translations for the model.

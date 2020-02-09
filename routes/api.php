@@ -12,15 +12,15 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//Route::prefix('{locale}')->group(function () {
 
-    Route::group([
-        'middleware' => 'cors',
-        'prefix'    => 'v1',
-        'as'        => 'api.',
-        'namespace' => 'Api\\v1',
-    ], function () {
 
+Route::group([
+    'middleware' => 'cors',
+    'prefix'    => 'v1',
+    'as'        => 'api.',
+    'namespace' => 'Api\\v1',
+], function () {
+    Route::prefix('{locale}')->group(function () {
         // Laravel passport
         Route::group([
             'middleware' => 'cors',
@@ -228,4 +228,4 @@ use Illuminate\Http\Request;
             ]);
         });
     });
-//});
+});

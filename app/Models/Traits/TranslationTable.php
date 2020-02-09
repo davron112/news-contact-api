@@ -43,7 +43,7 @@ trait TranslationTable
      */
     public function translate($field, $default = null, $defaultLang = null)
     {
-        $translation = $this->getTranslation($field, $this->getLang());
+        $translation = $this->getTranslation($field, $this->getLangAttribute());
 
         if (is_null($translation) && is_null($defaultLang)) {
             $translation = $this->getTranslation($field, $this->getFallbackLang());
@@ -75,7 +75,7 @@ trait TranslationTable
      *
      * @return string
      */
-    protected function getLang()
+    protected function getLangAttribute()
     {
         return App::getLocale();
     }

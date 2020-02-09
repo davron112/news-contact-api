@@ -7,6 +7,7 @@ use App\Models\Traits\TranslationTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\App;
 
 /**
  * Class Article
@@ -26,7 +27,15 @@ class Article extends Model
 
     use TableName, TranslationTable;
 
-    protected $appends = ['title', 'description', 'content', 'url', 'category_name', 'category_slug'];
+    protected $appends = [
+        'title',
+        'description',
+        'content',
+        'url',
+        'category_name',
+        'category_slug',
+        'lang'
+    ];
 
     protected $dates = ['published_at'];
 
@@ -152,6 +161,7 @@ class Article extends Model
         $articleSlug = ($this && $this->slug) ? $this->slug : '';
         return "/categories/" . $categorySlug . '/' . $articleSlug;
     }
+
     /**
      * Get the url.
      *

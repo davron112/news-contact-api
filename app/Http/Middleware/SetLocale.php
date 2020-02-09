@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Language;
 use Closure;
 
 class SetLocale
@@ -16,9 +17,11 @@ class SetLocale
     {
         $desiredLocale = $request->segment(3);
 
-        $locale = locale()->isSupported($desiredLocale) ? $desiredLocale : locale()->fallback();
+        if (!Language::where('short_name', '=', $desiredLocale)->first()) {
+            $desiredLocale = config('app.locale');
+        }
 
-        locale()->set($locale);
+        app()->setLocale($desiredLocale);
 
         return $next($request);
     }
