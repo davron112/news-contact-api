@@ -20,7 +20,7 @@ Route::group([
     'as'        => 'api.',
     'namespace' => 'Api\\v1',
 ], function () {
-    Route::prefix('{locale}')->group(function () {
+
         // Laravel passport
         Route::group([
             'middleware' => 'cors',
@@ -227,5 +227,4 @@ Route::group([
                 'uses' => 'LanguagesController@index',
             ]);
         });
-    });
 });
