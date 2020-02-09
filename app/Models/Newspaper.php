@@ -44,6 +44,7 @@ class Newspaper extends Model
      * @var array
      */
     protected $visible = [
+        'id',
         'file',
         'img',
         'status',
