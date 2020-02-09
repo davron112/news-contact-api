@@ -130,16 +130,18 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
             if (!$newspaper) {
                 throw new \Exception('Not found. ' . $id);
             }
-            $attributes = $this->storeFiles($data);
-            $newspaper->fill($attributes);
 
-            if ($newspaper->img) {
+            if (array_get($data, 'img')) {
+                $attributes = $this->storeFiles($data);
                 $newspaper->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
             }
 
-            if ($newspaper->file) {
+            if (array_get($data, 'img')) {
+                $attributes = $this->storeFiles($data);
                 $newspaper->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->file);
             }
+
+            $newspaper->fill($attributes);
 
             if (!$newspaper->save()) {
                 throw new UnexpectedErrorException('An error occurred while updating a newspaper');
@@ -202,13 +204,13 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
     protected function storeFiles(array $data){
 
         $dataFields =[];
-        if(Arr::has($data,'img')) {
-            $uploadedFile  = $data['img'];
-            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'public\img\content');
+        $uploadedImage = Arr::get($data,'img');
+        if($uploadedImage) {
+            $dataFields['img'] = $this->fileHelper->upload($uploadedImage,'public\img\content');
         }
 
-        if(Arr::has($data,'file')) {
-            $uploadedFile  = $data['file'];
+        $uploadedFile = Arr::get($data,'file');
+        if($uploadedFile) {
             $dataFields['file'] = $this->fileHelper->upload($uploadedFile,'public\pdf\content');
         }
         return $dataFields;
