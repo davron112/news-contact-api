@@ -33,8 +33,10 @@ trait TranslationTable
                 if ($key == 'language') {
                     continue;
                 }
-                $lang[$key] = $value;
-                $data[$translate['short_name']] = $lang;
+                if ($key) {
+                    $lang[$key] = $value;
+                    $data[$item->language->short_name] = $lang;
+                }
             }
         }
         return $data;

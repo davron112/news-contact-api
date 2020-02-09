@@ -24,7 +24,8 @@ class Category extends Model
 
     protected $appends = [
         'name',
-        'lang'
+        'lang',
+        'translations'
     ];
 
     /**
@@ -43,6 +44,15 @@ class Category extends Model
         'slug',
         'parent_id',
         'status',
+    ];
+    protected $visible = [
+        'id',
+        'slug',
+        'parent_id',
+        'title',
+        'lang',
+        'status',
+        'translations',
     ];
 
     //protected $visible = ['name', 'slug', 'children'];

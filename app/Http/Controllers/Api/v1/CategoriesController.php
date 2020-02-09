@@ -82,7 +82,7 @@ class CategoriesController extends Controller
                         $children['name'] = $item->name;
                         $children['slug'] = $item->slug;
                         $langChildAll = [];
-                        foreach ($item->translations as $translateChild) {
+                        foreach ($item->translationsAll as $translateChild) {
                             $langChildAll[$translateChild->language->short_name] = [
                                 "name" => $translateChild->name,
                             ];
@@ -93,7 +93,7 @@ class CategoriesController extends Controller
 
                     $response['children'] = $childrenAll;
                     $langAll = [];
-                    foreach ($category->translations as $translate) {
+                    foreach ($category->translationsAll as $translate) {
                         $langAll[$translate->language->short_name] = [
                             "name" => $translate->name
                         ];
@@ -183,7 +183,7 @@ class CategoriesController extends Controller
 
                 $langAll = [];
                 if ($key == 'translations') {
-                    foreach ($model->translations as $translate) {
+                    foreach ($model->translationsAll as $translate) {
                         $langAll[$translate->language->short_name] = [
                             "name" => $translate->name
                         ];

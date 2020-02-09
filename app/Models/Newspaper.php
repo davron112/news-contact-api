@@ -50,7 +50,6 @@ class Newspaper extends Model
         'status',
         'published_at',
         'title',
-        'translations',
         'created_at',
         'updated_at',
         'translations',
