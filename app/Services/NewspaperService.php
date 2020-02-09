@@ -133,6 +133,9 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
                 if ($newspaper->img) {
                     $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
                 }
+                if ($newspaper->file) {
+                    $data['file'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->file);
+                }
             }
             if (!$newspaper->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a newspaper');
