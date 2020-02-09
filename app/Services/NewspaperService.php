@@ -127,17 +127,21 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
 
         try {
             $newspaper = $this->repository->find($id);
-            if (array_get($data, 'img')) {
-                $attributes = $this->storeFiles($data);
-                $newspaper->fill($attributes);
-                if ($newspaper->img) {
-                    $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
-                }
-                if ($newspaper->file) {
-                    $data['file'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->file);
-                }
+            if (!$newspaper) {
+                throw new \Exception('Not found. ' . $id);
             }
-            if (!$newspaper->update($data)) {
+            $attributes = $this->storeFiles($data);
+            $newspaper->fill($attributes);
+
+            if ($newspaper->img) {
+                $newspaper->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
+            }
+
+            if ($newspaper->file) {
+                $newspaper->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->file);
+            }
+
+            if (!$newspaper->save()) {
                 throw new UnexpectedErrorException('An error occurred while updating a newspaper');
             }
             $this->logger->info('Newspaper was successfully updated.');
