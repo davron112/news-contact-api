@@ -38,6 +38,7 @@ class Newspaper extends Model
         'file',
         'img',
         'status',
+        'number',
         'published_at',
     ];
     /**
@@ -48,6 +49,7 @@ class Newspaper extends Model
         'file',
         'img',
         'status',
+        'number',
         'published_at',
         'title',
         'created_at',

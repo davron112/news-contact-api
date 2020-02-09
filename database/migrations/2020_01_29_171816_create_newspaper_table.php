@@ -18,7 +18,8 @@ class CreateNewspaperTable extends Migration
             $table->string('file');
             $table->string('img');
             $table->integer('status')->default(1);
-            $table->dateTime('published_at');
+            $table->dateTime('number')->nullable();
+            $table->date('published_at');
             $table->timestamps();
         });
     }
