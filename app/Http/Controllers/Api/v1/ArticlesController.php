@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Repositories\Contracts\ArticleRepository;
 use App\Services\Contracts\ArticleService;
 use Illuminate\Http\JsonResponse;
@@ -46,16 +47,39 @@ class ArticlesController extends Controller
     /**
      * Show Articles.
      *
-     * @return JsonResponse
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->all();
+        $limit = $request->has('limit') ? array_get($data, 'limit') : 20;
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
                 $this->repository
                     ->orderBy('created_at','DESC')
-                    ->all()
+                    ->paginate($limit)
+            )
+        );
+    }
+
+    /**
+     * Show latest Articles.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function latest(Request $request)
+    {
+        $data = $request->all();
+        $limit = $request->has('limit') ? array_get($data, 'limit') : 20;
+        return response(
+            $this->successResponse(
+                $this->modelNameMultiple,
+                $this->repository
+                    ->orderBy('created_at','DESC')
+                    ->paginate($limit)
             )
         );
     }

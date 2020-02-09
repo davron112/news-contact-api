@@ -140,6 +140,10 @@ Route::group([
                 'as'   => 'index',
                 'uses' => 'NewspaperController@index',
             ]);
+            Route::get('/latest', [
+                'as'   => 'latest',
+                'uses' => 'NewspaperController@latest',
+            ]);
             Route::get('/{id}', [
                 'as'   => 'show',
                 'uses' => 'NewspaperController@show',
