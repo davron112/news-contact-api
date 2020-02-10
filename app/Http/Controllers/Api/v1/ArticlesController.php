@@ -55,8 +55,12 @@ class ArticlesController extends Controller
     {
         $data = $request->all();
 
-        $limit = $request->has('limit') ? array_get($data, 'limit') : 9;
-        $slug = $request->has('category_slug') ? array_get($data, 'category_slug') : false;
+        $language = array_get($data, 'language');
+        if ($language) {
+            app()->setLocale($language);
+        }
+        $limit = array_get($data, 'limit');
+        $slug = array_get($data, 'category_slug');
         $category = Category::where('slug', $slug)->get()->first();
 
         $articles = $this->repository
