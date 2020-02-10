@@ -87,12 +87,18 @@ class ArticlesController extends Controller
      */
     public function adminIndex(Request $request)
     {
+        $articles = $this->repository
+            ->orderBy('created_at','DESC')
+            ->all();
+
+        $articles->map(function (Article $article) {
+            $article->addVisible(
+                'translations', 'category_id', 'content', 'status');
+        });
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $this->repository
-                    ->orderBy('created_at','DESC')
-                    ->all()
+                $articles
             )
         );
     }

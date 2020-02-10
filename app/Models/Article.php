@@ -42,18 +42,13 @@ class Article extends Model
         'id',
         'title',
         'description',
-        'content',
         'url',
         'category_name',
         'category_slug',
-        'translations',
-        'lang',
         'slug',
         'author',
         'published_at',
         'img',
-        'category_id',
-        'status',
     ];
 
     protected $dates = ['published_at'];
