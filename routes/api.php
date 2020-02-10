@@ -76,6 +76,24 @@ Route::group([
             ]);
         });
 
+        //admin
+        Route::group([
+            'middleware' => 'cors',
+            'prefix'    => 'admin',
+            'as'        => 'admin.',
+        ], function () {
+            //articles
+            Route::group([
+                'middleware' => 'cors',
+                'prefix'    => 'articles',
+                'as'        => 'articles.',
+            ], function () {
+                Route::get('/', [
+                    'as'   => 'index',
+                    'uses' => 'ArticlesController@adminIndex',
+                ]);
+            });
+        });
         //articles
         Route::group([
             'middleware' => 'cors',

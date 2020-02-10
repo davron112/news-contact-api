@@ -65,6 +65,24 @@ class ArticlesController extends Controller
     }
 
     /**
+     * Show Articles.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function adminIndex(Request $request)
+    {
+        return response(
+            $this->successResponse(
+                $this->modelNameMultiple,
+                $this->repository
+                    ->orderBy('created_at','DESC')
+                    ->all()
+            )
+        );
+    }
+
+    /**
      * Show latest Articles.
      *
      * @param Request $request
