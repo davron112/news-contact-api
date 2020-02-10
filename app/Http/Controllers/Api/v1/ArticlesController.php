@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\Category;
 use App\Repositories\Contracts\ArticleRepository;
 use App\Services\Contracts\ArticleService;
 use Illuminate\Http\JsonResponse;
@@ -53,13 +54,23 @@ class ArticlesController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
+
         $limit = $request->has('limit') ? array_get($data, 'limit') : 9;
+        $slug = $request->has('category_slug') ? array_get($data, 'category_slug') : false;
+        $category = Category::where('slug', $slug)->get()->first();
+
+        $articles = $this->repository
+            ->orderBy('created_at','DESC');
+
+        if ($category) {
+            $articles = $articles->where('category_id', $category->id);
+        }
+        $articles = $articles->paginate($limit);
+
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $this->repository
-                    ->orderBy('created_at','DESC')
-                    ->paginate($limit)
+                $articles
             )
         );
     }
