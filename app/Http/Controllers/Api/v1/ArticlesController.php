@@ -59,7 +59,7 @@ class ArticlesController extends Controller
         if ($language) {
             app()->setLocale($language);
         }
-        $limit = array_get($data, 'limit');
+        $limit = array_get($data, 'limit', 9);
         $slug = array_get($data, 'category_slug');
         $category = Category::where('slug', $slug)->get()->first();
 
