@@ -72,9 +72,9 @@ class ArticlesController extends Controller
         $articles = $articles->paginate($limit);
 
         if ($articles->currentPage() == 1) {
-            $articles->push(Article::first()->toArray());
+            $articles->push(Article::all()->random()->toArray());
         }
-        
+
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
