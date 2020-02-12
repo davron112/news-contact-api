@@ -182,11 +182,12 @@ class ArticlesController extends Controller
         }
 
         if (is_numeric($slug)) {
-            $model = $this->repository->find($slug);
+            $article = $this->repository->find($slug);
         } else {
-            $model = $this->repository->findWhere(['slug' => $slug])->first();
+            $article = $this->repository->findWhere(['slug' => $slug])->first();
         }
-        $data = $this->successResponse($this->modelName, $model);
+        $article->addVisible('translations', 'category_id', 'content', 'status');
+        $data = $this->successResponse($this->modelName, $article);
         return response()->json($data, $data['code']);
     }
 
