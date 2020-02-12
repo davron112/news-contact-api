@@ -160,10 +160,6 @@ Route::group([
                     'as'   => 'index',
                     'uses' => 'NewspaperController@index',
                 ]);
-                Route::get('/latest', [
-                    'as'   => 'latest',
-                    'uses' => 'NewspaperController@latest',
-                ]);
                 Route::get('/{id}', [
                     'as'   => 'show',
                     'uses' => 'NewspaperController@show',
@@ -308,6 +304,10 @@ Route::group([
                     'as'   => 'index',
                     'uses' => 'ArticlesController@index',
                 ]);
+                Route::get('/latest', [
+                    'as'   => 'index',
+                    'uses' => 'ArticlesController@latest',
+                ]);
                 Route::get('/', [
                     'as'   => 'index',
                     'uses' => 'ArticlesController@index',
@@ -346,10 +346,6 @@ Route::group([
                 Route::get('/', [
                     'as'   => 'index',
                     'uses' => 'NewspaperController@index',
-                ]);
-                Route::get('/latest', [
-                    'as'   => 'latest',
-                    'uses' => 'NewspaperController@latest',
                 ]);
                 Route::get('/{id}', [
                     'as'   => 'show',
@@ -492,6 +488,10 @@ Route::group([
                 'as'   => 'index',
                 'uses' => 'ArticlesController@index',
             ]);
+            Route::get('/latest', [
+                'as'   => 'index',
+                'uses' => 'ArticlesController@latest',
+            ]);
             Route::get('/', [
                 'as'   => 'index',
                 'uses' => 'ArticlesController@index',
@@ -530,10 +530,6 @@ Route::group([
             Route::get('/', [
                 'as'   => 'index',
                 'uses' => 'NewspaperController@index',
-            ]);
-            Route::get('/latest', [
-                'as'   => 'latest',
-                'uses' => 'NewspaperController@latest',
             ]);
             Route::get('/{id}', [
                 'as'   => 'show',

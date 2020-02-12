@@ -101,13 +101,19 @@ class ArticlesController extends Controller
     public function latest(Request $request)
     {
         $data = $request->all();
-        $limit = $request->has('limit') ? array_get($data, 'limit') : 9;
+        $language = array_get($data, 'language');
+        if ($language) {
+            app()->setLocale($language);
+        }
+        $limit = array_get($data, 'limit', 9);
+        $articles = $this->repository->orderBy('created_at','DESC');
+        $articles = $articles->paginate($limit);
+        $articles = $articles->toArray();
+
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $this->repository
-                    ->orderBy('created_at','DESC')
-                    ->paginate($limit)
+                $articles
             )
         );
     }

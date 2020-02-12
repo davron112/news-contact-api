@@ -70,26 +70,6 @@ class ArticlesController extends Controller
     }
 
     /**
-     * Show latest Articles.
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    public function latest(Request $request)
-    {
-        $data = $request->all();
-        $limit = $request->has('limit') ? array_get($data, 'limit') : 9;
-        return response(
-            $this->successResponse(
-                $this->modelNameMultiple,
-                $this->repository
-                    ->orderBy('created_at','DESC')
-                    ->paginate($limit)
-            )
-        );
-    }
-
-    /**
      * Create a new article
      *
      * @param Request $request
