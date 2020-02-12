@@ -53,44 +53,6 @@ class ArticlesController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $request->all();
-
-        $language = array_get($data, 'language');
-        if ($language) {
-            app()->setLocale($language);
-        }
-        $limit = array_get($data, 'limit', 9);
-        $slug = array_get($data, 'category_slug');
-        $category = Category::where('slug', $slug)->get()->first();
-
-        $articles = $this->repository
-            ->orderBy('created_at','DESC');
-
-        if ($category) {
-            $articles = $articles->where('category_id', $category->id);
-        }
-        $articles = $articles->paginate($limit);
-
-        if ($articles->currentPage() == 1) {
-            //$articles->push(Article::all()->random()->toArray());
-        }
-
-        return response(
-            $this->successResponse(
-                $this->modelNameMultiple,
-                $articles
-            )
-        );
-    }
-
-    /**
-     * Show Articles.
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    public function adminIndex(Request $request)
-    {
         $articles = $this->repository
             ->orderBy('created_at','DESC')
             ->all();

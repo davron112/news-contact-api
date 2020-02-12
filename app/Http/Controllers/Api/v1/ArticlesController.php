@@ -55,51 +55,35 @@ class ArticlesController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-
         $language = array_get($data, 'language');
         if ($language) {
             app()->setLocale($language);
         }
         $limit = array_get($data, 'limit', 9);
-        $slug = array_get($data, 'category_slug');
-        $category = Category::where('slug', $slug)->get()->first();
+        $categorySlug = array_get($data, 'category_slug');
+        $articles = $this->repository->orderBy('created_at','DESC');
+        $categoryId = false;
 
-        $articles = $this->repository
-            ->orderBy('created_at','DESC');
-
-        if ($category) {
-            $articles = $articles->where('category_id', $category->id);
+        if ($categorySlug) {
+            $category = Category::where('slug', $categorySlug)->get()->first();
+            if ($category) {
+                $categoryId = $category->id;
+                $articles = $articles->where('category_id', $category->id);
+            }
         }
+
         $articles = $articles->paginate($limit);
+        $currentPage = $articles->currentPage();
+        $articles = $articles->toArray();
 
-        if ($articles->currentPage() == 1) {
-            //$articles->push(Article::all()->random()->toArray());
+        if ($currentPage == 1) {
+            if ($categoryId) {
+                array_unshift($articles['data'], Article::where('category_id', $categoryId)->first()->toArray());
+            } else {
+                array_unshift($articles['data'], Article::all()->random()->toArray());
+            }
         }
 
-        return response(
-            $this->successResponse(
-                $this->modelNameMultiple,
-                $articles
-            )
-        );
-    }
-
-    /**
-     * Show Articles.
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    public function adminIndex(Request $request)
-    {
-        $articles = $this->repository
-            ->orderBy('created_at','DESC')
-            ->all();
-
-        $articles->map(function (Article $article) {
-            $article->addVisible(
-                'translations', 'category_id', 'content', 'status');
-        });
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
@@ -185,14 +169,16 @@ class ArticlesController extends Controller
     }
 
     /**
+     * Show item
+     *
+     * @param $locale
      * @param $slug
      * @return JsonResponse
      */
     public function show($locale, $slug)
     {
-        $language = Language::where('short_name', '=', $locale)->first();
-        if ($language) {
-            app()->setLocale($language);
+        if (Language::where('short_name', '=', $locale)->first()) {
+            app()->setLocale($locale);
         }
 
         if (is_numeric($slug)) {

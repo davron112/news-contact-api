@@ -46,9 +46,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Show Categories.
-     *
-     * @return JsonResponse
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function index()
     {

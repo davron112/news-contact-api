@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Language;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Services\Contracts\CategoryService;
 use Illuminate\Http\JsonResponse;
@@ -167,17 +168,23 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Show category
+     * Show item
      *
-     * @param Request $request
+     * @param $locale
+     * @param $slug
      * @return JsonResponse
      */
-    public function show(
-        Request $request
-    )
+    public function show($locale, $slug)
     {
-        $modelId = $request->route('id');
-        $model = $this->repository->find($modelId);
+        if (Language::where('short_name', '=', $locale)->first()) {
+            app()->setLocale($locale);
+        }
+        if (is_numeric($slug)) {
+            $model = $this->repository->find($slug);
+        } else {
+            $model = $this->repository->findWhere(['slug' => $slug])->first();
+        }
+
         $response = [];
         foreach ($model->toArray() as $key => $value) {
 

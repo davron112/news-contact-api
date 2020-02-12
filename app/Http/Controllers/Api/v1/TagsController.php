@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Language;
 use App\Repositories\Contracts\TagRepository;
 use App\Services\Contracts\TagService;
 use Illuminate\Http\JsonResponse;
@@ -44,9 +45,7 @@ class TagsController extends Controller
     }
 
     /**
-     * Show Tags.
-     *
-     * @return JsonResponse
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function index()
     {
@@ -115,17 +114,19 @@ class TagsController extends Controller
     }
 
     /**
-     * Show tag
+     * Show item
      *
-     * @param Request $request
+     * @param $locale
+     * @param $slug
      * @return JsonResponse
      */
-    public function show(
-        Request $request
-    )
+    public function show($locale, $id)
     {
-        $modelId = $request->route('id');
-        $model = $this->repository->find($modelId);
+        if (Language::where('short_name', '=', $locale)->first()) {
+            app()->setLocale($locale);
+        }
+
+        $model = $this->repository->find($id);
         $data = $this->successResponse($this->modelName, $model);
         return response()->json($data, $data['code']);
     }
