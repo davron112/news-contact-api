@@ -105,7 +105,7 @@ class ArticlesController extends Controller
         if ($language) {
             app()->setLocale($language);
         }
-        $limit = array_get($data, 'limit', 9);
+        $limit = array_get($data, 'limit', 14);
         $articles = $this->repository->orderBy('created_at','DESC');
         $articles = $articles->paginate($limit);
         $articles = $articles->toArray();
