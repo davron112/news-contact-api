@@ -49,6 +49,7 @@ class Category extends Model
         'id',
         'slug',
         'parent_id',
+        'name',
         'title',
         'lang',
         'status',

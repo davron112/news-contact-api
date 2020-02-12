@@ -152,11 +152,12 @@ class ArticlesController extends Controller
     public function show($slug)
     {
         if (is_numeric($slug)) {
-            $model = $this->repository->find($slug);
+            $article = $this->repository->find($slug);
         } else {
-            $model = $this->repository->findWhere(['slug' => $slug])->first();
+            $article = $this->repository->findWhere(['slug' => $slug])->first();
         }
-        $data = $this->successResponse($this->modelName, $model);
+        $article->addVisible('category_id', 'content', 'status', 'translations');
+        $data = $this->successResponse($this->modelName, $article);
         return response()->json($data, $data['code']);
     }
 

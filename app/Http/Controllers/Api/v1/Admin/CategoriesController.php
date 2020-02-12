@@ -175,23 +175,8 @@ class CategoriesController extends Controller
     )
     {
         $modelId = $request->route('id');
-        $model = $this->repository->find($modelId);
-        $response = [];
-        foreach ($model->toArray() as $key => $value) {
-
-                $langAll = [];
-                if ($key == 'translations') {
-                    foreach ($model->translationsAll as $translate) {
-                        $langAll[$translate->language->short_name] = [
-                            "name" => $translate->name
-                        ];
-                    }
-                } else {
-                    $response[$key] = $value;
-                }
-                $response['translations'] = $langAll;
-        }
-        $data = $this->successResponse($this->modelName, $response);
+        $category = $this->repository->find($modelId);
+        $data = $this->successResponse($this->modelName, $category);
         return response()->json($data, $data['code']);
     }
 
