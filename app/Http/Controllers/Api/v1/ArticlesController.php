@@ -186,7 +186,7 @@ class ArticlesController extends Controller
         } else {
             $article = $this->repository->findWhere(['slug' => $slug])->first();
         }
-        $article->addVisible('translations', 'category_id', 'content', 'status');
+        $article = $article->addVisible('translations', 'category_id', 'content', 'status');
         $data = $this->successResponse($this->modelName, $article);
         return response()->json($data, $data['code']);
     }
