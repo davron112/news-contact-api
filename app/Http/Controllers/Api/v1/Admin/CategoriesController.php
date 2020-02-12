@@ -1,135 +1,117 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\v1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Article;
 use App\Models\Category;
-use App\Models\Language;
-use App\Repositories\Contracts\ArticleRepository;
-use App\Services\Contracts\ArticleService;
+use App\Repositories\Contracts\CategoryRepository;
+use App\Services\Contracts\CategoryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Log\Logger;
+use Illuminate\Support\Arr;
 
-class ArticlesController extends Controller
+class CategoriesController extends Controller
 {
     /**
-     * @var ArticleRepository $repository
+     * @var CategoryRepository $repository
      */
     protected $repository;
 
     /**
      * @var string $modelName
      */
-    private $modelName = 'Article';
+    private $modelName = 'Category';
 
     /**
      * @var string $modelNameMultiple
      */
-    private $modelNameMultiple = 'Articles';
+    private $modelNameMultiple = 'Categories';
     /**
-     * @var ArticleService $service
+     * @var CategoryService $service
      */
     protected $service;
 
     /**
-     * ArticlesController constructor.
-     * @param ArticleRepository $repository
-     * @param ArticleService $service
+     * CategoryController constructor.
+     * @param CategoryRepository $repository
+     * @param CategoryService $service
      */
     public function __construct(
-        ArticleRepository $repository,
-        ArticleService $service
+        CategoryRepository $repository,
+        CategoryService $service
     ){
         $this->repository = $repository;
         $this->service = $service;
     }
 
     /**
-     * Show Articles.
+     * Show Categories.
      *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index()
     {
-        $data = $request->all();
-
-        $language = array_get($data, 'language');
-        if ($language) {
-            app()->setLocale($language);
-        }
-        $limit = array_get($data, 'limit', 9);
-        $slug = array_get($data, 'category_slug');
-        $category = Category::where('slug', $slug)->get()->first();
-
-        $articles = $this->repository
-            ->orderBy('created_at','DESC');
-
-        if ($category) {
-            $articles = $articles->where('category_id', $category->id);
-        }
-        $articles = $articles->paginate($limit);
-
-        if ($articles->currentPage() == 1) {
-            //$articles->push(Article::all()->random()->toArray());
-        }
-
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $articles
+                $this->repository->all()
             )
         );
     }
 
     /**
-     * Show Articles.
+     * Show Categories.
      *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function adminIndex(Request $request)
+    public function menu()
     {
-        $articles = $this->repository
-            ->orderBy('created_at','DESC')
-            ->all();
+        $categories = $this->repository->all();
 
-        $articles->map(function (Article $article) {
-            $article->addVisible(
-                'translations', 'category_id', 'content', 'status');
-        });
+        $response = [];
+        $res = [];
+        foreach ($categories as $key => $category) {
+                if (!$category->parent_id) {
+                    $response['name'] = $category->name;
+                    $response['slug'] = $category->slug;
+
+                    $children = [];
+                    $childrenAll = [];
+                    foreach ($category->children as $item) {
+                        $children['name'] = $item->name;
+                        $children['slug'] = $item->slug;
+                        $langChildAll = [];
+                        foreach ($item->translationsAll as $translateChild) {
+                            $langChildAll[$translateChild->language->short_name] = [
+                                "name" => $translateChild->name,
+                            ];
+                        }
+                        $children['translations'] = $langChildAll;
+                        $childrenAll[] = $children;
+                    }
+
+                    $response['children'] = $childrenAll;
+                    $langAll = [];
+                    foreach ($category->translationsAll as $translate) {
+                        $langAll[$translate->language->short_name] = [
+                            "name" => $translate->name
+                        ];
+                    }
+                    $response['translations'] = $langAll;
+                    $res [] = $response;
+                }
+        }
         return response(
             $this->successResponse(
-                $this->modelNameMultiple,
-                $articles
+                'menu',
+                $res
             )
         );
     }
 
     /**
-     * Show latest Articles.
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    public function latest(Request $request)
-    {
-        $data = $request->all();
-        $limit = $request->has('limit') ? array_get($data, 'limit') : 9;
-        return response(
-            $this->successResponse(
-                $this->modelNameMultiple,
-                $this->repository
-                    ->orderBy('created_at','DESC')
-                    ->paginate($limit)
-            )
-        );
-    }
-
-    /**
-     * Create a new article
+     * Create a new category
      *
      * @param Request $request
      * @param Logger $log
@@ -156,7 +138,7 @@ class ArticlesController extends Controller
     }
 
     /**
-     * Update a article
+     * Update a category
      *
      * @param Request $request
      * @param Logger $log
@@ -185,22 +167,33 @@ class ArticlesController extends Controller
     }
 
     /**
-     * @param $slug
+     * Show category
+     *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function show($locale, $slug)
+    public function show(
+        Request $request
+    )
     {
-        $language = Language::where('short_name', '=', $locale)->first();
-        if ($language) {
-            app()->setLocale($language);
-        }
+        $modelId = $request->route('id');
+        $model = $this->repository->find($modelId);
+        $response = [];
+        foreach ($model->toArray() as $key => $value) {
 
-        if (is_numeric($slug)) {
-            $model = $this->repository->find($slug);
-        } else {
-            $model = $this->repository->findWhere(['slug' => $slug])->first();
+                $langAll = [];
+                if ($key == 'translations') {
+                    foreach ($model->translationsAll as $translate) {
+                        $langAll[$translate->language->short_name] = [
+                            "name" => $translate->name
+                        ];
+                    }
+                } else {
+                    $response[$key] = $value;
+                }
+                $response['translations'] = $langAll;
         }
-        $data = $this->successResponse($this->modelName, $model);
+        $data = $this->successResponse($this->modelName, $response);
         return response()->json($data, $data['code']);
     }
 

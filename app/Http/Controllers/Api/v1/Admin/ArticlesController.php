@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\v1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
-use App\Models\Language;
 use App\Repositories\Contracts\ArticleRepository;
 use App\Services\Contracts\ArticleService;
 use Illuminate\Http\JsonResponse;
@@ -188,13 +187,8 @@ class ArticlesController extends Controller
      * @param $slug
      * @return JsonResponse
      */
-    public function show($locale, $slug)
+    public function show($slug)
     {
-        $language = Language::where('short_name', '=', $locale)->first();
-        if ($language) {
-            app()->setLocale($language);
-        }
-
         if (is_numeric($slug)) {
             $model = $this->repository->find($slug);
         } else {
