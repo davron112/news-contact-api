@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Exceptions\UnexpectedErrorException;
 use App\Helpers\FileHelper;
 use App\Models\Image;
-use App\Models\Language;
 use App\Repositories\Contracts\ImageRepository;
 use App\Services\Contracts\ImageService as ImageServiceInterface;
 use App\Services\Traits\ServiceTranslateTable;
@@ -52,14 +51,12 @@ class ImageService  extends BaseService implements ImageServiceInterface
      *
      * @param DatabaseManager $databaseManager
      * @param ImageRepository $repository
-     * @param Language $language
      * @param Logger $logger
      * @param FileHelper $fileHelper
      */
     public function __construct(
         DatabaseManager $databaseManager,
         ImageRepository $repository,
-        Language $language,
         Logger $logger,
         FileHelper $fileHelper
     ) {
@@ -67,7 +64,6 @@ class ImageService  extends BaseService implements ImageServiceInterface
         $this->databaseManager     = $databaseManager;
         $this->repository     = $repository;
         $this->logger     = $logger;
-        $this->language     = $language;
         $this->fileHelper     = $fileHelper;
     }
 
@@ -84,10 +80,10 @@ class ImageService  extends BaseService implements ImageServiceInterface
         $this->beginTransaction();
 
         try {
+            /** @var Image $image */
             $image = $this->repository->newInstance();
             $attributes = $this->storeImage($data);
             $image->fill($attributes);
-
             if ($image->file) {
                 $image->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $image->file);
             }

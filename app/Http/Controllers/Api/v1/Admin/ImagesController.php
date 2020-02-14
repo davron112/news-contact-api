@@ -88,7 +88,7 @@ class ImagesController extends Controller
             $data = $this->errorResponse($this->modelName, null, $message);
         }
 
-        return response()->json($data, $data['code']);
+        return response()->json($data);
     }
 
 }
