@@ -69,13 +69,14 @@ class ImagesController extends Controller
      * @param Request $request
      * @param Logger $log
      * @return JsonResponse
+     * @throws \Exception
      */
     public function upload(
         Request $request,
         Logger $log
     )
     {
-        $model = $this->service->store($request->all());
+        $model = $this->service->upload($request->all());
 
         if ($model){
             $message = $this->modelName .' was successfully stored.';
