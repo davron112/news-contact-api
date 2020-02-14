@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use App\Models\Traits\TableName;
-use App\Models\Traits\TranslationTable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Class Image
+ *
+ * @property string $file
+ * @package App\Models
+ */
 class Image extends Model
 {
     use TableName;
@@ -17,8 +21,7 @@ class Image extends Model
      * @var array
      */
     protected $fillable = [
-        'article_id',
-        'img',
+        'file',
     ];
 
     /**
@@ -26,5 +29,5 @@ class Image extends Model
      *
      * @var bool
      */
-    public $timestamps = true;
+    public $timestamps = false;
 }

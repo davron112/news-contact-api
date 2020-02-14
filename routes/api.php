@@ -57,6 +57,28 @@ Route::group([
             'as'        => 'admin.',
             'namespace'        => 'Admin',
         ], function () {
+            // images
+            Route::group([
+                'middleware' => 'cors',
+                'prefix'    => 'images',
+                'as'        => 'images.',
+            ], function () {
+                Route::post('/upload', [
+                    //'middleware' => 'auth:api',
+                    'as'   => 'upload',
+                    'uses' => 'ImagesController@upload',
+                ]);
+                Route::get('/list', [
+                    //'middleware' => 'auth:api',
+                    'as'   => 'list',
+                    'uses' => 'ImagesController@list',
+                ]);
+                Route::get('/', [
+                    //'middleware' => 'auth:api',
+                    'as'   => 'list',
+                    'uses' => 'ImagesController@list',
+                ]);
+            });
             // categories
             Route::group([
                 'middleware' => 'cors',

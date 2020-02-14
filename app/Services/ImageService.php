@@ -14,6 +14,8 @@ use Illuminate\Log\Logger;
 use Illuminate\Support\Arr;
 
 /**
+ * Class ImageService
+ * @package App\Services
  * @method bool destroy
  */
 class ImageService  extends BaseService implements ImageServiceInterface
@@ -76,13 +78,19 @@ class ImageService  extends BaseService implements ImageServiceInterface
      * @return Image
      * @throws \Exception
      */
-    public function store(array $data)
+    public function upload(array $data)
     {
 
         $this->beginTransaction();
 
         try {
-            $image = $this->repository->create($data);
+            $image = $this->repository->newInstance();
+            $attributes = $this->storeImage($data);
+            $image->fill($attributes);
+
+            if ($image->file) {
+                $image->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $image->file);
+            }
             if (!$image->save()) {
                 throw new UnexpectedErrorException('Image was not saved to the database.');
             }
@@ -99,81 +107,20 @@ class ImageService  extends BaseService implements ImageServiceInterface
     }
 
     /**
-     * Update block in the storage.
-     *
-     * @param  int  $id
-     * @param  array  $data
-     *
-     * @return Image
-     *
-     * @throws
+     * Upload file
      */
-    public function update($id, array $data)
-    {
-        $this->beginTransaction();
-
-        try {
-            $image = $this->repository->find($id);
-
-            if (!$image->update($data)) {
-                throw new UnexpectedErrorException('An error occurred while updating a image');
-            }
-            $this->logger->info('Image was successfully updated.');
-
-        } catch (UnexpectedErrorException $e) {
-            $this->rollback($e, 'An error occurred while updating an articles.', [
-                'id'   => $id,
-                'data' => $data,
-            ]);
-
-        }
-        $this->commit();
-        return $image;
-    }
-    /**
-     * Delete block in the storage.
-     *
-     * @param  int  $id
-     *
-     * @return array
-     *
-     * @throws
-     */
-    public function delete($id)
-    {
-
-        $this->beginTransaction();
-
-        try {
-            $bufferImage = [];
-            $image = $this->repository->find($id);
-
-            $bufferImage['id'] = $image->id;
-            $bufferImage['name'] = $image->name;
-
-            if (!$image->delete($id)) {
-                throw new UnexpectedErrorException(
-                    'Image and image translations was not deleted from database.'
-                );
-            }
-            $this->logger->info('Image image was successfully deleted from database.');
-        } catch (UnexpectedErrorException $e) {
-            $this->rollback($e, 'An error occurred while deleting an image.', [
-                'id'   => $id,
-            ]);
-        }
-        $this->commit();
-        return $bufferImage;
-    }
-
-
     protected function storeImage(array $data){
 
         $dataFields =[];
-        if(Arr::has($data,'img')) {
-            $uploadedFile  = $data['img'];
-            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'img\content');
+        if(Arr::has($data,'file')) {
+            $uploadedFile  = $data['file'];
+            $dataFields['file'] = $this->fileHelper->upload($uploadedFile,'public\img\content');
         }
         return $dataFields;
+    }
+
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement @method bool destroy
     }
 }

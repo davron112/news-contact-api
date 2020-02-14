@@ -18,22 +18,5 @@ interface ImageService extends BaseService
      * @param array $data
      * @return Image
      */
-    public function store(array $data);
-
-    /**
-     * Update block in the storage.
-     *
-     * @param  int  $id
-     * @param  array  $data
-     * @return Image
-     */
-    public function update($id, array $data);
-
-    /**
-     * Update block in the storage.
-     *
-     * @param  int  $id
-     * @return array
-     */
-    public function delete($id);
+    public function upload(array $data);
 }
