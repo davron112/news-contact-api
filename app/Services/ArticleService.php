@@ -83,13 +83,9 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
         $this->beginTransaction();
         try {
             $article = $this->repository->newInstance();
-            $tagData = array_get($data, 'tags');
-            if ($tagData) {
-                $tagIds = [];
-                foreach ($tagData as $tag) {
-                    $tagModel = Tag::createOrFirst($tag);
-                    $tagIds[] = $tagModel->id;
-                }
+            $tagIds = array_get($data, 'tags');
+            //dd($tagIds);
+            if ($tagIds) {
                 $article->tags()->sync($tagIds);
             }
             $attributes = $this->storeImage($data);

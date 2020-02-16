@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @property string $slug
  * @property string $name
+ * @property integer $ord
+ * @property array $translations
  * @package App\Models
  */
 class Category extends Model

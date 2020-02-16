@@ -49,6 +49,7 @@ class Article extends Model
         'author',
         'published_at',
         'img',
+        'is_main',
     ];
 
     protected $dates = ['published_at'];
@@ -72,6 +73,7 @@ class Article extends Model
         'img',
         'category_id',
         'status',
+        'is_main',
     ];
 
     /**
