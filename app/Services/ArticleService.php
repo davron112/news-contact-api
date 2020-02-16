@@ -94,6 +94,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             $article->category_id = array_get($data, 'category_id');
             $article->published_at = array_get($data, 'published_at');
             $article->author = array_get($data, 'author');
+            $article->is_main = json_decode(array_get($data, 'is_main'));
             $article->fill($attributes);
             if ($article->img) {
                 $article->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $article->img);
@@ -141,6 +142,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
         try {
             $article = $this->repository->find($id);
             Arr::set($data, 'slug', clean_slug(array_get($data, 'slug')));
+            Arr::set($data, 'is_main', json_decode(array_get($data, 'is_main')));
             if (array_get($data, 'img')) {
                 $attributes = $this->storeImage($data);
                 $article->fill($attributes);

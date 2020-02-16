@@ -79,6 +79,7 @@ class CategoryService  extends BaseService implements CategoryServiceInterface
             $category->slug = clean_slug(array_get($data, 'slug'));
             $category->status = array_get($data, 'status', 1);
             $category->parent_id = array_get($data, 'parent_id');
+            $category->ord = array_get($data, 'ord');
 
             if (!$category->save()) {
                 throw new UnexpectedErrorException('Category was not saved to the database.');
