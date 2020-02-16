@@ -43,12 +43,14 @@ class Category extends Model
     protected $fillable = [
         'slug',
         'parent_id',
+        'ord',
         'status',
     ];
     protected $visible = [
         'id',
         'slug',
         'parent_id',
+        'ord',
         'name',
         'title',
         'lang',
