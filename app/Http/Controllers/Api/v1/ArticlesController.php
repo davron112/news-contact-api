@@ -74,14 +74,25 @@ class ArticlesController extends Controller
 
         $articles = $articles->paginate($limit);
         $currentPage = $articles->currentPage();
-        $articles = $articles->toArray();
+
 
         if ($currentPage == 1) {
             if ($categoryId) {
-                array_unshift($articles['data'], Article::where('category_id', $categoryId)->first()->toArray());
+                $bannerArticle = $this->repository
+                    ->findWhere(['category_id' => $categoryId, 'is_main' => 1])
+                    ->first()->toArray();
+                $articles = $articles->toArray();
+
+                array_unshift($articles['data'], $bannerArticle);
             } else {
-                array_unshift($articles['data'], Article::all()->random()->toArray());
+                $bannerArticle = $this->repository
+                    ->findWhere(['is_main' => 1])
+                    ->first()->toArray();
+                $articles = $articles->toArray();
+                
+                array_unshift($articles['data'], $bannerArticle);
             }
+
         }
 
         return response(
