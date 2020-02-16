@@ -68,7 +68,7 @@ class CategoriesController extends Controller
      */
     public function menu()
     {
-        $categories = $this->repository->all();
+        $categories = $this->repository->orderBy('ord', 'ASC')->all();
 
         $response = [];
         $res = [];
