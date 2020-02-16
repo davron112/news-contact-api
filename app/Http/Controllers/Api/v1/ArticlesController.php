@@ -78,19 +78,22 @@ class ArticlesController extends Controller
 
         if ($currentPage == 1) {
             if ($categoryId) {
-                $bannerArticle = $this->repository
-                    ->findWhere(['category_id' => $categoryId, 'is_main' => 1])
-                    ->first()->toArray();
+                $bannerArticle = $this->repository->findWhere(['category_id' => $categoryId, 'is_main' => 1])->first()
+                    ? $this->repository->findWhere(['category_id' => $categoryId, 'is_main' => 1])->first()->toArray()
+                    : $this->repository->findWhere(['category_id' => $categoryId])->first()->toArray();
                 $articles = $articles->toArray();
-
-                array_unshift($articles['data'], $bannerArticle);
+                if ($bannerArticle) {
+                    array_unshift($articles['data'], $bannerArticle);
+                }
             } else {
-                $bannerArticle = $this->repository
-                    ->findWhere(['is_main' => 1])
-                    ->first()->toArray();
+                $bannerArticle = $this->repository->findWhere(['is_main' => 1])->first()
+                    ? $this->repository->findWhere(['is_main' => 1])->first()->toArray()
+                    : $this->repository->first()->toArray();
+
                 $articles = $articles->toArray();
-                
-                array_unshift($articles['data'], $bannerArticle);
+                if ($bannerArticle) {
+                    array_unshift($articles['data'], $bannerArticle);
+                }
             }
 
         }
