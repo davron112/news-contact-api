@@ -82,12 +82,9 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
     {
         $this->beginTransaction();
         try {
+            /** @var Article $article */
             $article = $this->repository->newInstance();
-            $tagIds = array_get($data, 'tags');
-            //dd($tagIds);
-            if ($tagIds) {
-                $article->tags()->sync($tagIds);
-            }
+
             $attributes = $this->storeImage($data);
             $article->slug = clean_slug(array_get($data, 'slug'));
             $article->status = array_get($data, 'status', 1);
@@ -101,6 +98,10 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             }
             if (!$article->save()) {
                 throw new UnexpectedErrorException('Article was not saved to the database.');
+            }
+            $tagIds = array_get($data, 'tags');
+            if ($tagIds) {
+                $article->tags()->sync($tagIds);
             }
             $this->logger->info('Article was successfully saved to the database.');
 
@@ -152,6 +153,10 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             }
             if (!$article->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a article');
+            }
+            $tagIds = array_get($data, 'tags');
+            if ($tagIds) {
+                $article->tags()->sync($tagIds);
             }
             $this->logger->info('Article was successfully updated.');
 
