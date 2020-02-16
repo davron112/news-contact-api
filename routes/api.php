@@ -330,6 +330,10 @@ Route::group([
                     'as'   => 'index',
                     'uses' => 'ArticlesController@latest',
                 ]);
+                Route::get('/search', [
+                    'as'   => 'index',
+                    'uses' => 'ArticlesController@search',
+                ]);
                 Route::get('/', [
                     'as'   => 'index',
                     'uses' => 'ArticlesController@index',
@@ -513,6 +517,10 @@ Route::group([
             Route::get('/latest', [
                 'as'   => 'index',
                 'uses' => 'ArticlesController@latest',
+            ]);
+            Route::get('/search', [
+                'as'   => 'index',
+                'uses' => 'ArticlesController@search',
             ]);
             Route::get('/', [
                 'as'   => 'index',

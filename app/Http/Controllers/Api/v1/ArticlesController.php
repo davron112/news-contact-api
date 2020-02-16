@@ -157,6 +157,38 @@ class ArticlesController extends Controller
     }
 
     /**
+     * Show latest Articles.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $data = $request->all();
+        $language = array_get($data, 'language');
+        $q = array_get($data, 'q');
+        if ($language) {
+            app()->setLocale($language);
+        }
+        $limit = array_get($data, 'limit', 14);
+        $articles = $this->repository
+            ->leftjoin('article_translations', 'articles.id', '=', 'article_translations.item_id')
+            ->where('article_translations.title', 'LIKE', "%{$q}%")
+            ->orWhere('article_translations.description', 'LIKE', "%{$q}%")
+            ->orWhere('article_translations.content', 'LIKE', "%{$q}%");
+
+        $articles = $articles->paginate($limit);
+        $articles = $articles->toArray();
+
+        return response(
+            $this->successResponse(
+                $this->modelNameMultiple,
+                $articles
+            )
+        );
+    }
+
+    /**
      * Create a new article
      *
      * @param Request $request
