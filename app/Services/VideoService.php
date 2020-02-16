@@ -99,7 +99,7 @@ class VideoService  extends BaseService implements VideoServiceInterface
             }
             $tagIds = array_get($data, 'tags');
             if ($tagIds) {
-                $video->tags()->sync($tagIds);
+                // $video->tags()->sync($tagIds);
             }
             $this->logger->info('Video was successfully saved to the database.');
 
@@ -144,7 +144,7 @@ class VideoService  extends BaseService implements VideoServiceInterface
 
             $tagIds = array_get($data, 'tags');
             if ($tagIds) {
-                $video->tags()->sync($tagIds);
+                // $video->tags()->sync($tagIds);
             }
             $this->logger->info('Video was successfully updated.');
 
