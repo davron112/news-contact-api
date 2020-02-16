@@ -59,7 +59,7 @@ class ArticlesController extends Controller
         if ($language) {
             app()->setLocale($language);
         }
-        $limit = array_get($data, 'limit', 9);
+
         $categorySlug = array_get($data, 'category_slug');
         $articles = $this->repository->orderBy('created_at','DESC');
         $categoryId = false;
@@ -68,11 +68,15 @@ class ArticlesController extends Controller
             $category = Category::where('slug', $categorySlug)->get()->first();
             if ($category) {
                 $categoryId = $category->id;
-                $articles = $articles->where('category_id', $category->id);
+                $articles = $articles->where('category_id', $categoryId);
             }
         }
+        $limit = array_get($data, 'limit', 9);
+
+        $limit = $articles->count() < $limit ? $articles->count() : $limit;
 
         $articles = $articles->paginate($limit);
+
         $currentPage = $articles->currentPage();
 
 
@@ -82,6 +86,16 @@ class ArticlesController extends Controller
                     ? $this->repository->findWhere(['category_id' => $categoryId, 'is_main' => 1])->first()->toArray()
                     : $this->repository->findWhere(['category_id' => $categoryId])->first()->toArray();
                 $articles = $articles->toArray();
+                $dataFiltered = [];
+                foreach ($articles['data'] as $key => $value) {
+
+                    if ($value['id'] == array_get($bannerArticle, 'id')) {
+                        continue;
+                    } else {
+                        $dataFiltered[$key] = $value;
+                    }
+                }
+                $articles['data'] = $dataFiltered;
                 if ($bannerArticle) {
                     array_unshift($articles['data'], $bannerArticle);
                 }
@@ -91,10 +105,20 @@ class ArticlesController extends Controller
                     : $this->repository->first()->toArray();
 
                 $articles = $articles->toArray();
+                $dataFiltered = [];
+                foreach ($articles['data'] as $key => $value) {
+                    if ($value['id'] == array_get($bannerArticle, 'id')) {
+                        continue;
+                    } else {
+                        $dataFiltered[$key] = $value;
+                    }
+                }
+                $articles['data'] = $dataFiltered;
                 if ($bannerArticle) {
                     array_unshift($articles['data'], $bannerArticle);
                 }
             }
+
 
         }
 

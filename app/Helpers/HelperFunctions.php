@@ -44,3 +44,16 @@
             return \Illuminate\Support\Arr::get($array, $key, $default);
         }
     }
+
+    if (! function_exists('array_set')) {
+        /**
+         * @param $array
+         * @param $key
+         * @param null $default
+         * @return mixed
+         */
+        function array_set($array, $key, $value)
+        {
+            return \Illuminate\Support\Arr::set($array, $key, $value);
+        }
+    }
