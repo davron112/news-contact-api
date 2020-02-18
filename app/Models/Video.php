@@ -47,6 +47,7 @@ class Video extends Model
         'description',
         'status',
         'published_at',
+        'tags',
     ];
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\Language;
 use App\Repositories\Contracts\VideoRepository;
@@ -58,7 +59,7 @@ class VideoController extends Controller
             app()->setLocale($language);
         }
         $limit = array_get($data, 'limit', 4);
-        $videos = $this->repository->orderBy('created_at','DESC');
+        $videos = $this->repository->with('tags')->orderBy('created_at','DESC');
         $videos = $videos->paginate($limit);
         $videos = $videos->toArray();
 
@@ -83,7 +84,7 @@ class VideoController extends Controller
         if (Language::where('short_name', '=', $locale)->first()) {
             app()->setLocale($locale);
         }
-        $model = $this->repository->find($id);
+        $model = $this->repository->with('tags')->find($id);
         $data = $this->successResponse($this->modelName, $model);
         return response()->json($data, $data['code']);
     }
