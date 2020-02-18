@@ -191,8 +191,8 @@ Route::group([
             //video
             Route::group([
                 'middleware' => 'cors',
-                'prefix'    => 'video',
-                'as'        => 'video.',
+                'prefix'    => 'videos',
+                'as'        => 'videos.',
             ], function () {
                 Route::post('/delete', [
                     //'middleware' => 'auth:api',
@@ -219,7 +219,7 @@ Route::group([
                 ]);
                 Route::get('/{id}', [
                     'as'   => 'show',
-                    'uses' => 'NewspaperController@show',
+                    'uses' => 'VideoController@show',
                 ]);
             });
 
@@ -573,21 +573,6 @@ Route::group([
             'prefix'    => 'videos',
             'as'        => 'videos.',
         ], function () {
-            Route::post('/delete', [
-                //'middleware' => 'auth:api',
-                'as'   => 'delete',
-                'uses' => 'VideoController@delete',
-            ]);
-            Route::post('/create', [
-                //'middleware' => 'auth:api',
-                'as'   => 'create',
-                'uses' => 'VideoController@store',
-            ]);
-            Route::post('/update', [
-                //'middleware' => 'auth:api',
-                'as'   => 'update',
-                'uses' => 'VideoController@update',
-            ]);
             Route::get('/index', [
                 'as'   => 'index',
                 'uses' => 'VideoController@index',

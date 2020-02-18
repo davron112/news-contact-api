@@ -15,7 +15,7 @@ class Video extends Model
 
     use TableName, TranslationTable;
 
-    protected $appends = ['title', 'description'];
+    protected $appends = ['title', 'description', 'translations'];
 
     /**
      * Related model that stores translations for the model.

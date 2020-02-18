@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Api\v1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Language;
+use App\Models\Video;
 use App\Repositories\Contracts\VideoRepository;
 use App\Services\Contracts\VideoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Log\Logger;
 
-class VideosController extends Controller
+class VideoController extends Controller
 {
     /**
      * @var VideoRepository $repository
@@ -24,7 +26,7 @@ class VideosController extends Controller
     /**
      * @var string $modelNameMultiple
      */
-    private $modelNameMultiple = 'Video';
+    private $modelNameMultiple = 'Videos';
     /**
      * @var VideoService $service
      */
@@ -38,22 +40,25 @@ class VideosController extends Controller
     public function __construct(
         VideoRepository $repository,
         VideoService $service
-    ){
+    )
+    {
         $this->repository = $repository;
         $this->service = $service;
     }
 
     /**
-     * Show Video.
-     *
-     * @return JsonResponse
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function index()
     {
+        $videos = $this->repository->all();
+        $videos->map(function (Video $video) {
+            $video->addVisible('translations');
+        });
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $this->repository->all()
+                $videos
             )
         );
     }
@@ -72,12 +77,12 @@ class VideosController extends Controller
     {
         $model = $this->service->store($request->all());
 
-        if ($model){
-            $message = $this->modelName .' was successfully stored.';
+        if ($model) {
+            $message = $this->modelName . ' was successfully stored.';
             $log->info($message, ['id' => $model->id]);
             $data = $this->successResponse($this->modelName, $model, $message);
         } else {
-            $message = $this->modelName.' was not stored.';
+            $message = $this->modelName . ' was not stored.';
             $log->error($message);
             $data = $this->errorResponse($this->modelName, null, $message);
         }
@@ -101,12 +106,12 @@ class VideosController extends Controller
         $id = $request->input('id');
         $model = $this->service->update($id, $request->all());
 
-        if ($model){
-            $message = $this->modelName .' was successfully updated.';
+        if ($model) {
+            $message = $this->modelName . ' was successfully updated.';
             $log->info($message, ['id' => $id]);
             $data = $this->successResponse($this->modelName, $model, $message);
         } else {
-            $message = $this->modelName.' was not updated.';
+            $message = $this->modelName . ' was not updated.';
             $log->error($message);
             $data = $this->errorResponse($this->modelName, null, $message);
         }
@@ -115,18 +120,20 @@ class VideosController extends Controller
     }
 
     /**
-     * Show newspaper
+     * Get one video
      *
-     * @param Request $request
+     * @param $locale
+     * @param $id
      * @return JsonResponse
      */
-    public function show(
-        Request $request
-    )
+    public function show($locale, $id)
     {
-        $modelId = $request->route('id');
-        $model = $this->repository->find($modelId);
-        $data = $this->successResponse($this->modelName, $model);
+        if (Language::where('short_name', '=', $locale)->first()) {
+            app()->setLocale($locale);
+        }
+        $video = $this->repository->find($id);
+        $video->addVisible('translations');
+        $data = $this->successResponse($this->modelName, $video);
         return response()->json($data, $data['code']);
     }
 
@@ -146,7 +153,7 @@ class VideosController extends Controller
         $id = $request->input('id');
         $model = $this->service->delete($id);
 
-        if ($model){
+        if ($model) {
             $message = $this->modelName . ' was successfully deleted.';
             $log->info($message, ['id' => $id]);
             $data = $this->successResponse($this->modelName, $model, $message);
