@@ -26,6 +26,7 @@ class ArticlesController extends Controller
      * @var string $modelNameMultiple
      */
     private $modelNameMultiple = 'Articles';
+
     /**
      * @var ArticleService $service
      */

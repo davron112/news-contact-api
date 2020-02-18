@@ -59,11 +59,19 @@ class Tag extends Model
     }
 
     /**
-     * Get all of the posts that are assigned this tag.
+     * Get all of the articles that are assigned this tag.
      */
     public function articles()
     {
         return $this->morphedByMany(Article::class, 'taggable');
+    }
+    
+    /**
+     * Get all of the newspaper that are assigned this tag.
+     */
+    public function newspapers()
+    {
+        return $this->morphedByMany(Newspaper::class, 'taggable');
     }
 
     /**

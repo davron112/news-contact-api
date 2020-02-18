@@ -76,6 +76,14 @@ class Newspaper extends Model
     }
 
     /**
+     * Get all of the tags for the post.
+     */
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    /**
      * Get translated title.
      *
      * @return string
