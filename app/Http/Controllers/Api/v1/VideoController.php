@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Request;
 use App\Models\Language;
 use App\Repositories\Contracts\VideoRepository;
 use App\Services\Contracts\VideoService;
@@ -49,9 +50,9 @@ class VideoController extends Controller
     /**
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->repository->all();
+        $data = $request->all();
         $language = array_get($data, 'language');
         if ($language) {
             app()->setLocale($language);
