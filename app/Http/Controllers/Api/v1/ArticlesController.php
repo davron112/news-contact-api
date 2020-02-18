@@ -71,7 +71,7 @@ class ArticlesController extends Controller
                 $articles = $articles->where('category_id', $categoryId);
             }
         }
-        
+
         if (!$articles->count()) {
             return response(
                 $this->successResponse(

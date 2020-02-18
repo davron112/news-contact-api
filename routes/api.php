@@ -259,6 +259,8 @@ Route::group([
             });
         });
 
+        // end admin
+
 
         // lang
         Route::prefix('{locale}')->group(function () {
@@ -268,21 +270,6 @@ Route::group([
                 'prefix'    => 'categories',
                 'as'        => 'categories.',
             ], function () {
-                Route::post('/delete', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'delete',
-                    'uses' => 'CategoriesController@delete',
-                ]);
-                Route::post('/create', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'create',
-                    'uses' => 'CategoriesController@store',
-                ]);
-                Route::post('/update', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'update',
-                    'uses' => 'CategoriesController@update',
-                ]);
                 Route::get('/index', [
                     'as'   => 'index',
                     'uses' => 'CategoriesController@index',
@@ -307,21 +294,6 @@ Route::group([
                 'prefix'    => 'articles',
                 'as'        => 'articles.',
             ], function () {
-                Route::post('/delete', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'delete',
-                    'uses' => 'ArticlesController@delete',
-                ]);
-                Route::post('/create', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'create',
-                    'uses' => 'ArticlesController@store',
-                ]);
-                Route::post('/update', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'update',
-                    'uses' => 'ArticlesController@update',
-                ]);
                 Route::get('/index', [
                     'as'   => 'index',
                     'uses' => 'ArticlesController@index',
@@ -350,21 +322,6 @@ Route::group([
                 'prefix'    => 'newspaper',
                 'as'        => 'newspaper.',
             ], function () {
-                Route::post('/delete', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'delete',
-                    'uses' => 'NewspaperController@delete',
-                ]);
-                Route::post('/create', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'create',
-                    'uses' => 'NewspaperController@store',
-                ]);
-                Route::post('/update', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'update',
-                    'uses' => 'NewspaperController@update',
-                ]);
                 Route::get('/index', [
                     'as'   => 'index',
                     'uses' => 'NewspaperController@index',
@@ -379,62 +336,12 @@ Route::group([
                 ]);
             });
 
-            //video
-            Route::group([
-                'middleware' => 'cors',
-                'prefix'    => 'videos',
-                'as'        => 'videos.',
-            ], function () {
-                Route::post('/delete', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'delete',
-                    'uses' => 'VideoController@delete',
-                ]);
-                Route::post('/create', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'create',
-                    'uses' => 'VideoController@store',
-                ]);
-                Route::post('/update', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'update',
-                    'uses' => 'VideoController@update',
-                ]);
-                Route::get('/index', [
-                    'as'   => 'index',
-                    'uses' => 'VideoController@index',
-                ]);
-                Route::get('/', [
-                    'as'   => 'index',
-                    'uses' => 'VideoController@index',
-                ]);
-                Route::get('/{id}', [
-                    'as'   => 'show',
-                    'uses' => 'VideoController@show',
-                ]);
-            });
-
             //tags
             Route::group([
                 'middleware' => 'cors',
                 'prefix'    => 'tags',
                 'as'        => 'tags.',
             ], function () {
-                Route::post('/delete', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'delete',
-                    'uses' => 'TagsController@delete',
-                ]);
-                Route::post('/create', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'create',
-                    'uses' => 'TagsController@store',
-                ]);
-                Route::post('/update', [
-                    //'middleware' => 'auth:api',
-                    'as'   => 'update',
-                    'uses' => 'TagsController@update',
-                ]);
                 Route::get('/index', [
                     'as'   => 'index',
                     'uses' => 'TagsController@index',
@@ -448,6 +355,26 @@ Route::group([
                     'uses' => 'TagsController@show',
                 ]);
             });
+
+            //video with lang
+            Route::group([
+                'middleware' => 'cors',
+                'prefix'    => 'videos',
+                'as'        => 'videos.',
+            ], function () {
+                Route::get('/index', [
+                    'as'   => 'index',
+                    'uses' => 'VideoController@index',
+                ]);
+                Route::get('/', [
+                    'as'   => 'index',
+                    'uses' => 'VideoController@index',
+                ]);
+                Route::get('/{id}', [
+                    'as'   => 'show',
+                    'uses' => 'VideoController@show',
+                ]);
+            });
         });
 
         // categories
@@ -456,21 +383,6 @@ Route::group([
             'prefix'    => 'categories',
             'as'        => 'categories.',
         ], function () {
-            Route::post('/delete', [
-                //'middleware' => 'auth:api',
-                'as'   => 'delete',
-                'uses' => 'CategoriesController@delete',
-            ]);
-            Route::post('/create', [
-                //'middleware' => 'auth:api',
-                'as'   => 'create',
-                'uses' => 'CategoriesController@store',
-            ]);
-            Route::post('/update', [
-                //'middleware' => 'auth:api',
-                'as'   => 'update',
-                'uses' => 'CategoriesController@update',
-            ]);
             Route::get('/index', [
                 'as'   => 'index',
                 'uses' => 'CategoriesController@index',
@@ -495,21 +407,6 @@ Route::group([
             'prefix'    => 'articles',
             'as'        => 'articles.',
         ], function () {
-            Route::post('/delete', [
-                //'middleware' => 'auth:api',
-                'as'   => 'delete',
-                'uses' => 'ArticlesController@delete',
-            ]);
-            Route::post('/create', [
-                //'middleware' => 'auth:api',
-                'as'   => 'create',
-                'uses' => 'ArticlesController@store',
-            ]);
-            Route::post('/update', [
-                //'middleware' => 'auth:api',
-                'as'   => 'update',
-                'uses' => 'ArticlesController@update',
-            ]);
             Route::get('/index', [
                 'as'   => 'index',
                 'uses' => 'ArticlesController@index',
@@ -538,21 +435,6 @@ Route::group([
             'prefix'    => 'newspaper',
             'as'        => 'newspaper.',
         ], function () {
-            Route::post('/delete', [
-                //'middleware' => 'auth:api',
-                'as'   => 'delete',
-                'uses' => 'NewspaperController@delete',
-            ]);
-            Route::post('/create', [
-                //'middleware' => 'auth:api',
-                'as'   => 'create',
-                'uses' => 'NewspaperController@store',
-            ]);
-            Route::post('/update', [
-                //'middleware' => 'auth:api',
-                'as'   => 'update',
-                'uses' => 'NewspaperController@update',
-            ]);
             Route::get('/index', [
                 'as'   => 'index',
                 'uses' => 'NewspaperController@index',
@@ -567,7 +449,7 @@ Route::group([
             ]);
         });
 
-        //video
+        //video without lang
         Route::group([
             'middleware' => 'cors',
             'prefix'    => 'videos',
@@ -593,21 +475,6 @@ Route::group([
             'prefix'    => 'tags',
             'as'        => 'tags.',
         ], function () {
-            Route::post('/delete', [
-                //'middleware' => 'auth:api',
-                'as'   => 'delete',
-                'uses' => 'TagsController@delete',
-            ]);
-            Route::post('/create', [
-                //'middleware' => 'auth:api',
-                'as'   => 'create',
-                'uses' => 'TagsController@store',
-            ]);
-            Route::post('/update', [
-                //'middleware' => 'auth:api',
-                'as'   => 'update',
-                'uses' => 'TagsController@update',
-            ]);
             Route::get('/index', [
                 'as'   => 'index',
                 'uses' => 'TagsController@index',
