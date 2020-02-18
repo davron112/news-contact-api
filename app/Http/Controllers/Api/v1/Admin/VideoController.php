@@ -126,11 +126,8 @@ class VideoController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function show($locale, $id)
+    public function show($id)
     {
-        if (Language::where('short_name', '=', $locale)->first()) {
-            app()->setLocale($locale);
-        }
         $video = $this->repository->find($id);
         $video->addVisible('translations');
         $data = $this->successResponse($this->modelName, $video);
