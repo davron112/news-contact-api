@@ -51,13 +51,24 @@ class VideoController extends Controller
      */
     public function index()
     {
+        $data = $this->repository->all();
+        $language = array_get($data, 'language');
+        if ($language) {
+            app()->setLocale($language);
+        }
+        $limit = array_get($data, 'limit', 4);
+        $videos = $this->repository->orderBy('created_at','DESC');
+        $videos = $videos->paginate($limit);
+        $videos = $videos->toArray();
+
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $this->repository->all()
+                $videos
             )
         );
     }
+
 
     /**
      * Get one video
