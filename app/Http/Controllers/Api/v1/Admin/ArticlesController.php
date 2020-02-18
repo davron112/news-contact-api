@@ -54,6 +54,7 @@ class ArticlesController extends Controller
     public function index(Request $request)
     {
         $articles = $this->repository
+            ->with('tags')
             ->orderBy('created_at','DESC')
             ->all();
 
@@ -132,9 +133,9 @@ class ArticlesController extends Controller
     public function show($slug)
     {
         if (is_numeric($slug)) {
-            $article = $this->repository->find($slug);
+            $article = $this->repository->with('tags')->find($slug);
         } else {
-            $article = $this->repository->findWhere(['slug' => $slug])->first();
+            $article = $this->repository->with('tags')->findWhere(['slug' => $slug])->first();
         }
         $article->addVisible('category_id', 'content', 'status', 'translations');
         $data = $this->successResponse($this->modelName, $article);

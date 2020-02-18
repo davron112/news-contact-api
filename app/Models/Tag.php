@@ -65,7 +65,7 @@ class Tag extends Model
     {
         return $this->morphedByMany(Article::class, 'taggable');
     }
-    
+
     /**
      * Get all of the newspaper that are assigned this tag.
      */

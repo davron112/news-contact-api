@@ -51,7 +51,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $videos = $this->repository->all();
+        $videos = $this->repository->with('tags')->all();
         $videos->map(function (Video $video) {
             $video->addVisible('translations');
         });
@@ -128,7 +128,7 @@ class VideoController extends Controller
      */
     public function show($id)
     {
-        $video = $this->repository->find($id);
+        $video = $this->repository->with('tags')->find($id);
         $video->addVisible('translations');
         $data = $this->successResponse($this->modelName, $video);
         return response()->json($data, $data['code']);
