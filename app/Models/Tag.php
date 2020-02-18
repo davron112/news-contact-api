@@ -34,6 +34,12 @@ class Tag extends Model
         'status',
     ];
 
+    protected $visible = [
+        'slug',
+        'status',
+        'name',
+    ];
+
     /**
      * Indicates if the model should be timestamped.
      *

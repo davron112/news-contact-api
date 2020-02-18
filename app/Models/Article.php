@@ -50,6 +50,7 @@ class Article extends Model
         'published_at',
         'img',
         'is_main',
+        'tags',
     ];
 
     protected $dates = ['published_at'];
