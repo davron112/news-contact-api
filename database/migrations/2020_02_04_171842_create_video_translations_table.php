@@ -15,7 +15,8 @@ class CreateVideoTranslationsTable extends Migration
     {
         Schema::create('video_translations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
             $table->bigInteger('item_id')->unsigned();
             $table->foreign('item_id')->references('id')->on('videos')->onDelete('cascade');
             $table->bigInteger('language_id')->unsigned();

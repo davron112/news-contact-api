@@ -382,8 +382,8 @@ Route::group([
             //video
             Route::group([
                 'middleware' => 'cors',
-                'prefix'    => 'video',
-                'as'        => 'video.',
+                'prefix'    => 'videos',
+                'as'        => 'videos.',
             ], function () {
                 Route::post('/delete', [
                     //'middleware' => 'auth:api',
@@ -410,7 +410,7 @@ Route::group([
                 ]);
                 Route::get('/{id}', [
                     'as'   => 'show',
-                    'uses' => 'NewspaperController@show',
+                    'uses' => 'VideoController@show',
                 ]);
             });
 
@@ -570,8 +570,8 @@ Route::group([
         //video
         Route::group([
             'middleware' => 'cors',
-            'prefix'    => 'video',
-            'as'        => 'video.',
+            'prefix'    => 'videos',
+            'as'        => 'videos.',
         ], function () {
             Route::post('/delete', [
                 //'middleware' => 'auth:api',
@@ -598,7 +598,7 @@ Route::group([
             ]);
             Route::get('/{id}', [
                 'as'   => 'show',
-                'uses' => 'NewspaperController@show',
+                'uses' => 'VideoController@show',
             ]);
         });
 

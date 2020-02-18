@@ -60,62 +60,6 @@ class NewspaperController extends Controller
     }
 
     /**
-     * Create a new newspaper
-     *
-     * @param Request $request
-     * @param Logger $log
-     * @return JsonResponse
-     */
-    public function store(
-        Request $request,
-        Logger $log
-    )
-    {
-        $model = $this->service->store($request->all());
-
-        if ($model){
-            $message = $this->modelName .' was successfully stored.';
-            $log->info($message, ['id' => $model->id]);
-            $data = $this->successResponse($this->modelName, $model, $message);
-        } else {
-            $message = $this->modelName.' was not stored.';
-            $log->error($message);
-            $data = $this->errorResponse($this->modelName, null, $message);
-        }
-
-        return response()->json($data, $data['code']);
-    }
-
-    /**
-     * Update a newspaper
-     *
-     * @param Request $request
-     * @param Logger $log
-     *
-     * @return JsonResponse
-     */
-    public function update(
-        Request $request,
-        Logger $log
-    )
-    {
-        $id = $request->input('id');
-        $model = $this->service->update($id, $request->all());
-
-        if ($model){
-            $message = $this->modelName .' was successfully updated.';
-            $log->info($message, ['id' => $id]);
-            $data = $this->successResponse($this->modelName, $model, $message);
-        } else {
-            $message = $this->modelName.' was not updated.';
-            $log->error($message);
-            $data = $this->errorResponse($this->modelName, null, $message);
-        }
-
-        return response()->json($data, $data['code']);
-    }
-
-    /**
      * Show item
      *
      * @param $locale
@@ -132,34 +76,4 @@ class NewspaperController extends Controller
         $data = $this->successResponse($this->modelName, $model);
         return response()->json($data, $data['code']);
     }
-
-    /**
-     * Delete item
-     *
-     * @param Request $request
-     * @param Logger $log
-     *
-     * @return JsonResponse
-     */
-    public function delete(
-        Request $request,
-        Logger $log
-    )
-    {
-        $id = $request->input('id');
-        $model = $this->service->delete($id);
-
-        if ($model){
-            $message = $this->modelName . ' was successfully deleted.';
-            $log->info($message, ['id' => $id]);
-            $data = $this->successResponse($this->modelName, $model, $message);
-        } else {
-            $message = $this->modelName . ' was not deleted.';
-            $log->error($message);
-            $data = $this->errorResponse($this->modelName, null, $message);
-        }
-
-        return response()->json($data, $data['code']);
-    }
-
 }

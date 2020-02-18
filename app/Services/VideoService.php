@@ -83,15 +83,8 @@ class VideoService  extends BaseService implements VideoServiceInterface
 
         try {
             $video = $this->repository->newInstance();
-            $attributes = $this->storeFiles($data);
             $video->status = array_get($data, 'status', 1);
-            $video->fill($attributes);
-            if ($video->img) {
-                $video->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->img);
-            }
-            if ($video->file) {
-                $video->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->file);
-            }
+            $video->link = array_get($data, 'link');
             $video->published_at     = array_get($data, 'published_at', Carbon::now());
 
             if (!$video->save()) {
@@ -99,7 +92,7 @@ class VideoService  extends BaseService implements VideoServiceInterface
             }
             $tagIds = array_get($data, 'tags');
             if ($tagIds) {
-                // $video->tags()->sync($tagIds);
+                $video->tags()->sync($tagIds);
             }
             $this->logger->info('Video was successfully saved to the database.');
 
@@ -131,20 +124,14 @@ class VideoService  extends BaseService implements VideoServiceInterface
 
         try {
             $video = $this->repository->find($id);
-            if (array_get($data, 'img')) {
-                $attributes = $this->storeFiles($data);
-                $video->fill($attributes);
-                if ($video->img) {
-                    $data['img'] = config('filesystems.disks.public.url') . preg_replace('#public#', '', $video->img);
-                }
-            }
+
             if (!$video->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a video');
             }
 
             $tagIds = array_get($data, 'tags');
             if ($tagIds) {
-                // $video->tags()->sync($tagIds);
+                $video->tags()->sync($tagIds);
             }
             $this->logger->info('Video was successfully updated.');
 
@@ -198,25 +185,6 @@ class VideoService  extends BaseService implements VideoServiceInterface
     }
 
     /**
-     * @param array $data
-     * @return array
-     */
-    protected function storeFiles(array $data){
-
-        $dataFields =[];
-        if(Arr::has($data,'img')) {
-            $uploadedFile  = $data['img'];
-            $dataFields['img'] = $this->fileHelper->upload($uploadedFile,'public\img\content');
-        }
-
-        if(Arr::has($data,'file')) {
-            $uploadedFile  = $data['file'];
-            $dataFields['file'] = $this->fileHelper->upload($uploadedFile,'public\pdf\content');
-        }
-        return $dataFields;
-    }
-
-    /**
      * Closure that handles translation for storing in the database.
      *
      * @return \Closure
@@ -225,7 +193,8 @@ class VideoService  extends BaseService implements VideoServiceInterface
     {
         return function ($translation) {
             return [
-                'title' => Arr::get($translation, 'name'),
+                'title' => Arr::get($translation, 'title'),
+                'description' => Arr::get($translation, 'description'),
             ];
         };
     }

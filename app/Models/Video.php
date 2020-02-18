@@ -15,14 +15,14 @@ class Video extends Model
 
     use TableName, TranslationTable;
 
-    protected $appends = ['title'];
+    protected $appends = ['title', 'description'];
 
     /**
      * Related model that stores translations for the model.
      *
      * @var string
      */
-    protected $translatableModel = NewspaperTranslations::class;
+    protected $translatableModel = VideoTranslations::class;
 
     /**
      * The attributes that are mass assignable.
@@ -30,8 +30,21 @@ class Video extends Model
      * @var array
      */
     protected $fillable = [
-        'file',
-        'img',
+        'link',
+        'status',
+        'published_at',
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $visible = [
+        'id',
+        'link',
+        'title',
+        'description',
         'status',
         'published_at',
     ];
@@ -51,7 +64,7 @@ class Video extends Model
      */
     public function languages()
     {
-        return $this->belongsToMany(Language::class, NewspaperTranslations::getTableName(), 'item_id');
+        return $this->belongsToMany(Language::class, VideoTranslations::getTableName(), 'item_id');
     }
 
     /**
@@ -70,6 +83,19 @@ class Video extends Model
     public function getTitleAttribute()
     {
         if ($trans = $this->translate('title')) {
+            return $trans;
+        }
+        return 'No translate';
+    }
+
+    /**
+     * Get translated title.
+     *
+     * @return string
+     */
+    public function getDescriptionAttribute()
+    {
+        if ($trans = $this->translate('description')) {
             return $trans;
         }
         return 'No translate';

@@ -15,7 +15,7 @@ class CreateNewspaperTranslationsTable extends Migration
     {
         Schema::create('newspaper_translations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->bigInteger('item_id')->unsigned();
             $table->foreign('item_id')->references('id')->on('newspapers')->onDelete('cascade');
             $table->bigInteger('language_id')->unsigned();

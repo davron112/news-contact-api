@@ -7,6 +7,7 @@ use App\Models\Video;
 /**
  * Interface VideoService
  *
+ * @property string $link
  * @package App\Services\Contracts
  * @method bool destroy(int)
  */

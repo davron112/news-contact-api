@@ -4,41 +4,43 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Language;
-use App\Repositories\Contracts\TagRepository;
-use App\Services\Contracts\TagService;
+use App\Repositories\Contracts\VideoRepository;
+use App\Services\Contracts\VideoService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Log\Logger;
 
-class TagsController extends Controller
+/**
+ * Class VideoController
+ * @package App\Http\Controllers\Api\v1
+ */
+class VideoController extends Controller
 {
     /**
-     * @var TagRepository $repository
+     * @var VideoRepository $repository
      */
     protected $repository;
 
     /**
      * @var string $modelName
      */
-    private $modelName = 'Tag';
+    private $modelName = 'Video';
 
     /**
      * @var string $modelNameMultiple
      */
-    private $modelNameMultiple = 'Tags';
+    private $modelNameMultiple = 'Videos';
     /**
-     * @var TagService $service
+     * @var VideoService $service
      */
     protected $service;
 
     /**
-     * TagController constructor.
-     * @param TagRepository $repository
-     * @param TagService $service
+     * VideoController constructor.
+     * @param VideoRepository $repository
+     * @param VideoService $service
      */
     public function __construct(
-        TagRepository $repository,
-        TagService $service
+        VideoRepository $repository,
+        VideoService $service
     ){
         $this->repository = $repository;
         $this->service = $service;
@@ -58,7 +60,7 @@ class TagsController extends Controller
     }
 
     /**
-     * Show one tag data
+     * Get one video
      *
      * @param $locale
      * @param $id
@@ -69,7 +71,6 @@ class TagsController extends Controller
         if (Language::where('short_name', '=', $locale)->first()) {
             app()->setLocale($locale);
         }
-
         $model = $this->repository->find($id);
         $data = $this->successResponse($this->modelName, $model);
         return response()->json($data, $data['code']);

@@ -147,6 +147,6 @@ class UserService extends BaseService implements UserServiceInterface {
      */
     public function delete($id)
     {
-
+        //
     }
 }

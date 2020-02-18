@@ -101,7 +101,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             }
             $tagIds = array_get($data, 'tags');
             if ($tagIds) {
-                // $article->tags()->sync($tagIds);
+                $article->tags()->sync($tagIds);
             }
             $this->logger->info('Article was successfully saved to the database.');
 
@@ -156,7 +156,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             }
             $tagIds = array_get($data, 'tags');
             if ($tagIds) {
-                // $article->tags()->sync($tagIds);
+                $article->tags()->sync($tagIds);
             }
             $this->logger->info('Article was successfully updated.');
 
