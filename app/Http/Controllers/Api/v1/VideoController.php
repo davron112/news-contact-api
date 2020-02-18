@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 use App\Models\Language;
 use App\Repositories\Contracts\VideoRepository;
 use App\Services\Contracts\VideoService;
