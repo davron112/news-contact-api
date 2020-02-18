@@ -49,11 +49,40 @@
         /**
          * @param $array
          * @param $key
+         * @param $value
+         * @return mixed
+         */
+        function array_set($array, $key, $value)
+        {
+            return \Illuminate\Support\Arr::set($array, $key, $value);
+        }
+    }
+
+    if (! function_exists('array_set')) {
+        /**
+         * @param $array
+         * @param $key
          * @param null $default
          * @return mixed
          */
         function array_set($array, $key, $value)
         {
             return \Illuminate\Support\Arr::set($array, $key, $value);
+        }
+    }
+
+    if (!function_exists('clean_youtube_link')) {
+
+        /**
+         * @param $link
+         * @return string|string[]|null
+         */
+        function clean_youtube_link($link)
+        {
+            return preg_replace(
+                '#(.+?)(\/)(watch\x3Fv=)?(embed\/watch\x3Ffeature\=player_embedded\x26v=)?([a-zA-Z0-9_-]{11})+#',
+                "https://www.youtube.com/embed/$5",
+                $link
+            );
         }
     }
