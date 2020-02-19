@@ -170,6 +170,36 @@ class ArticlesController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
+    public function alike(Request $request, $lang, $slug)
+    {
+        $data = $request->all();
+        $language = $lang ?? array_get($data, 'language', 'uz');
+        if ($language) {
+            app()->setLocale($language);
+        }
+        $article = $this->repository->findWhere(['slug' => $slug])->first();
+        $limit = array_get($data, 'limit', 14);
+        $articles = $this->repository
+            ->orderBy('created_at','DESC')
+        ->where('category_id', $article->category_id);
+
+        $articles = $articles->paginate($limit);
+        $articles = $articles->toArray();
+
+        return response(
+            $this->successResponse(
+                $this->modelNameMultiple,
+                $articles
+            )
+        );
+    }
+
+    /**
+     * Show latest Articles.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function search(Request $request)
     {
         $data = $request->all();

@@ -314,6 +314,10 @@ Route::group([
                     'as'   => 'show',
                     'uses' => 'ArticlesController@show',
                 ]);
+                Route::get('/alike/{id}', [
+                    'as'   => 'alike',
+                    'uses' => 'ArticlesController@alike',
+                ]);
             });
 
             //newspaper
