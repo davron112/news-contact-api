@@ -113,7 +113,7 @@ class Article extends Model
         if ($trans = $this->translate('title')) {
             return $trans;
         }
-        return 'No translate';
+        return '';
     }
 
     /**
@@ -126,7 +126,7 @@ class Article extends Model
         if ($trans = $this->translate('description')) {
             return $trans;
         }
-        return 'No translate';
+        return '';
     }
 
     /**
@@ -139,7 +139,7 @@ class Article extends Model
         if ($trans = $this->translate('content')) {
             return $trans;
         }
-        return 'No translate';
+        return '';
     }
 
     /**
@@ -152,7 +152,7 @@ class Article extends Model
         if ($trans = $this->translate('source')) {
             return $trans;
         }
-        return 'No translate';
+        return '';
     }
 
     /**

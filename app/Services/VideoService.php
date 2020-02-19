@@ -80,7 +80,7 @@ class VideoService  extends BaseService implements VideoServiceInterface
     public function store(array $data)
     {
         $this->beginTransaction();
-        
+
         try {
             $video = $this->repository->newInstance();
             $video->status = array_get($data, 'status', 1);

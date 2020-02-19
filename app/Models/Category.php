@@ -90,7 +90,7 @@ class Category extends Model
         if ($trans = $this->translate('name')) {
             return $trans;
         }
-        return 'No translate';
+        return '';
     }
 
     /**

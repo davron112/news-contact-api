@@ -93,6 +93,6 @@ class Newspaper extends Model
         if ($trans = $this->translate('title')) {
             return $trans;
         }
-        return 'No translate';
+        return '';
     }
 }

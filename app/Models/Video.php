@@ -86,7 +86,7 @@ class Video extends Model
         if ($trans = $this->translate('title')) {
             return $trans;
         }
-        return 'No translate';
+        return '';
     }
 
     /**
@@ -99,6 +99,6 @@ class Video extends Model
         if ($trans = $this->translate('description')) {
             return $trans;
         }
-        return 'No translate';
+        return '';
     }
 }
