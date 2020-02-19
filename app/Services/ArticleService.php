@@ -99,7 +99,8 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             if (!$article->save()) {
                 throw new UnexpectedErrorException('Article was not saved to the database.');
             }
-            $tagIds = array_get($data, 'tags');
+            $tagIds = explode(',', array_get($data, 'tags'));
+
             if ($tagIds) {
                 $article->tags()->sync($tagIds);
             }
@@ -154,7 +155,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             if (!$article->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a article');
             }
-            $tagIds = array_get($data, 'tags');
+            $tagIds = explode(',', array_get($data, 'tags'));
             if ($tagIds) {
                 $article->tags()->sync($tagIds);
             }
