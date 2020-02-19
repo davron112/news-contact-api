@@ -177,11 +177,11 @@ class ArticlesController extends Controller
         if ($language) {
             app()->setLocale($language);
         }
-        $article = $this->repository->findWhere(['slug' => $slug])->first();
+        $article = $this->repository->with('tags')->findWhere(['slug' => $slug])->first();
+        $tag = $article->tags()->first();
+
         $limit = array_get($data, 'limit', 14);
-        $articles = $this->repository
-            ->orderBy('created_at','DESC')
-        ->where('category_id', $article->category_id);
+        $articles = $tag->articles();
 
         $articles = $articles->paginate($limit);
         $articles = $articles->toArray();
