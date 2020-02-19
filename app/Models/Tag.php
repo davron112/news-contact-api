@@ -35,6 +35,7 @@ class Tag extends Model
     ];
 
     protected $visible = [
+        'id',
         'slug',
         'status',
         'name',
