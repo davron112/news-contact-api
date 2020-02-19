@@ -181,7 +181,7 @@ class ArticlesController extends Controller
         $tag = $article->tags()->first();
 
         $limit = array_get($data, 'limit', 14);
-        $articles = $tag->articles();
+        $articles = $tag->articles()->where('id', '!=', $article->id);
 
         $articles = $articles->paginate($limit);
         $articles = $articles->toArray();
