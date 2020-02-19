@@ -66,12 +66,22 @@ trait TranslationTable
      */
     public function translate($field, $default = null, $defaultLang = null)
     {
+        $languges = Language::all();
+
         $translation = $this->getTranslation($field, $this->getLangAttribute());
 
         if (is_null($translation) && is_null($defaultLang)) {
             $translation = $this->getTranslation($field, $this->getFallbackLang());
         }
 
+        if (!$translation) {
+            foreach ($languges as $language) {
+                $translation = $this->getTranslation($field, $language->short_name);
+                if ($translation) {
+                    break;
+                }
+            }
+        }
         return $translation ?: $default;
     }
 

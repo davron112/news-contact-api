@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class Language
+ *
+ * @property string $long_name
+ * @property string $short_name
+ * @package App\Models
+ */
 class Language extends Model
 {
 
