@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Exceptions\UnexpectedErrorException;
 use App\Repositories\Contracts\Repository;
 use Exception;
 use Illuminate\Database\DatabaseManager;
@@ -10,6 +9,10 @@ use Illuminate\Http\Response;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Arr;
 
+/**
+ * Class BaseService
+ * @package App\Services
+ */
 abstract class BaseService
 {
     /**

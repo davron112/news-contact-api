@@ -7,6 +7,10 @@ use Illuminate\Log\Logger;
 use Illuminate\Container\Container as App;
 use App\Repositories\Contracts\NewspaperRepository as NewspaperRepositoryInterface;
 
+/**
+ * Class NewspaperRepository
+ * @package App\Repositories
+ */
 class NewspaperRepository extends Repository implements NewspaperRepositoryInterface
 {
     /**

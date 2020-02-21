@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\Language;
 use App\Repositories\Contracts\VideoRepository;
@@ -70,7 +69,6 @@ class VideoController extends Controller
             )
         );
     }
-
 
     /**
      * Get one video

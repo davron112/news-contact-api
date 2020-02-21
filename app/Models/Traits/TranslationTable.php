@@ -7,6 +7,10 @@ use App\Models\Language;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Trait TranslationTable
+ * @package App\Models\Traits
+ */
 trait TranslationTable
 {
     /**

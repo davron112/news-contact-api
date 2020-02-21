@@ -8,11 +8,9 @@ use App\Models\Language;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Services\Contracts\CategoryService as CategoryServiceInterface;
 use App\Services\Traits\ServiceTranslateTable;
-use App\Exceptions\NotFoundException;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 /**
  * @method bool destroy

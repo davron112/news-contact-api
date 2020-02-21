@@ -8,7 +8,6 @@ use App\Models\Language;
 use App\Repositories\Contracts\TagRepository;
 use App\Services\Contracts\TagService as TagServiceInterface;
 use App\Services\Traits\ServiceTranslateTable;
-use App\Exceptions\NotFoundException;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Arr;

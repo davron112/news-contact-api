@@ -7,9 +7,11 @@ use App\Models\Language;
 use App\Repositories\Contracts\NewspaperRepository;
 use App\Services\Contracts\NewspaperService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Log\Logger;
 
+/**
+ * Class NewspaperController
+ * @package App\Http\Controllers\Api\v1
+ */
 class NewspaperController extends Controller
 {
     /**
@@ -63,7 +65,7 @@ class NewspaperController extends Controller
      * Show item
      *
      * @param $locale
-     * @param $slug
+     * @param $id
      * @return JsonResponse
      */
     public function show($locale, $id)

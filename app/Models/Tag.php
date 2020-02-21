@@ -9,8 +9,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tag extends Model
 {
+    /**
+     * Active status
+     */
     const STATUS_ACTIVE = 1;
+
+    /**
+     * Status disabled
+     */
     const STATUS_DISABLED = 2;
+
+    /**
+     * Status archived
+     */
     const STATUS_ARCHIVED = 3;
 
     use TableName, TranslationTable;
@@ -34,6 +45,11 @@ class Tag extends Model
         'status',
     ];
 
+    /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
     protected $visible = [
         'id',
         'slug',

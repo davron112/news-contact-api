@@ -7,6 +7,10 @@ use Illuminate\Log\Logger;
 use Illuminate\Container\Container as App;
 use App\Repositories\Contracts\TagRepository as TagRepositoryInterface;
 
+/**
+ * Class TagRepository
+ * @package App\Repositories
+ */
 class TagRepository extends Repository implements TagRepositoryInterface
 {
     /**

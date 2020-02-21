@@ -10,7 +10,13 @@ class CategoryTranslations extends Model
 {
     use TableName;
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = ['short_name'];
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -18,7 +24,13 @@ class CategoryTranslations extends Model
      */
     public $timestamps = false;
 
+    /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
     protected $visible = ['name'];
+
     /**
      * Get the content item that owns the translation.
      *

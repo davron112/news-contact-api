@@ -2,6 +2,10 @@
 
 namespace App\Http\Requests;
 
+/**
+ * Class StoreCategoryRequest
+ * @package App\Http\Requests
+ */
 class StoreCategoryRequest extends Request
 {
     /**

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Language;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Services\Contracts\CategoryService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Log\Logger;
-use Illuminate\Support\Arr;
 
+/**
+ * Class CategoriesController
+ * @package App\Http\Controllers\Api\v1
+ */
 class CategoriesController extends Controller
 {
     /**

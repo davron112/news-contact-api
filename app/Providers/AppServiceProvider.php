@@ -32,6 +32,10 @@ use App\Services\Contracts\ImageService as ImageServiceInterface;
 use App\Services\CategoryService;
 use App\Repositories\CategoryRepository;
 
+/**
+ * Class AppServiceProvider
+ * @package App\Providers
+ */
 class AppServiceProvider extends ServiceProvider
 {
 

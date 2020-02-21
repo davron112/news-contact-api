@@ -5,6 +5,10 @@ namespace App\Repositories\Contracts;
 use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
+/**
+ * Interface Repository
+ * @package App\Repositories\Contracts
+ */
 interface Repository extends RepositoryCriteriaInterface, RepositoryInterface
 {
     /**

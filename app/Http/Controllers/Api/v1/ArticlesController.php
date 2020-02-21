@@ -10,6 +10,10 @@ use App\Services\Contracts\ArticleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * Class ArticlesController
+ * @package App\Http\Controllers\Api\v1
+ */
 class ArticlesController extends Controller
 {
     /**
@@ -126,8 +130,6 @@ class ArticlesController extends Controller
                     array_unshift($articles['data'], $bannerArticle);
                 }
             }
-
-
         }
 
         return response(

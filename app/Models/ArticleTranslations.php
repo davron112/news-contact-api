@@ -6,11 +6,20 @@ use App\Models\Traits\TableName;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class ArticleTranslations
+ * @package App\Models
+ */
 class ArticleTranslations extends Model
 {
-    protected $appends = ['short_name'];
-
     use TableName;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['short_name'];
 
     /**
      * Indicates if the model should be timestamped.

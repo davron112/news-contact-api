@@ -16,16 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Language extends Model
 {
-
-    use SoftDeletes;
-
-    const ID_DEFAULT    = 1;
-    const ID_UZBEK_LATIN  = 1;
-    const ID_RUSSIAN    = 2;
-    const ID_ENGLISH = 3;
-    const ID_UZBEK_CYRILLIC = 4;
-
-    use TableName;
+    use SoftDeletes, TableName;
 
     /**
      * The attributes that are mass assignable.
@@ -85,5 +76,4 @@ class Language extends Model
     {
         return $this->hasMany(TagTranslations::class);
     }
-
 }

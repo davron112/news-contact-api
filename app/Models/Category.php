@@ -10,20 +10,40 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * Class Category
  *
+ * @property int $id
  * @property string $slug
+ * @property string $status
  * @property string $name
  * @property integer $ord
+ * @property integer $parent_id
+ * @property string $lang
  * @property array $translations
  * @package App\Models
  */
 class Category extends Model
 {
-    const STATUS_ACTIVE = 1;
-    const STATUS_DISABLED = 2;
-    const STATUS_ARCHIVED = 3;
-
     use TableName, TranslationTable;
 
+    /**
+     * Active status
+     */
+    const STATUS_ACTIVE = 1;
+
+    /**
+     * Disabled status
+     */
+    const STATUS_DISABLED = 2;
+
+    /**
+     * Archived status
+     */
+    const STATUS_ARCHIVED = 3;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'name',
         'lang',
@@ -48,6 +68,12 @@ class Category extends Model
         'ord',
         'status',
     ];
+
+    /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
     protected $visible = [
         'id',
         'slug',

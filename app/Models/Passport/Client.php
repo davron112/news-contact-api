@@ -4,6 +4,10 @@ namespace App\Models\Passport;
 
 use Laravel\Passport\Client as BaseClient;
 
+/**
+ * Class Client
+ * @package App\Models\Passport
+ */
 class Client extends BaseClient
 {
     /**

@@ -1,6 +1,10 @@
 <?php
 namespace App\Models\Traits;
 
+/**
+ * Trait TableName
+ * @package App\Models\Traits
+ */
 trait TableName
 {
     /**

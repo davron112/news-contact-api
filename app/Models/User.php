@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Class User
+ * @package App\Models
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
@@ -46,17 +50,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return BelongsToMany
+     */
     public function roles()
     {
         return $this->belongsToMany('App\Models\Role');
     }
 
+    /**
+     * Check user role
+     *
+     * @param null $role
+     * @return bool
+     */
     public function hasRole($role = null)
     {
         if (is_null($role)){
             return false;
         }
-        //dd($this->roles());
         return $this->roles->contains('name', $role);
     }
 

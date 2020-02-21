@@ -7,6 +7,10 @@ use Illuminate\Log\Logger;
 use Illuminate\Container\Container as App;
 use App\Repositories\Contracts\VideoRepository as VideoRepositoryInterface;
 
+/**
+ * Class VideoRepository
+ * @package App\Repositories
+ */
 class VideoRepository extends Repository implements VideoRepositoryInterface
 {
     /**

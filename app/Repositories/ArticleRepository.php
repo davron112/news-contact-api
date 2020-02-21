@@ -7,6 +7,10 @@ use Illuminate\Log\Logger;
 use Illuminate\Container\Container as App;
 use App\Repositories\Contracts\ArticleRepository as ArticleRepositoryInterface;
 
+/**
+ * Class ArticleRepository
+ * @package App\Repositories
+ */
 class ArticleRepository extends Repository implements ArticleRepositoryInterface
 {
     /**

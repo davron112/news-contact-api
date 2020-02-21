@@ -7,6 +7,10 @@ use Illuminate\Log\Logger;
 use Illuminate\Container\Container as App;
 use App\Repositories\Contracts\CategoryRepository as CategoryRepositoryInterface;
 
+/**
+ * Class CategoryRepository
+ * @package App\Repositories
+ */
 class CategoryRepository extends Repository implements CategoryRepositoryInterface
 {
     /**

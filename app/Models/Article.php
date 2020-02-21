@@ -7,26 +7,55 @@ use App\Models\Traits\TranslationTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\App;
 
 /**
  * Class Article
  *
  * @property int $id
  * @property string $slug
- * @property string $name
+ * @property string $title
+ * @property string $description
+ * @property string $content
+ * @property string $img
+ * @property string $url
+ * @property string $author
+ * @property string $category_name
+ * @property string $category_slug
+ * @property string $lang
+ * @property string $published_at
+ * @property bool $is_main
+ * @property int $category_id
  * @property Category $category
+ * @property Language $languages
+ * @property Tag $tags
+ * @property array $translations
  * @property ArticleTranslations $translationsAll
  * @package App\Models
  */
 class Article extends Model
 {
-    const STATUS_ACTIVE = 1;
-    const STATUS_DISABLED = 2;
-    const STATUS_ARCHIVED = 3;
-
     use TableName, TranslationTable;
 
+    /**
+     * Active status
+     */
+    const STATUS_ACTIVE = 1;
+
+    /**
+     * Status disabled
+     */
+    const STATUS_DISABLED = 2;
+
+    /**
+     * Status archived
+     */
+    const STATUS_ARCHIVED = 3;
+
+    /**
+     * The accessors to append to the model's array form..
+     *
+     * @var array
+     */
     protected $appends = [
         'title',
         'description',
@@ -38,6 +67,11 @@ class Article extends Model
         'translations'
     ];
 
+    /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
     protected $visible = [
         'id',
         'title',
@@ -53,6 +87,11 @@ class Article extends Model
         'tags',
     ];
 
+    /**
+     * Date format attributes
+     *
+     * @var array
+     */
     protected $dates = ['published_at'];
 
     /**
@@ -180,7 +219,7 @@ class Article extends Model
     }
 
     /**
-     * Get the url.
+     * Get category name.
      *
      * @return string
      */
@@ -190,7 +229,7 @@ class Article extends Model
     }
 
     /**
-     * Get the url.
+     * Get category slug
      *
      * @return string
      */

@@ -6,7 +6,12 @@ use App\Repositories\Contracts\Repository as RepositoryContract;
 use Illuminate\Container\Container as Application;
 use Illuminate\Log\Logger;
 use Prettus\Repository\Eloquent\BaseRepository;
+use Prettus\Repository\Exceptions\RepositoryException;
 
+/**
+ * Class Repository
+ * @package App\Repositories
+ */
 abstract class Repository extends BaseRepository implements RepositoryContract
 {
     /**
@@ -44,8 +49,8 @@ abstract class Repository extends BaseRepository implements RepositoryContract
      *
      * @param array $where
      * @param string $columns
-     *
      * @return int
+     * @throws RepositoryException
      */
     public function count(array $where = [], $columns = '*')
     {
@@ -95,7 +100,8 @@ abstract class Repository extends BaseRepository implements RepositoryContract
     /**
      * Reset all criteria, scopes and model.
      *
-     * @return $this
+     * @return $this|RepositoryContract
+     * @throws RepositoryException
      */
     public function reset()
     {
@@ -121,10 +127,10 @@ abstract class Repository extends BaseRepository implements RepositoryContract
     /**
      * Find data by id
      *
-     * @param       $id
+     * @param $id
      * @param array $columns
-     *
      * @return mixed
+     * @throws RepositoryException
      */
     public function find($id, $columns = ['*'])
     {

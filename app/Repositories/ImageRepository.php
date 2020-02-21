@@ -7,6 +7,10 @@ use Illuminate\Log\Logger;
 use Illuminate\Container\Container as App;
 use App\Repositories\Contracts\ImageRepository as ImageRepositoryInterface;
 
+/**
+ * Class ImageRepository
+ * @package App\Repositories
+ */
 class ImageRepository extends Repository implements ImageRepositoryInterface
 {
     /**

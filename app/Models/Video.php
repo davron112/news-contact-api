@@ -6,15 +6,32 @@ use App\Models\Traits\TableName;
 use App\Models\Traits\TranslationTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Video extends Model
 {
-    const STATUS_ACTIVE = 1;
-    const STATUS_DISABLED = 2;
-    const STATUS_ARCHIVED = 3;
-
     use TableName, TranslationTable;
 
+    /**
+     * Active status
+     */
+    const STATUS_ACTIVE = 1;
+
+    /**
+     * Disabled status
+     */
+    const STATUS_DISABLED = 2;
+
+    /**
+     * Archived status
+     */
+    const STATUS_ARCHIVED = 3;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = ['title', 'description', 'translations'];
 
     /**
@@ -65,11 +82,16 @@ class Video extends Model
      */
     public function languages()
     {
-        return $this->belongsToMany(Language::class, VideoTranslations::getTableName(), 'item_id');
+        return $this->belongsToMany(
+            Language::class,
+            VideoTranslations::getTableName(),
+            'item_id'
+        );
     }
 
     /**
      * Get all of the tags for the post.
+     * @return MorphToMany
      */
     public function tags()
     {

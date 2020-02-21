@@ -14,12 +14,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Newspaper extends Model
 {
-    const STATUS_ACTIVE = 1;
-    const STATUS_DISABLED = 2;
-    const STATUS_ARCHIVED = 3;
-
     use TableName, TranslationTable;
 
+    /**
+     * Active status
+     */
+    const STATUS_ACTIVE = 1;
+
+    /**
+     * Status disabled
+     */
+    const STATUS_DISABLED = 2;
+
+    /**
+     * Status archived
+     */
+    const STATUS_ARCHIVED = 3;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = ['title', 'translations'];
 
     /**
@@ -41,7 +57,10 @@ class Newspaper extends Model
         'number',
         'published_at',
     ];
+
     /**
+     * The attributes that should be visible in arrays.
+     *
      * @var array
      */
     protected $visible = [
