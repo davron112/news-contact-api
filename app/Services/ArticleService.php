@@ -91,7 +91,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             $article->category_id = array_get($data, 'category_id');
             $article->published_at = array_get($data, 'published_at');
             $article->author = array_get($data, 'author');
-            $article->is_main = json_decode(array_get($data, 'is_main'));
+            $article->is_main = json_decode(array_get($data, 'is_main', 0));
             $article->fill($attributes);
             if ($article->img) {
                 $article->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $article->img);
@@ -99,10 +99,10 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             if (!$article->save()) {
                 throw new UnexpectedErrorException('Article was not saved to the database.');
             }
-            $tagIds = explode(',', array_get($data, 'tags'));
+            $tagIds = array_get($data, 'tags');
 
             if ($tagIds) {
-                $article->tags()->sync($tagIds);
+                $article->tags()->sync(explode(',', $tagIds));
             }
             $this->logger->info('Article was successfully saved to the database.');
 
@@ -144,7 +144,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
         try {
             $article = $this->repository->find($id);
             Arr::set($data, 'slug', clean_slug(array_get($data, 'slug')));
-            Arr::set($data, 'is_main', json_decode(array_get($data, 'is_main')));
+            Arr::set($data, 'is_main', json_decode(array_get($data, 'is_main', 0)));
             if (array_get($data, 'img')) {
                 $attributes = $this->storeImage($data);
                 $article->fill($attributes);
@@ -155,9 +155,9 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             if (!$article->update($data)) {
                 throw new UnexpectedErrorException('An error occurred while updating a article');
             }
-            $tagIds = explode(',', array_get($data, 'tags'));
+            $tagIds = array_get($data, 'tags');
             if ($tagIds) {
-                $article->tags()->sync($tagIds);
+                $article->tags()->sync(explode(',', $tagIds));
             }
             $this->logger->info('Article was successfully updated.');
 

@@ -97,6 +97,11 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
             if (!$newspaper->save()) {
                 throw new UnexpectedErrorException('Newspaper was not saved to the database.');
             }
+            // tags sync
+            $tagIds = array_get($data, 'tags');
+            if ($tagIds) {
+                $newspaper->tags()->sync(explode(',', $tagIds));
+            }
             $this->logger->info('Newspaper was successfully saved to the database.');
 
             $this->storeTranslations($newspaper, $data, $this->getTranslationSelectColumnsClosure());
@@ -146,6 +151,12 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
             if (!$newspaper->save()) {
                 throw new UnexpectedErrorException('An error occurred while updating a newspaper');
             }
+
+            $tagIds = array_get($data, 'tags');
+            if ($tagIds) {
+                $newspaper->tags()->sync(explode(',', $tagIds));
+            }
+
             $this->logger->info('Newspaper was successfully updated.');
 
             $this->storeTranslations($newspaper, $data, $this->getTranslationSelectColumnsClosure());

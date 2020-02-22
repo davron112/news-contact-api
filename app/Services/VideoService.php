@@ -90,9 +90,9 @@ class VideoService  extends BaseService implements VideoServiceInterface
             if (!$video->save()) {
                 throw new UnexpectedErrorException('Video was not saved to the database.');
             }
-            $tagIds = explode(',', array_get($data, 'tags'));
+            $tagIds = array_get($data, 'tags');
             if ($tagIds) {
-                $video->tags()->sync($tagIds);
+                $video->tags()->sync(explode(',', $tagIds));
             }
             $this->logger->info('Video was successfully saved to the database.');
 
@@ -129,9 +129,9 @@ class VideoService  extends BaseService implements VideoServiceInterface
                 throw new UnexpectedErrorException('An error occurred while updating a video');
             }
 
-            $tagIds = explode(',', array_get($data, 'tags'));
+            $tagIds = array_get($data, 'tags');
             if ($tagIds) {
-                $video->tags()->sync($tagIds);
+                $video->tags()->sync(explode(',', $tagIds));
             }
             $this->logger->info('Video was successfully updated.');
 
