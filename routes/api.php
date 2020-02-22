@@ -23,7 +23,6 @@ Route::group([
 
         //languages
         Route::group([
-            'middleware' => 'cors',
             'prefix'    => 'languages',
             'as'        => 'languages.',
         ], function () {
@@ -35,7 +34,6 @@ Route::group([
 
         // Laravel passport
         Route::group([
-            'middleware' => 'cors',
             'prefix' => 'auth',
             'as'        => 'auth.',
         ], function () {
@@ -52,51 +50,43 @@ Route::group([
 
         //admin
         Route::group([
-            'middleware' => 'cors',
+            'middleware' => 'auth:api',
             'prefix'    => 'admin',
             'as'        => 'admin.',
             'namespace'        => 'Admin',
         ], function () {
             // images
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'images',
                 'as'        => 'images.',
             ], function () {
                 Route::post('/upload', [
-                    'middleware' => 'auth:api',
                     'as'   => 'upload',
                     'uses' => 'ImagesController@upload',
                 ]);
                 Route::get('/list', [
-                    'middleware' => 'auth:api',
                     'as'   => 'list',
                     'uses' => 'ImagesController@list',
                 ]);
                 Route::get('/', [
-                    'middleware' => 'auth:api',
                     'as'   => 'list',
                     'uses' => 'ImagesController@list',
                 ]);
             });
             // categories
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'categories',
                 'as'        => 'categories.',
             ], function () {
                 Route::post('/delete', [
-                    'middleware' => 'auth:api',
                     'as'   => 'delete',
                     'uses' => 'CategoriesController@delete',
                 ]);
                 Route::post('/create', [
-                    'middleware' => 'auth:api',
                     'as'   => 'create',
                     'uses' => 'CategoriesController@store',
                 ]);
                 Route::post('/update', [
-                    'middleware' => 'auth:api',
                     'as'   => 'update',
                     'uses' => 'CategoriesController@update',
                 ]);
@@ -120,22 +110,18 @@ Route::group([
 
             //articles
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'articles',
                 'as'        => 'articles.',
             ], function () {
                 Route::post('/delete', [
-                    'middleware' => 'auth:api',
                     'as'   => 'delete',
                     'uses' => 'ArticlesController@delete',
                 ]);
                 Route::post('/create', [
-                    'middleware' => 'auth:api',
                     'as'   => 'create',
                     'uses' => 'ArticlesController@store',
                 ]);
                 Route::post('/update', [
-                    'middleware' => 'auth:api',
                     'as'   => 'update',
                     'uses' => 'ArticlesController@update',
                 ]);
@@ -155,22 +141,18 @@ Route::group([
 
             //newspaper
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'newspaper',
                 'as'        => 'newspaper.',
             ], function () {
                 Route::post('/delete', [
-                    'middleware' => 'auth:api',
                     'as'   => 'delete',
                     'uses' => 'NewspaperController@delete',
                 ]);
                 Route::post('/create', [
-                    'middleware' => 'auth:api',
                     'as'   => 'create',
                     'uses' => 'NewspaperController@store',
                 ]);
                 Route::post('/update', [
-                    'middleware' => 'auth:api',
                     'as'   => 'update',
                     'uses' => 'NewspaperController@update',
                 ]);
@@ -190,22 +172,18 @@ Route::group([
 
             //video
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'videos',
                 'as'        => 'videos.',
             ], function () {
                 Route::post('/delete', [
-                    'middleware' => 'auth:api',
                     'as'   => 'delete',
                     'uses' => 'VideoController@delete',
                 ]);
                 Route::post('/create', [
-                    'middleware' => 'auth:api',
                     'as'   => 'create',
                     'uses' => 'VideoController@store',
                 ]);
                 Route::post('/update', [
-                    'middleware' => 'auth:api',
                     'as'   => 'update',
                     'uses' => 'VideoController@update',
                 ]);
@@ -225,22 +203,18 @@ Route::group([
 
             //tags
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'tags',
                 'as'        => 'tags.',
             ], function () {
                 Route::post('/delete', [
-                    'middleware' => 'auth:api',
                     'as'   => 'delete',
                     'uses' => 'TagsController@delete',
                 ]);
                 Route::post('/create', [
-                    'middleware' => 'auth:api',
                     'as'   => 'create',
                     'uses' => 'TagsController@store',
                 ]);
                 Route::post('/update', [
-                    'middleware' => 'auth:api',
                     'as'   => 'update',
                     'uses' => 'TagsController@update',
                 ]);
@@ -266,7 +240,6 @@ Route::group([
         Route::prefix('{locale}')->group(function () {
             // categories
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'categories',
                 'as'        => 'categories.',
             ], function () {
@@ -290,7 +263,6 @@ Route::group([
 
             //articles
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'articles',
                 'as'        => 'articles.',
             ], function () {
@@ -322,7 +294,6 @@ Route::group([
 
             //newspaper
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'newspaper',
                 'as'        => 'newspaper.',
             ], function () {
@@ -342,7 +313,6 @@ Route::group([
 
             //tags
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'tags',
                 'as'        => 'tags.',
             ], function () {
@@ -362,7 +332,6 @@ Route::group([
 
             //video with lang
             Route::group([
-                'middleware' => 'cors',
                 'prefix'    => 'videos',
                 'as'        => 'videos.',
             ], function () {
@@ -383,7 +352,6 @@ Route::group([
 
         // categories
         Route::group([
-            'middleware' => 'cors',
             'prefix'    => 'categories',
             'as'        => 'categories.',
         ], function () {
@@ -407,7 +375,6 @@ Route::group([
 
         //articles
         Route::group([
-            'middleware' => 'cors',
             'prefix'    => 'articles',
             'as'        => 'articles.',
         ], function () {
@@ -435,7 +402,6 @@ Route::group([
 
         //newspaper
         Route::group([
-            'middleware' => 'cors',
             'prefix'    => 'newspaper',
             'as'        => 'newspaper.',
         ], function () {
@@ -455,7 +421,6 @@ Route::group([
 
         //video without lang
         Route::group([
-            'middleware' => 'cors',
             'prefix'    => 'videos',
             'as'        => 'videos.',
         ], function () {
@@ -475,7 +440,6 @@ Route::group([
 
         //tags
         Route::group([
-            'middleware' => 'cors',
             'prefix'    => 'tags',
             'as'        => 'tags.',
         ], function () {
