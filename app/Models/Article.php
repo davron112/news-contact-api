@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @property int $id
  * @property string $slug
+ * @property int $status
  * @property string $title
  * @property string $description
  * @property string $content

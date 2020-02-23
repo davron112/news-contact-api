@@ -124,8 +124,11 @@ class VideoService  extends BaseService implements VideoServiceInterface
 
         try {
             $video = $this->repository->find($id);
-            array_set($data, 'link', clean_youtube_link(array_get($data, 'link')));
-            if (!$video->update($data)) {
+            $video->status = array_get($data, 'status', 1);
+            $video->link = clean_youtube_link(array_get($data, 'link'));
+            $video->published_at     = array_get($data, 'published_at', Carbon::now());
+
+            if (!$video->save()) {
                 throw new UnexpectedErrorException('An error occurred while updating a video');
             }
 
