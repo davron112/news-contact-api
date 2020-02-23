@@ -102,9 +102,9 @@ trait TranslationTable
             return $translation->language && $translation->language->short_name == $lang;
         })->first();
 
-        return $translation && isset($translation->$field) && !empty($translation->$field) ?
+        return $translation && isset($translation->$field) && !empty($translation->$field) &&  $translation->$field !== "null" &&  $translation->$field !== "undefined" ?
             $translation->$field :
-            null;
+            "";
     }
 
     /**

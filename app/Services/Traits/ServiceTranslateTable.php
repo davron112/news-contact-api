@@ -44,7 +44,7 @@ trait ServiceTranslateTable
             $translation = Arr::get($data, $language->short_name);
             $translation = array_filter(call_user_func($handler, $translation));
 
-            if ($translation && $translation !== "null" && $translation !== "undefined") {
+            if ($translation) {
                 Arr::set($translations, $language->id, $translation);
             }
         }
