@@ -53,7 +53,7 @@ class TelegramService extends BaseService implements TelegramServiceInterface {
     {
         Telegram::sendPhoto([
             'chat_id' => config('telegram.channel_id'),
-            'photo' => $image,
+            'photo' => 'https:' . $image,
             'caption' => $title
         ]);
     }
