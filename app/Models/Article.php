@@ -233,4 +233,15 @@ class Article extends Model
     {
         return isset($this->category->slug) ? $this->category->slug : null;
     }
+
+    /**
+     * Scope active articles
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', self::STATUS_ACTIVE);
+    }
 }

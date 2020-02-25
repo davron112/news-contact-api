@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\Language;
 use App\Repositories\Contracts\ArticleRepository;
@@ -64,7 +65,7 @@ class ArticlesController extends Controller
         }
 
         $categorySlug = array_get($data, 'category_slug');
-        $articles = $this->repository->orderBy('created_at','DESC');
+        $articles = $this->repository->active()->orderBy('created_at','DESC');
         $categoryId = false;
 
         if ($categorySlug) {
@@ -154,7 +155,7 @@ class ArticlesController extends Controller
             app()->setLocale($language);
         }
         $limit = array_get($data, 'limit', 14);
-        $articles = $this->repository->orderBy('created_at','DESC');
+        $articles = $this->repository->active()->orderBy('created_at','DESC');
         $articles = $articles->paginate($limit);
         $articles = $articles->toArray();
 
@@ -183,7 +184,7 @@ class ArticlesController extends Controller
         $tag = $article->tags()->first();
 
         $limit = array_get($data, 'limit', 14);
-        $articles = $tag->articles()->where('id', '!=', $article->id);
+        $articles = $tag->articles()->active()->where('id', '!=', $article->id);
 
         $articles = $articles->paginate($limit);
         $articles = $articles->toArray();
@@ -212,6 +213,7 @@ class ArticlesController extends Controller
         }
         $limit = array_get($data, 'limit', 14);
         $articles = $this->repository
+            ->where('articles.status', '=', Article::STATUS_ACTIVE)
             ->leftjoin('article_translations', 'articles.id', '=', 'article_translations.item_id')
             ->where('article_translations.title', 'LIKE', "%{$q}%")
             ->orWhere('article_translations.description', 'LIKE', "%{$q}%")
@@ -242,9 +244,9 @@ class ArticlesController extends Controller
         }
 
         if (is_numeric($slug)) {
-            $article = $this->repository->with('tags')->find($slug);
+            $article = $this->repository->active()->with('tags')->find($slug);
         } else {
-            $article = $this->repository->with('tags')->findWhere(['slug' => $slug])->first();
+            $article = $this->repository->active()->with('tags')->findWhere(['slug' => $slug])->first();
         }
         $article->addVisible('category_id', 'content', 'status');
         $data = $this->successResponse($this->modelName, $article);
