@@ -137,6 +137,10 @@ Route::group([
                     'as'   => 'show',
                     'uses' => 'ArticlesController@show',
                 ]);
+                Route::get('/{id}/change-status', [
+                    'as'   => 'show',
+                    'uses' => 'ArticlesController@changeStatus',
+                ]);
             });
 
             //newspaper
@@ -168,6 +172,10 @@ Route::group([
                     'as'   => 'show',
                     'uses' => 'NewspaperController@show',
                 ]);
+                Route::get('/{id}/change-status', [
+                    'as'   => 'show',
+                    'uses' => 'NewspaperController@changeStatus',
+                ]);
             });
 
             //video
@@ -198,6 +206,10 @@ Route::group([
                 Route::get('/{id}', [
                     'as'   => 'show',
                     'uses' => 'VideoController@show',
+                ]);
+                Route::get('/{id}/change-status', [
+                    'as'   => 'show',
+                    'uses' => 'VideoController@changeStatus',
                 ]);
             });
 

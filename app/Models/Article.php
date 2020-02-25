@@ -38,19 +38,14 @@ class Article extends Model
     use TableName, TranslationTable;
 
     /**
+     * Status disabled
+     */
+    const STATUS_DRAFT = 0;
+
+    /**
      * Active status
      */
     const STATUS_ACTIVE = 1;
-
-    /**
-     * Status disabled
-     */
-    const STATUS_DISABLED = 2;
-
-    /**
-     * Status archived
-     */
-    const STATUS_ARCHIVED = 3;
 
     /**
      * The accessors to append to the model's array form..

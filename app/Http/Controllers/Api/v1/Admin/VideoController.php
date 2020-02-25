@@ -135,6 +135,28 @@ class VideoController extends Controller
     }
 
     /**
+     * Change status article
+     *
+     * @param Request $request
+     * @param $slug
+     * @return JsonResponse
+     */
+    public function changeStatus($slug, Request $request)
+    {
+        $data = $request->all();
+        $status = array_get($data, 'status', 0);
+
+        if (is_numeric($slug)) {
+            $video = $this->repository->find($slug);
+        } else {
+            $video = $this->repository->findWhere(['slug' => $slug])->first();
+        }
+        $video->status = $status;
+        $response = $this->successResponse($this->modelName, $video->save());
+        return response()->json($response, $response['code']);
+    }
+
+    /**
      * Delete item
      *
      * @param Request $request

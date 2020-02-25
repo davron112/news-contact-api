@@ -131,6 +131,25 @@ class NewspaperController extends Controller
     }
 
     /**
+     * Change status article
+     *
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function changeStatus($id, Request $request)
+    {
+        $data = $request->all();
+        $status = array_get($data, 'status', 0);
+
+        $newspaper = $this->repository->find($id);
+
+        $newspaper->status = $status;
+        $response = $this->successResponse($this->modelName, $newspaper->save());
+        return response()->json($response, $response['code']);
+    }
+
+    /**
      * Delete item
      *
      * @param Request $request

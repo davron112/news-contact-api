@@ -9,23 +9,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tag extends Model
 {
+    use TableName, TranslationTable;
+
+    /**
+     * Status disabled
+     */
+    const STATUS_DISABLED = 0;
+
     /**
      * Active status
      */
     const STATUS_ACTIVE = 1;
 
     /**
-     * Status disabled
+     * The accessors to append to the model's array form.
+     *
+     * @var array
      */
-    const STATUS_DISABLED = 2;
-
-    /**
-     * Status archived
-     */
-    const STATUS_ARCHIVED = 3;
-
-    use TableName, TranslationTable;
-
     protected $appends = ['name'];
 
     /**

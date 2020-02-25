@@ -94,7 +94,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
 
             $attributes = $this->storeImage($data);
             $article->slug = clean_slug(array_get($data, 'slug'));
-            $article->status = array_get($data, 'status', 1);
+            $article->status = Article::STATUS_DRAFT;
             $article->category_id = array_get($data, 'category_id');
             $article->published_at = array_get($data, 'published_at');
             $article->author = array_get($data, 'author');
@@ -116,7 +116,17 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             $this->storeTranslations($article, $data, $this->getTranslationSelectColumnsClosure());
             $this->logger->info('Translations for the Article were successfully saved.', ['article_id' => $article->id]);
 
-            $this->telegramService->sendMessageChannel($article->title, $article->description, $article->img);
+            $dataTags = [];
+            foreach ($article->tags() as $tag) {
+                $dataTags[] = $tag->name;
+            }
+            $telegramTags = !empty($dataTags) ? implode(" #", $dataTags) : '';
+            $this->telegramService->sendMessageChannel(
+                $article->title,
+                $article->url,
+                $article->img,
+                $telegramTags
+            );
         } catch (UnexpectedErrorException $e) {
             $this->rollback($e, 'An error occurred while storing an ', [
                 'data' => $data,

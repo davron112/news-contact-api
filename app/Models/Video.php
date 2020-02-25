@@ -13,19 +13,14 @@ class Video extends Model
     use TableName, TranslationTable;
 
     /**
+     * Disabled status
+     */
+    const STATUS_DRAFT = 0;
+
+    /**
      * Active status
      */
     const STATUS_ACTIVE = 1;
-
-    /**
-     * Disabled status
-     */
-    const STATUS_DISABLED = 2;
-
-    /**
-     * Archived status
-     */
-    const STATUS_ARCHIVED = 3;
 
     /**
      * The accessors to append to the model's array form.

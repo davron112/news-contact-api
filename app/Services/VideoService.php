@@ -83,7 +83,7 @@ class VideoService  extends BaseService implements VideoServiceInterface
 
         try {
             $video = $this->repository->newInstance();
-            $video->status = array_get($data, 'status', 1);
+            $video->status = Video::STATUS_DRAFT;
             $video->link = clean_youtube_link(array_get($data, 'link'));
             $video->published_at     = array_get($data, 'published_at', Carbon::now());
 
@@ -124,7 +124,6 @@ class VideoService  extends BaseService implements VideoServiceInterface
 
         try {
             $video = $this->repository->find($id);
-            $video->status = array_get($data, 'status', 1);
             $video->link = clean_youtube_link(array_get($data, 'link'));
             $video->published_at     = array_get($data, 'published_at', Carbon::now());
 

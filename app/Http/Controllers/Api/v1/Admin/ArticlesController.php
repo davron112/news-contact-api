@@ -127,15 +127,39 @@ class ArticlesController extends Controller
     }
 
     /**
-     * @param $slug
+     * Change status article
+     *
+     * @param Request $request
+     * @param $id
      * @return JsonResponse
      */
-    public function show($slug)
+    public function changeStatus($id, Request $request)
     {
-        if (is_numeric($slug)) {
-            $article = $this->repository->with('tags')->find($slug);
+        $data = $request->all();
+        $status = array_get($data, 'status', 0);
+
+        if (is_numeric($id)) {
+            /** Article $article */
+            $article = $this->repository->find($id);
         } else {
-            $article = $this->repository->with('tags')->findWhere(['slug' => $slug])->first();
+            /** Article $article */
+            $article = $this->repository->findWhere(['slug' => $id])->first();
+        }
+        $article->status = $status;
+        $response = $this->successResponse($this->modelName, $article->save());
+        return response()->json($response, $response['code']);
+    }
+
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function show($id)
+    {
+        if (is_numeric($id)) {
+            $article = $this->repository->with('tags')->find($id);
+        } else {
+            $article = $this->repository->with('tags')->findWhere(['slug' => $id])->first();
         }
         $article->addVisible('category_id', 'content', 'status', 'translations');
         $data = $this->successResponse($this->modelName, $article);
