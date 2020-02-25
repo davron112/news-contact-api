@@ -12,7 +12,11 @@ return [
     |
     */
     'default' => 'common',
-    'telegram_public_channel_id' => env('TELEGRAM_PUBLIC_CHANNEL_ID', 'YOUR-TELEGRAM-PUBLIC-CHANNEL-ID'),
+
+    /**
+     * Public channel ID of Telegram
+     */
+    'channel_id' => env('TELEGRAM_CHANNEL_ID', 'YOUR-TELEGRAM-CHANNEL-ID'),
 
     /*
     |--------------------------------------------------------------------------

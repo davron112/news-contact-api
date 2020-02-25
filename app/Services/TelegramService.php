@@ -32,33 +32,29 @@ class TelegramService extends BaseService implements TelegramServiceInterface {
     /**
      * @param $id
      * @param $text
-     * @return mixed
+     * @return void
      */
     public function sendMessageToClient($id, $text)
     {
-        $test = Telegram::sendMessage([
+        Telegram::sendMessage([
             'chat_id' => $id,
             'parse_mode' => 'HTML',
             'text' => $text
         ]);
-
-        return $test;
     }
 
     /**
      * @param $title
      * @param $description
      * @param $image
-     * @return mixed
+     * @return void
      */
     public function sendMessageChannel($title, $description, $image)
     {
-        $test = Telegram::sendPhoto([
-            'chat_id' => config('telegram.telegram_public_channel_id'),
+        Telegram::sendPhoto([
+            'chat_id' => config('telegram.channel_id'),
             'photo' => $image,
             'caption' => $title
         ]);
-
-        return $test;
     }
 }

@@ -11,7 +11,7 @@ interface TelegramService extends BaseService
     /**
      * @param $id
      * @param $text
-     * @return mixed
+     * @return void
      */
     public function sendMessageToClient($id, $text);
 
@@ -20,7 +20,7 @@ interface TelegramService extends BaseService
      * @param $title
      * @param $description
      * @param $image
-     * @return mixed
+     * @return void
      */
     public function sendMessageChannel($title, $description, $image);
 }
