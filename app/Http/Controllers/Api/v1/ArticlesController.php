@@ -95,9 +95,9 @@ class ArticlesController extends Controller
 
         if ($currentPage == 1) {
             if ($categoryId) {
-                $bannerArticle = $this->repository->findWhere(['category_id' => $categoryId, 'is_main' => 1])->first()
-                    ? $this->repository->findWhere(['category_id' => $categoryId, 'is_main' => 1])->first()->toArray()
-                    : $this->repository->findWhere(['category_id' => $categoryId])->first()->toArray();
+                $bannerArticle = $this->repository->active()->findWhere(['category_id' => $categoryId, 'is_main' => 1])->first()
+                    ? $this->repository->active()->findWhere(['category_id' => $categoryId, 'is_main' => 1])->first()->toArray()
+                    : $this->repository->active()->findWhere(['category_id' => $categoryId])->first()->toArray();
                 $articles = $articles->toArray();
                 $dataFiltered = [];
                 foreach ($articles['data'] as $key => $value) {
@@ -113,9 +113,9 @@ class ArticlesController extends Controller
                     array_unshift($articles['data'], $bannerArticle);
                 }
             } else {
-                $bannerArticle = $this->repository->findWhere(['is_main' => 1])->first()
-                    ? $this->repository->findWhere(['is_main' => 1])->first()->toArray()
-                    : $this->repository->first()->toArray();
+                $bannerArticle = $this->repository->active()->findWhere(['is_main' => 1])->first()
+                    ? $this->repository->active()->findWhere(['is_main' => 1])->first()->toArray()
+                    : $this->repository->active()->first()->toArray();
 
                 $articles = $articles->toArray();
                 $dataFiltered = [];
