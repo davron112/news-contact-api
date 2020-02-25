@@ -50,15 +50,15 @@ class TelegramService extends BaseService implements TelegramServiceInterface {
      * @param $tags
      * @return void
      */
-    public function sendMessageChannel($title, $url, $image, $tags = null)
+    public function sendMessageChannel($title, $url, $image, $tags)
     {
         Telegram::sendPhoto([
             'chat_id' => config('telegram.channel_id'),
             'photo' => 'https:' . $image,
-            'caption' => $title .
-                PHP_EOL .'ℹ👉  http://sportonline.uz/uz' . $url .
-                PHP_EOL .'Telegram: 👉 https://t.me/sportonlineuz'.
-                $tags ? PHP_EOL .'🧩 Нажмите на хэштег: #' . $tags : '',
+            'caption' => $title
+                .PHP_EOL .'ℹ👉  http://sportonline.uz/uz' . $url
+                .PHP_EOL .'Telegram: 👉 https://t.me/sportonlineuz'
+                .PHP_EOL . '#' . $tags
         ]);
     }
 }

@@ -23,5 +23,5 @@ interface TelegramService extends BaseService
      * @param $tags
      * @return void
      */
-    public function sendMessageChannel($title, $url, $image, $tags = null);
+    public function sendMessageChannel($title, $url, $image, $tags);
 }
