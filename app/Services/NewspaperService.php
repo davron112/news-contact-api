@@ -84,7 +84,7 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
         try {
             $newspaper = $this->repository->newInstance();
             $attributes = $this->storeFiles($data);
-            $newspaper->status = Newspaper::STATUS_DRAFT;
+            $newspaper->status = Newspaper::STATUS_ACTIVE;
             $newspaper->fill($attributes);
             if ($newspaper->img) {
                 $newspaper->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);

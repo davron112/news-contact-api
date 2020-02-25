@@ -94,7 +94,7 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
 
             $attributes = $this->storeImage($data);
             $article->slug = clean_slug(array_get($data, 'slug'));
-            $article->status = Article::STATUS_DRAFT;
+            $article->status = Article::STATUS_ACTIVE;
             $article->category_id = array_get($data, 'category_id');
             $article->published_at = array_get($data, 'published_at');
             $article->author = array_get($data, 'author');

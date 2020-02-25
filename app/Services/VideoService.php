@@ -83,7 +83,7 @@ class VideoService  extends BaseService implements VideoServiceInterface
 
         try {
             $video = $this->repository->newInstance();
-            $video->status = Video::STATUS_DRAFT;
+            $video->status = Video::STATUS_ACTIVE;
             $video->link = clean_youtube_link(array_get($data, 'link'));
             $video->published_at     = array_get($data, 'published_at', Carbon::now());
 
