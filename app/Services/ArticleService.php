@@ -116,16 +116,11 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             $this->storeTranslations($article, $data, $this->getTranslationSelectColumnsClosure());
             $this->logger->info('Translations for the Article were successfully saved.', ['article_id' => $article->id]);
 
-            $dataTags = [];
-            foreach ($article->tags() as $tag) {
-                $dataTags[] = $tag->name;
-            }
-            $telegramTags = !empty($dataTags) ? implode(" #", $dataTags) : '';
             $this->telegramService->sendMessageChannel(
                 $article->title,
                 $article->url,
                 $article->img,
-                $telegramTags
+                $article->category->name
             );
         } catch (UnexpectedErrorException $e) {
             $this->rollback($e, 'An error occurred while storing an ', [
