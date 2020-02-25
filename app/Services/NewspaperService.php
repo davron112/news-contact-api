@@ -141,7 +141,7 @@ class NewspaperService  extends BaseService implements NewspaperServiceInterface
                 $newspaper->img = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->img);
             }
 
-            if (array_get($data, 'img')) {
+            if (array_get($data, 'file')) {
                 $attributes = $this->storeFiles($data);
                 $newspaper->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $newspaper->file);
             }

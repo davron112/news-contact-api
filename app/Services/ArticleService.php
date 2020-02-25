@@ -6,14 +6,13 @@ use App\Exceptions\UnexpectedErrorException;
 use App\Helpers\FileHelper;
 use App\Models\Article;
 use App\Models\Language;
-use App\Models\Tag;
 use App\Repositories\Contracts\ArticleRepository;
 use App\Services\Contracts\ArticleService as ArticleServiceInterface;
 use App\Services\Traits\ServiceTranslateTable;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use App\Services\Contracts\TelegramService;
 
 /**
  * @method bool destroy
@@ -48,6 +47,11 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
     protected $fileHelper;
 
     /**
+     * @var TelegramService
+     */
+    protected $telegramService;
+
+    /**
      * ArticleService constructor.
      *
      * @param DatabaseManager $databaseManager
@@ -55,20 +59,23 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
      * @param Language $language
      * @param Logger $logger
      * @param FileHelper $fileHelper
+     * @param TelegramService $telegramService
      */
     public function __construct(
         DatabaseManager $databaseManager,
         ArticleRepository $repository,
         Language $language,
         Logger $logger,
-        FileHelper $fileHelper
+        FileHelper $fileHelper,
+        TelegramService $telegramService
     ) {
 
-        $this->databaseManager     = $databaseManager;
-        $this->repository     = $repository;
-        $this->logger     = $logger;
-        $this->language     = $language;
-        $this->fileHelper     = $fileHelper;
+        $this->databaseManager = $databaseManager;
+        $this->repository      = $repository;
+        $this->logger          = $logger;
+        $this->language        = $language;
+        $this->fileHelper      = $fileHelper;
+        $this->telegramService = $telegramService;
     }
 
     /**
@@ -108,6 +115,8 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
 
             $this->storeTranslations($article, $data, $this->getTranslationSelectColumnsClosure());
             $this->logger->info('Translations for the Article were successfully saved.', ['article_id' => $article->id]);
+
+            $this->telegramService->sendMessageChannel($article->title, $article->description, $article->img);
         } catch (UnexpectedErrorException $e) {
             $this->rollback($e, 'An error occurred while storing an ', [
                 'data' => $data,

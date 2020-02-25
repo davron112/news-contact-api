@@ -31,6 +31,8 @@ use App\Repositories\Contracts\TagRepository as TagRepositoryInterface;
 use App\Services\Contracts\ImageService as ImageServiceInterface;
 use App\Services\CategoryService;
 use App\Repositories\CategoryRepository;
+use App\Services\TelegramService;
+use App\Services\Contracts\TelegramService as TelegramServiceInterface;
 
 /**
  * Class AppServiceProvider
@@ -67,6 +69,9 @@ class AppServiceProvider extends ServiceProvider
         // Image
         $this->app->bind(ImageServiceInterface::class, ImageService::class);
         $this->app->bind(ImageRepositoryInterface::class, ImageRepository::class);
+
+        //Telegram
+        $this->app->bind(TelegramServiceInterface::class, TelegramService::class);
     }
 
     /**
