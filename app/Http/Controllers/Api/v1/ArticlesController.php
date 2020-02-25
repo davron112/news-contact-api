@@ -72,7 +72,7 @@ class ArticlesController extends Controller
             $category = Category::where('slug', $categorySlug)->get()->first();
             if ($category) {
                 $categoryId = $category->id;
-                $articles = $articles->where('category_id', $categoryId);
+                $articles = $articles->active()->where('category_id', $categoryId);
             }
         }
 
@@ -85,18 +85,15 @@ class ArticlesController extends Controller
             );
         }
         $limit = array_get($data, 'limit', 9);
-
         $limit = $articles->count() < $limit ? $articles->count() : $limit;
-
         $articles = $articles->paginate($limit);
-
         $currentPage = $articles->currentPage();
-
 
         if ($currentPage == 1) {
             if ($categoryId) {
                 $bannerArticle = $this->repository
-                    ->findWhere(['category_id' => $categoryId, 'is_main' => 1, 'status' => Article::STATUS_ACTIVE])
+                    ->findWhere(['category_id' => $categoryId, 'is_main' => 1,
+                        'status' => Article::STATUS_ACTIVE])
                     ->first()
                     ? $this->repository->findWhere(['category_id' => $categoryId, 'is_main' => 1])->first()->toArray()
                     : $this->repository->findWhere(['category_id' => $categoryId])->first()->toArray();
@@ -115,7 +112,9 @@ class ArticlesController extends Controller
                     array_unshift($articles['data'], $bannerArticle);
                 }
             } else {
-                $bannerArticle = $this->repository->active()->findWhere(['is_main' => 1])->first()
+                $bannerArticle = $this->repository
+                    ->findWhere(['is_main' => 1, 'status' => Article::STATUS_ACTIVE])
+                    ->first()
                     ? $this->repository
                         ->findWhere(['is_main' => 1, 'status' => Article::STATUS_ACTIVE])
                         ->first()
