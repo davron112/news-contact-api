@@ -41,7 +41,7 @@ return [
     */
     'bots' => [
         'common' => [
-            'username'  => 'manager_DEVMIND_bot',
+            'username'  => 'SportOnlineUzBot',
             'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
             'commands' => [
 //                Acme\Project\Commands\MyTelegramBot\BotCommand::class
