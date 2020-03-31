@@ -161,8 +161,21 @@ class ArticlesController extends Controller
         if ($language) {
             app()->setLocale($language);
         }
+
         $limit = array_get($data, 'limit', 14);
-        $articles = $this->repository->filterNews()->active()->orderBy('created_at','DESC');
+        $articles = $this->repository->active()->orderBy('created_at','DESC');
+
+        $categorySlug = array_get($data, 'category_slug', 'news');
+        $categoryId = false;
+
+        if ($categorySlug) {
+            $category = Category::where('slug', $categorySlug)->get()->first();
+            if ($category) {
+                $categoryId = $category->id;
+                $articles = $articles->active()->where('category_id', $categoryId)->orderBy('created_at','DESC');
+            }
+        }
+
         $articles = $articles->paginate($limit);
         $articles = $articles->toArray();
 
