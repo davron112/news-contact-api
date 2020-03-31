@@ -244,15 +244,4 @@ class Article extends Model
     {
         return $query->where('status', '=', self::STATUS_ACTIVE);
     }
-
-    /**
-     * Scope active articles
-     *
-     * @param $query
-     * @return mixed
-     */
-    public function scopeOnlyNews($query)
-    {
-        return $query->join('categories', 'categories.id', 'news.category_id')->where('categories.slug', '=', 'news');
-    }
 }
