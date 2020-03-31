@@ -22,7 +22,7 @@ class OnlyNews extends RequestCriteria
     {
         $repository = false;
 
-        return $model->join('categories', 'categories.id', '=', 'articles.category_id')
+        return $model->select('articles.*')->join('categories', 'categories.id', '=', 'articles.category_id')
             ->where('categories.slug', 'news');
     }
 }
