@@ -104,4 +104,18 @@ class FeedbackController extends Controller
         $data = $this->successResponse($this->modelName, $model);
         return response()->json($data, $data['code']);
     }
+
+    /**
+     * Show item
+     *
+     * @param $locale
+     * @param $id
+     * @return JsonResponse
+     */
+    public function countFeedbackItems()
+    {
+        $count = $this->repository->get()->count();
+        $data = $this->successResponse($this->modelName, ['count' => $count]);
+        return response()->json($data, $data['code']);
+    }
 }

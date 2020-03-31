@@ -410,6 +410,10 @@ Route::group([
                 'as'   => 'create',
                 'uses' => 'FeedbackController@store',
             ]);
+            Route::get('/count/all', [
+                'as'   => 'count',
+                'uses' => 'FeedbackController@countFeedbackItems',
+            ]);
         });
 
         // categories
