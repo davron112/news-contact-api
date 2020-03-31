@@ -64,8 +64,8 @@ class ArticlesController extends Controller
             app()->setLocale($language);
         }
 
-        $categorySlug = array_get($data, 'category_slug');
-        $articles = $this->repository->filterNews()->active()->orderBy('created_at','DESC');
+        $categorySlug = array_get($data, 'category_slug', 'news');
+        $articles = $this->repository->active()->orderBy('created_at','DESC');
         $categoryId = false;
 
         if ($categorySlug) {
