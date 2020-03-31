@@ -45,7 +45,10 @@ class ArticleRepository extends Repository implements ArticleRepositoryInterface
      */
     public function filterNews()
     {
-        $this->pushCriteria(app(OnlyNews::class));
+        $this
+            ->selectRaw('articles.*')
+            ->join('categories', 'categories.id', '=', 'articles.category_id')
+            ->where('categories.slug', 'news');
 
         return $this;
     }
