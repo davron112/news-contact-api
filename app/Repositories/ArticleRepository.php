@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Article;
+use App\Repositories\Criteria\OnlyNews;
 use Illuminate\Log\Logger;
 use Illuminate\Container\Container as App;
 use App\Repositories\Contracts\ArticleRepository as ArticleRepositoryInterface;
@@ -34,6 +35,19 @@ class ArticleRepository extends Repository implements ArticleRepositoryInterface
     public function model()
     {
         return Article::class;
+    }
+
+    /**
+     * Filter by slug news
+     *
+     * @return $this
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     */
+    public function filterNews()
+    {
+        $this->pushCriteria(app(OnlyNews::class));
+
+        return $this;
     }
 
 }

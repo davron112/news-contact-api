@@ -47,7 +47,7 @@ class AuthController extends Controller
      * Login user and create token
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
