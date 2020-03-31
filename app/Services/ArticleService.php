@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\UnexpectedErrorException;
 use App\Helpers\FileHelper;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Language;
 use App\Repositories\Contracts\ArticleRepository;
 use App\Services\Contracts\ArticleService as ArticleServiceInterface;
@@ -93,9 +94,16 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
             $article = $this->repository->newInstance();
 
             $attributes = $this->storeImage($data);
-            $article->slug = clean_slug(array_get($data, 'slug'));
+            $catId = array_get($data, 'category_id');
+            $newsSlug = array_get($data, 'slug');
+            $selectedCategory = Category::find($catId);
+            if ($selectedCategory->slug == "news") {
+                $article->slug = clean_slug($newsSlug);
+            } else {
+                $article->slug = $selectedCategory->slug;
+            }
             $article->status = Article::STATUS_ACTIVE;
-            $article->category_id = array_get($data, 'category_id');
+            $article->category_id = $catId;
             $article->published_at = array_get($data, 'published_at');
             $article->author = array_get($data, 'author');
             $article->is_main = json_decode(array_get($data, 'is_main', 0));
@@ -157,7 +165,16 @@ class ArticleService  extends BaseService implements ArticleServiceInterface
         $this->beginTransaction();
         try {
             $article = $this->repository->find($id);
-            Arr::set($data, 'slug', clean_slug(array_get($data, 'slug')));
+
+            $catId = array_get($data, 'category_id');
+            $newsSlug = array_get($data, 'slug');
+            $selectedCategory = Category::find($catId);
+            if ($selectedCategory->slug == "news") {
+                Arr::set($data, 'slug', clean_slug($newsSlug));
+            } else {
+                Arr::set($data, 'slug', $selectedCategory->slug);
+            }
+
             Arr::set($data, 'is_main', json_decode(array_get($data, 'is_main', 0)));
             if (array_get($data, 'img')) {
                 $attributes = $this->storeImage($data);

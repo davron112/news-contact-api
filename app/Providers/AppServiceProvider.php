@@ -7,13 +7,16 @@ use App\Repositories\Contracts\ArticleRepository as ArticleRepositoryInterface;
 use App\Repositories\ImageRepository;
 use App\Repositories\Contracts\ImageRepository as  ImageRepositoryInterface;
 use App\Repositories\NewspaperRepository;
+use App\Repositories\FeedbackRepository;
 use App\Repositories\TagRepository;
 use App\Repositories\Contracts\UserRepository as UserRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Services\ArticleService;
 use App\Services\Contracts\ArticleService as ArticleServiceInterface;
 use App\Services\NewspaperService;
+use App\Services\FeedbackService;
 use App\Services\Contracts\NewspaperService as NewspaperServiceInterface;
+use App\Services\Contracts\FeedbackService as FeedbackServiceInterface;
 use App\Services\TagService;
 use App\Services\Contracts\TagService as TagServiceInterface;
 use App\Services\Contracts\UserService as UserServiceInterface;
@@ -27,6 +30,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Services\Contracts\CategoryService as CategoryServiceInterface;
 use App\Repositories\Contracts\CategoryRepository as CategoryRepositoryInterface;
 use App\Repositories\Contracts\NewspaperRepository as NewspaperRepositoryInterface;
+use App\Repositories\Contracts\FeedbackRepository as FeedbackRepositoryInterface;
 use App\Repositories\Contracts\TagRepository as TagRepositoryInterface;
 use App\Services\Contracts\ImageService as ImageServiceInterface;
 use App\Services\CategoryService;
@@ -60,6 +64,9 @@ class AppServiceProvider extends ServiceProvider
         // Newspaper
         $this->app->bind(NewspaperServiceInterface::class, NewspaperService::class);
         $this->app->bind(NewspaperRepositoryInterface::class, NewspaperRepository::class);
+        // Feedback
+        $this->app->bind(FeedbackServiceInterface::class, FeedbackService::class);
+        $this->app->bind(FeedbackRepositoryInterface::class, FeedbackRepository::class);
         // Video
         $this->app->bind(VideoServiceInterface::class, VideoService::class);
         $this->app->bind(VideoRepositoryInterface::class, VideoRepository::class);

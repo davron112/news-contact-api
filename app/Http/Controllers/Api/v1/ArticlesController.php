@@ -65,7 +65,7 @@ class ArticlesController extends Controller
         }
 
         $categorySlug = array_get($data, 'category_slug');
-        $articles = $this->repository->active()->orderBy('created_at','DESC');
+        $articles = $this->repository->active()->onlyNews()->orderBy('created_at','DESC');
         $categoryId = false;
 
         if ($categorySlug) {
@@ -162,7 +162,7 @@ class ArticlesController extends Controller
             app()->setLocale($language);
         }
         $limit = array_get($data, 'limit', 14);
-        $articles = $this->repository->active()->orderBy('created_at','DESC');
+        $articles = $this->repository->active()->onlyNews()->orderBy('created_at','DESC');
         $articles = $articles->paginate($limit);
         $articles = $articles->toArray();
 
@@ -191,7 +191,7 @@ class ArticlesController extends Controller
         $tag = $article->tags()->first();
 
         $limit = array_get($data, 'limit', 14);
-        $articles = $tag->articles()->active()->where('id', '!=', $article->id);
+        $articles = $tag->articles()->active()->onlyNews()->where('id', '!=', $article->id);
 
         $articles = $articles->paginate($limit);
         $articles = $articles->toArray();

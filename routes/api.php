@@ -243,6 +243,37 @@ Route::group([
                     'uses' => 'TagsController@show',
                 ]);
             });
+
+            // feedback
+            Route::group([
+                'prefix'    => 'feedback',
+                'as'        => 'feedback.',
+            ], function () {
+                Route::post('/delete', [
+                    'as'   => 'delete',
+                    'uses' => 'FeedbackController@delete',
+                ]);
+                Route::post('/create', [
+                    'as'   => 'create',
+                    'uses' => 'FeedbackController@store',
+                ]);
+                Route::post('/update', [
+                    'as'   => 'update',
+                    'uses' => 'FeedbackController@update',
+                ]);
+                Route::get('/index', [
+                    'as'   => 'index',
+                    'uses' => 'FeedbackController@index',
+                ]);
+                Route::get('/', [
+                    'as'   => 'index',
+                    'uses' => 'FeedbackController@index',
+                ]);
+                Route::get('/{id}', [
+                    'as'   => 'show',
+                    'uses' => 'FeedbackController@show',
+                ]);
+            });
         });
 
         // end admin
@@ -360,6 +391,25 @@ Route::group([
                     'uses' => 'VideoController@show',
                 ]);
             });
+        });
+
+        // categories
+        Route::group([
+            'prefix'    => 'feedback',
+            'as'        => 'feedback.',
+        ], function () {
+            Route::get('/index', [
+                'as'   => 'index',
+                'uses' => 'FeedbackController@index',
+            ]);
+            Route::get('/{id}', [
+                'as'   => 'show',
+                'uses' => 'FeedbackController@show',
+            ]);
+            Route::post('/create', [
+                'as'   => 'create',
+                'uses' => 'FeedbackController@store',
+            ]);
         });
 
         // categories
