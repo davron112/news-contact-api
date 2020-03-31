@@ -253,6 +253,6 @@ class Article extends Model
      */
     public function scopeOnlyNews($query)
     {
-        return $query->where('slug', '=', 'news');
+        return $query->join('categories', 'categories.id', 'news.category_id')->where('categories.slug', '=', 'news');
     }
 }
