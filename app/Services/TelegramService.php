@@ -36,11 +36,11 @@ class TelegramService extends BaseService implements TelegramServiceInterface {
      */
     public function sendMessageToClient($id, $text)
     {
-        Telegram::sendMessage([
+       /* Telegram::sendMessage([
             'chat_id' => $id,
             'parse_mode' => 'HTML',
             'text' => $text
-        ]);
+        ]);*/
     }
 
     /**
@@ -52,13 +52,13 @@ class TelegramService extends BaseService implements TelegramServiceInterface {
      */
     public function sendMessageChannel($title, $url, $image, $tags)
     {
-        Telegram::sendPhoto([
+        /*Telegram::sendPhoto([
             'chat_id' => config('telegram.channel_id'),
             'photo' => 'https:' . $image,
             'caption' => $title
                 .PHP_EOL .'ℹ👉  http://sportonline.uz/uz' . $url
                 .PHP_EOL .'Telegram: 👉 https://t.me/sportonlineuz'
                 .PHP_EOL . '#' . $tags
-        ]);
+        ]);*/
     }
 }
