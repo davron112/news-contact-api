@@ -48,7 +48,6 @@ class Feedback extends Model
         'status',
         'fio',
         'phone',
-        'email',
         'address',
         'department',
         'subject',

@@ -76,8 +76,16 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
         try {
             $feedback = $this->repository->newInstance();
             $attributes = $this->storeFiles($data);
+            $feedback->file = array_get($attributes, 'file');
             $feedback->status = Feedback::STATUS_DRAFT;
-            $feedback->fill($attributes);
+            $feedback->fio = array_get($data, 'fio');
+            $feedback->phone = array_get($data, 'phone');
+            $feedback->address = array_get($data, 'address');
+            $feedback->department = array_get($data, 'department');
+            $feedback->subject = array_get($data, 'subject');
+            $feedback->message = array_get($data, 'message');
+            $feedback->file = array_get($data, 'file');
+            $feedback->sid = array_get($data, 'sid');
 
             if ($feedback->file) {
                 $feedback->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $feedback->file);
@@ -196,10 +204,6 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
     protected function storeFiles(array $data){
 
         $dataFields =[];
-        $uploadedImage = Arr::get($data,'img');
-        if($uploadedImage) {
-            $dataFields['img'] = $this->fileHelper->upload($uploadedImage,'public\img\content');
-        }
 
         $uploadedFile = Arr::get($data,'file');
         if($uploadedFile) {
