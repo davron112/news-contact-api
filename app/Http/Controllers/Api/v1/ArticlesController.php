@@ -271,11 +271,10 @@ class ArticlesController extends Controller
         } else {
             $article = $this->repository
                 ->with('tags')
-                ->where([['slug', '=', $slug], ['status', '=', Article::STATUS_ACTIVE]])
-                ->first();
+                ->where([['slug', '=', $slug], ['status', '=', Article::STATUS_ACTIVE]]);
         }
-        $article->addVisible('category_id', 'content', 'status');
-        $data = $this->successResponse($this->modelName, $article);
+        $res = $article->addVisible('category_id', 'content', 'status')->first();
+        $data = $this->successResponse($this->modelName, $res);
         return response()->json($data, $data['code']);
     }
 
