@@ -410,6 +410,10 @@ Route::group([
                 'as'   => 'create',
                 'uses' => 'FeedbackController@store',
             ]);
+            Route::post('/check-otp', [
+                'as'   => 'check-otp',
+                'uses' => 'FeedbackController@checkOtp',
+            ]);
             Route::get('/count/all', [
                 'as'   => 'count',
                 'uses' => 'FeedbackController@countFeedbackItems',

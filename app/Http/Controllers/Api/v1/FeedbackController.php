@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Feedback;
 use App\Repositories\Contracts\FeedbackRepository;
 use App\Services\Contracts\FeedbackService;
 use Illuminate\Http\JsonResponse;
@@ -117,5 +118,40 @@ class FeedbackController extends Controller
         $count = $this->repository->get()->count();
         $data = $this->successResponse($this->modelName, ['count' => $count]);
         return response()->json($data, $data['code']);
+    }
+
+    /**
+     * Show item
+     *
+     * @param $locale
+     * @param $id
+     * @return JsonResponse
+     */
+    public function checkOtp(Request $request)
+    {
+        $data = $request->all();
+
+        $sid = array_get($data, 'sid');
+        $otp = array_get($data, 'otp');
+        $feedback = Feedback::where([
+            ['sid', '=', $sid],
+            ['otp', '=', $otp],
+        ])->first();
+
+        if ($feedback) {
+            $result = [
+                'status' => 1,
+                'type' => 'success',
+                'message' => 'Success',
+            ];
+        } else {
+            $result = [
+                'status' => 0,
+                'type' => 'error',
+                'message' => 'Incorrect password!',
+            ];
+        }
+
+        return response()->json($result, !!$feedback ? 200 : 500);
     }
 }
