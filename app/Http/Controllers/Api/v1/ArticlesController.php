@@ -273,6 +273,7 @@ class ArticlesController extends Controller
                 ->with('tags')
                 ->where([['slug', '=', $slug], ['status', '=', Article::STATUS_ACTIVE]]);
         }
+        dd($article);
         $res = $article->addVisible('category_id', 'content', 'status')->first();
         $data = $this->successResponse($this->modelName, $res);
         return response()->json($data, $data['code']);
