@@ -75,13 +75,13 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
 
         try {
             $feedback = $this->repository->newInstance();
-            //$attributes = $this->storeFiles($data);
-            $feedback->fill($data);
+            $attributes = $this->storeFiles($data);
             $feedback->status = Feedback::STATUS_DRAFT;
-            /*
+            $feedback->fill($attributes);
+
             if ($feedback->file) {
                 $feedback->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $feedback->file);
-            }*/
+            }
 
             if (!$feedback->save()) {
                 throw new UnexpectedErrorException('feedback was not saved to the database.');
@@ -116,6 +116,12 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
             /** @var Feedback $feedback */
             $feedback = $this->repository->find($id);
 
+            if (array_get($data, 'file')) {
+                $attributes = $this->storeFiles($data);
+                $feedback->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $feedback->file);
+            }
+
+            $feedback->fill($attributes);
             if (!$feedback) {
                 throw new \Exception('Not found. ' . $id);
             }

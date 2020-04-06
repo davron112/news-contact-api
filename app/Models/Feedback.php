@@ -53,6 +53,9 @@ class Feedback extends Model
         'department',
         'subject',
         'message',
+        'file',
+        'otp',
+        'sid',
     ];
 
     /**

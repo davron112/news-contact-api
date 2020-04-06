@@ -22,6 +22,9 @@ class CreateFeedbackTable extends Migration
             $table->string('address');
             $table->string('department');
             $table->string('subject');
+            $table->string('otp')->nullable();
+            $table->string('file')->nullable();
+            $table->string('sid');
             $table->text('message');
             $table->timestamps();
         });
