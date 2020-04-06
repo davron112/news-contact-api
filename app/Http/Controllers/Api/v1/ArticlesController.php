@@ -271,7 +271,7 @@ class ArticlesController extends Controller
         } else {
             $article = $this->repository
                 ->with('tags')
-                ->findWhere(['slug' => $slug, 'status' => Article::STATUS_ACTIVE])
+                ->where([['slug', '=', $slug], ['status', '=', Article::STATUS_ACTIVE]])
                 ->first();
         }
         $article->addVisible('category_id', 'content', 'status');
