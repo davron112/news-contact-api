@@ -138,7 +138,9 @@ class FeedbackController extends Controller
             ['otp', '=', $otp],
         ])->first();
 
-        if ($feedback) {
+        $status = !!rand(0,1);
+
+        if ($status) {
             $result = [
                 'status' => 1,
                 'type' => 'success',
