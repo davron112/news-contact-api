@@ -109,11 +109,10 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
             $feedback->otp = $otp;
 
             $res = $this->sendOtpSms([
-                'recipient_number' => $feedback->phone,
+                'recipient_number' => "+". (int) $feedback->phone,
                 'message' => 'Tasdiqlash kodi: ' . $otp . '. www.beruniy-murojaat.uz',
                 'app_id' => config('services.sms.app_id')
             ]);
-            dd($res);
 
             if ($feedback->file) {
                 $feedback->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $feedback->file);
@@ -131,7 +130,7 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
             ]);
         }
         $this->commit();
-        return $feedback;
+        return $res;
     }
 
     /**
