@@ -81,7 +81,7 @@ class FeedbackController extends Controller
 
         if ($model){
             $message = $this->modelName .' was successfully stored.';
-            $log->info($message, ['id' => $model->id]);
+            $log->info($message, ['res' => $model]);
             $data = $this->successResponse($this->modelName, $model, $message);
         } else {
             $message = $this->modelName.' was not stored.';
