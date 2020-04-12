@@ -10,9 +10,13 @@ use App\Repositories\Contracts\feedbackRepository;
 use App\Services\Contracts\FeedbackService as FeedbackServiceInterface;
 use App\Services\Traits\ServiceTranslateTable;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * @method bool destroy
@@ -42,6 +46,17 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
     protected $fileHelper;
 
     /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
+     * Response content
+     * @var mixed
+     */
+    protected $responseContent;
+
+    /**
      * feedbackService constructor.
      *
      * @param DatabaseManager $databaseManager
@@ -53,13 +68,15 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
         DatabaseManager $databaseManager,
         feedbackRepository $repository,
         Logger $logger,
-        FileHelper $fileHelper
+        FileHelper $fileHelper,
+        Client $client
     ) {
 
         $this->databaseManager     = $databaseManager;
         $this->repository     = $repository;
         $this->logger     = $logger;
         $this->fileHelper     = $fileHelper;
+        $this->client     = $client;
     }
 
     /**
@@ -87,6 +104,17 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
             $feedback->file = array_get($data, 'file');
             $feedback->sid = array_get($data, 'sid');
 
+            $otp = generate_otp(5);
+
+            $feedback->otp = $otp;
+
+            $this->sendOtpSms([
+                'recipient_number' => $feedback->phone,
+                'message' => 'Tasdiqlash kodi: ' . $otp . '. www.beruniy-murojaat.uz',
+                'app_id' => config('services.sms.app_id')
+            ]);
+
+
             if ($feedback->file) {
                 $feedback->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $feedback->file);
             }
@@ -104,6 +132,27 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
         }
         $this->commit();
         return $feedback;
+    }
+
+    /**
+     * @param array $data
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function sendOtpSms(array $data)
+    {
+        $headers = [
+            'headers' => [
+                'Authorization' => 'Bearer ' . config('services.sms.api_key'),
+                'Content-Type' => 'application/json',
+            ],
+            'json'           => $data,
+            'decode_content' => false,
+            'http_errors'    => false,
+        ];
+
+        $fullUrl  = "https://smsapi.uz/api/v1/sms/send";
+        /** @var \GuzzleHttp\Psr7\Response $response */
+        $response = $this->client->request("POST", $fullUrl, $headers);
     }
 
     /**
@@ -143,11 +192,6 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
 
             if (!$feedback->save()) {
                 throw new UnexpectedErrorException('An error occurred while updating a feedback');
-            }
-
-            $tagIds = array_get($data, 'tags');
-            if ($tagIds) {
-                $feedback->tags()->sync(explode(',', $tagIds));
             }
 
             $this->logger->info('Feedback was successfully updated.');
