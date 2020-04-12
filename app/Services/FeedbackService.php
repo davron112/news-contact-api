@@ -140,19 +140,23 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
      */
     public function sendOtpSms(array $data)
     {
+
+        $url = 'https://smsapi.uz/api/v1/sms/send';
         $headers = [
-            'headers' => [
-                'Authorization' => 'Bearer ' . config('services.sms.api_key'),
-                'Content-Type' => 'application/json',
-            ],
-            'json'           => $data,
-            'decode_content' => false,
-            'http_errors'    => false,
+            'Authorization: Bearer ' . config('services.sms.api_key'),
+            'Content-Type: application/json'
         ];
 
-        $fullUrl  = "https://smsapi.uz/api/v1/sms/send";
-        /** @var \GuzzleHttp\Psr7\Response $response */
-        $response = $this->client->request("POST", $fullUrl, $headers);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
     }
 
     /**
