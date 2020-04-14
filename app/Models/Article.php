@@ -60,7 +60,8 @@ class Article extends Model
         'category_name',
         'category_slug',
         'lang',
-        'translations'
+        'translations',
+        'is_menu'
     ];
 
     /**
@@ -81,6 +82,7 @@ class Article extends Model
         'img',
         'is_main',
         'tags',
+        'is_menu',
     ];
 
     /**
@@ -188,6 +190,16 @@ class Article extends Model
             return $trans;
         }
         return '';
+    }
+
+    /**
+     * Check this menu
+     *
+     * @return boolean
+     */
+    public function getIsMenuAttribute()
+    {
+        return $this->category->slug == $this->slug;
     }
 
     /**
