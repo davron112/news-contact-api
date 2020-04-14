@@ -93,10 +93,9 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
         try {
             $feedback = $this->repository->newInstance();
 
-            $inputFile = array_get($data, 'file');
+            $inputFile = array_get($data, 'file', false);
             if ($inputFile) {
                 $attributes = $this->storeFiles($data);
-                $feedback->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $feedback->file);
             } else {
                 $attributes = $data;
             }
