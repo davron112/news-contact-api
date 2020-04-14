@@ -94,7 +94,7 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
             $feedback = $this->repository->newInstance();
 
             $inputFile = array_get($data, 'file', false);
-            if ($inputFile) {
+            if ($inputFile && strlen((string) $inputFile) > 10) {
                 $attributes = $this->storeFiles($data);
             } else {
                 $attributes = $data;
