@@ -93,8 +93,8 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
         try {
             $feedback = $this->repository->newInstance();
 
-
-            if (array_get($data, 'file')) {
+            $inputFile = array_get($data, 'file');
+            if ($inputFile) {
                 $attributes = $this->storeFiles($data);
                 $feedback->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $feedback->file);
             } else {
@@ -112,7 +112,7 @@ class FeedbackService  extends BaseService implements FeedbackServiceInterface
                 'app_id' => config('services.sms.app_id')
             ]);
 
-            if ($feedback->file) {
+            if ($inputFile && $feedback->file) {
                 $feedback->file = config('filesystems.disks.public.url') . preg_replace('#public#', '', $feedback->file);
             }
 
