@@ -18,7 +18,6 @@ class CreateFeedbackTable extends Migration
             $table->integer('status');
             $table->string('fio');
             $table->string('phone');
-            $table->string('email');
             $table->string('address');
             $table->string('department');
             $table->string('subject');
