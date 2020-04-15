@@ -139,6 +139,8 @@ class FeedbackController extends Controller
         ])->first();
 
         if ($feedback) {
+            $feedback->status = 1;
+            $feedback->save();
             $result = [
                 'status' => 1,
                 'type' => 'success',
