@@ -115,7 +115,7 @@ class FeedbackController extends Controller
      */
     public function countFeedbackItems()
     {
-        $count = $this->repository->get()->count();
+        $count = $this->repository->whereNotIn('status', [0])->get()->count();
         $data = $this->successResponse($this->modelName, ['count' => $count]);
         return response()->json($data, $data['code']);
     }
@@ -144,6 +144,11 @@ class FeedbackController extends Controller
                 'type' => 'success',
                 'message' => 'Success',
             ];
+            $this->sendCongrulations([
+                'recipient_number' => "+". (int) $feedback->phone,
+                'message' => 'Sizning murojaatingiz qabul qilindi. Yaqin vaqt ichida murojaatingizga javob beriladi. www.beruniy-murojaat.uz',
+                'app_id' => config('services.sms.app_id')
+            ]);
         } else {
             $result = [
                 'status' => 0,
@@ -153,5 +158,30 @@ class FeedbackController extends Controller
         }
 
         return response()->json($result, !!$feedback ? 200 : 500);
+    }
+
+    /**
+     * @param array $data
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function sendCongrulations(array $data)
+    {
+
+        $url = 'https://smsapi.uz/api/v1/sms/send';
+        $headers = [
+            'Authorization: Bearer ' . config('services.sms.api_key'),
+            'Content-Type: application/json'
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
     }
 }

@@ -53,7 +53,7 @@ class FeedbackController extends Controller
         return response(
             $this->successResponse(
                 $this->modelNameMultiple,
-                $this->repository->all()
+                $this->repository->whereNotIn('status', [0])->get()
             )
         );
     }
